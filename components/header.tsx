@@ -145,16 +145,32 @@ export function Header({ variant = "default" }: { variant?: "default" | "home" }
 
   return (
     <>
-      {/* 背景蒙层 - 当下拉菜单打开时显示 */}
+      {/* 背景蒙层 - 当下拉菜单打开时显示，从左到右渐变 + 颗粒效果 */}
       <div
         className="fixed inset-0 z-40 pointer-events-none transition-opacity duration-500"
         style={{
           opacity: activeDropdown ? 1 : 0,
-          background: activeDropdown 
-            ? 'linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.3) 50%, transparent 100%)' 
-            : 'transparent',
         }}
-      />
+      >
+        {/* 主渐变遮罩 - 从左到右 */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background: activeDropdown 
+              ? 'linear-gradient(to right, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0.3) 70%, transparent 100%)' 
+              : 'transparent',
+          }}
+        />
+        {/* 颗粒/噪点效果 */}
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+            opacity: activeDropdown ? 0.15 : 0,
+            mixBlendMode: 'overlay',
+          }}
+        />
+      </div>
 
       <header className={`${isOverlay ? "fixed" : "sticky"} top-0 z-50 w-full`}>
         <div
@@ -268,8 +284,8 @@ export function Header({ variant = "default" }: { variant?: "default" | "home" }
         >
           <div className="bg-white border-t" style={{ borderColor: '#f0f0f0' }}>
             <div className="max-w-[1400px] mx-auto flex" style={{ minHeight: '380px' }}>
-              {/* 左侧：图片区域 */}
-              <div className="w-[480px] flex-shrink-0 relative overflow-hidden">
+              {/* 左侧：图片区域 - 保持图片原始比例 */}
+              <div className="w-[520px] flex-shrink-0 relative overflow-hidden">
                 {currentNavItem && (
                   <Image
                     src={currentNavItem.image}
@@ -279,10 +295,23 @@ export function Header({ variant = "default" }: { variant?: "default" | "home" }
                     style={{ transform: 'scale(1.02)' }}
                   />
                 )}
-                {/* 右侧渐变遮罩 */}
+                {/* 右侧渐变遮罩 - 从左到右，更高级 */}
                 <div
                   className="absolute inset-0"
-                  style={{ background: 'linear-gradient(to right, transparent 50%, rgba(255,255,255,0.6) 100%)' }}
+                  style={{ 
+                    background: 'linear-gradient(to right, transparent 30%, rgba(255,255,255,0.4) 70%, rgba(255,255,255,0.95) 100%)' 
+                  }}
+                />
+                {/* 右侧颗粒效果 */}
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+                    opacity: 0.08,
+                    mixBlendMode: 'overlay',
+                    maskImage: 'linear-gradient(to right, transparent 40%, black 100%)',
+                    WebkitMaskImage: 'linear-gradient(to right, transparent 40%, black 100%)',
+                  }}
                 />
               </div>
 

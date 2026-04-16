@@ -15,9 +15,9 @@ export default function HomePage() {
       <main>
         <HeroBanner />
         <div id="today-danzhong">
-          <TodayDanzhong />
+          <NewsSection />
         </div>
-        <NewsSection />
+        <TodayDanzhong />
         <FeaturesSection />
         <StatsSection />
         <CampusGallery />

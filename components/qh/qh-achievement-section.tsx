@@ -1,124 +1,164 @@
 'use client';
 
-import { Trophy, ArrowRight } from 'lucide-react';
+import { GraduationCap, Users, Trophy, Building, BookOpen } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+
+const stats = [
+  {
+    icon: GraduationCap,
+    number: 15,
+    unit: '位',
+    label: '正高级教师',
+  },
+  {
+    icon: Users,
+    number: 186,
+    unit: '位',
+    label: '高级教师',
+  },
+  {
+    icon: Trophy,
+    number: 12,
+    unit: '枚',
+    label: '学科竞赛金牌',
+  },
+  {
+    icon: Building,
+    number: 56,
+    unit: '个',
+    label: '学生社团',
+  },
+  {
+    icon: BookOpen,
+    number: 128,
+    unit: '门',
+    label: '选修课程',
+  },
+];
 
 export function QhAchievementSection() {
-  const achievements = [
-    {
-      title: '教学管理',
-      items: [
-        { year: '2024', text: '获评江苏省"五星级高中"' },
-        { year: '2023', text: '高考一本上线率95.8%' },
-        { year: '2023', text: '物理、化学学科基地评定通过' },
-      ],
-      span: 'lg:col-span-6',
-    },
-    {
-      title: '德育之窗',
-      items: [
-        { year: '2024', text: '全国中小学党建示范校' },
-        { year: '2024', text: '江苏省文明校园' },
-        { year: '2023', text: '教育实践基地建设项目' },
-      ],
-      span: 'lg:col-span-3',
-    },
-    {
-      title: '教师发展',
-      items: [
-        { year: '2024', text: '省特级教师数量达3人' },
-        { year: '2023', text: '省名师工作室正式建立' },
-        { year: '2023', text: '教学比赛获省一等奖' },
-      ],
-      span: 'lg:col-span-3',
-    },
-    {
-      title: '国际教育',
-      items: [
-        { year: '2024', text: '与英国牛津大学合作交流' },
-        { year: '2024', text: '国际学生交流项目启动' },
-        { year: '2023', text: '获认证为剑桥英语考点' },
-      ],
-      span: 'lg:col-span-12',
-    },
-  ];
-
   return (
-    <section className="max-w-7xl mx-auto py-20 px-8">
-      {/* 模块标题 */}
-      <div className="flex items-center gap-2 mb-10">
-        <Trophy size={32} style={{ color: '#5B2C6F' }} />
-        <h3 className="font-serif text-3xl font-bold" style={{ color: '#121212' }}>
-          办学成果
-        </h3>
-        <span className="text-sm" style={{ color: '#666666' }}>
-          Achievements
-        </span>
+    <section className="bg-white py-20">
+      {/* 顶部统计区 */}
+      <div className="max-w-6xl mx-auto px-8 mb-20">
+        {/* 标题 */}
+        <div className="text-center mb-4">
+          <h2 className="text-3xl font-serif font-bold" style={{ color: '#5B2C6F' }}>
+            入读丹中
+          </h2>
+        </div>
+        <p className="text-center text-sm leading-relaxed mb-16 max-w-3xl mx-auto" style={{ color: '#666' }}>
+          "以天下为己任的使命感和责任感，做时代向上、向善的力量，坚定理想信念，追求真理，崇高学术，崇尚团队，追求卓越"
+          <br />
+          是代代丹中人的精神长相！
+        </p>
+
+        {/* 统计图标 */}
+        <div className="flex justify-center gap-8 lg:gap-16">
+          {stats.map((stat, index) => {
+            const Icon = stat.icon;
+            return (
+              <div key={index} className="flex flex-col items-center group">
+                {/* 圆形图标容器 - 虚线边框 */}
+                <div
+                  className="w-24 h-24 rounded-full flex items-center justify-center mb-4 transition-all duration-500 group-hover:scale-110"
+                  style={{
+                    border: '2px dashed #5B2C6F',
+                  }}
+                >
+                  <Icon size={36} strokeWidth={1.5} style={{ color: '#5B2C6F' }} />
+                </div>
+                {/* 数字 */}
+                <div className="flex items-baseline gap-0.5 mb-1">
+                  <span className="text-2xl font-bold" style={{ color: '#5B2C6F' }}>
+                    {stat.number}
+                  </span>
+                  <span className="text-sm" style={{ color: '#5B2C6F' }}>
+                    {stat.unit}
+                  </span>
+                </div>
+                {/* 标签 */}
+                <span className="text-sm" style={{ color: '#666' }}>
+                  {stat.label}
+                </span>
+              </div>
+            );
+          })}
+        </div>
       </div>
 
-      {/* 内容网格 - 非对称权重布局 */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        {achievements.map((section, index) => (
-          <div key={index} className={section.span}>
-            <div
-              className="rounded-2xl border backdrop-blur-sm p-6 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 h-full flex flex-col"
-              style={{
-                borderColor: 'rgba(91, 44, 111, 0.2)',
-                backgroundColor: 'rgba(255, 255, 255, 0.8)',
-              }}
+      {/* 底部招生信息区 */}
+      <div className="relative h-[420px] flex">
+        {/* 左侧蓝图背景区 */}
+        <div 
+          className="w-[400px] flex-shrink-0 relative overflow-hidden"
+          style={{ backgroundColor: '#19376D' }}
+        >
+          {/* 蓝图装饰 - 使用CSS绘制网格线条 */}
+          <div 
+            className="absolute inset-0 opacity-20"
+            style={{
+              backgroundImage: `
+                linear-gradient(to right, rgba(255,255,255,0.3) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255,255,255,0.3) 1px, transparent 1px)
+              `,
+              backgroundSize: '40px 40px',
+            }}
+          />
+          {/* 装饰性建筑线条 */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="text-white/10 text-[120px] font-serif font-bold">丹</div>
+          </div>
+          
+          {/* 招生入口链接 */}
+          <div className="absolute bottom-20 left-0 right-0 px-12 space-y-6">
+            <Link 
+              href="#" 
+              className="flex items-center gap-3 text-white text-lg font-medium transition-all duration-300 hover:translate-x-2 group"
             >
-              {/* 标题 */}
-              <h4
-                className="font-serif font-bold text-xl pb-4 border-b mb-6"
-                style={{ color: '#5B2C6F', borderColor: 'rgba(91, 44, 111, 0.2)' }}
-              >
-                {section.title}
-              </h4>
+              初升高
+              <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+            </Link>
+            <Link 
+              href="#" 
+              className="flex items-center gap-3 text-white text-lg font-medium transition-all duration-300 hover:translate-x-2 group"
+            >
+              国际部招生
+              <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+            </Link>
+          </div>
+        </div>
 
-              {/* 成果列表 */}
-              <div className={`flex-1 ${section.span === 'lg:col-span-12' ? 'grid grid-cols-1 md:grid-cols-3 gap-4' : 'flex flex-col gap-4'}`}>
-                {section.items.map((item, itemIndex) => (
-                  <div key={itemIndex} className="flex gap-3 items-start">
-                    <div className="flex-shrink-0 mt-1.5">
-                    <div
-                      className="w-2 h-2 rounded-full"
-                      style={{ backgroundColor: '#5B2C6F' }}
-                    />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p
-                        className="text-xs font-medium mb-1"
-                        style={{ color: '#666666' }}
-                      >
-                        {item.year}
-                      </p>
-                      <p
-                        className="text-sm leading-relaxed line-clamp-2"
-                        style={{ color: '#333333' }}
-                      >
-                        {item.text}
-                      </p>
-                    </div>
-                  </div>
-                ))}
+        {/* 右侧图片区 */}
+        <div className="flex-1 relative overflow-hidden">
+          <Image
+            src="/view/view6.jpg"
+            alt="丹阳高中学生"
+            fill
+            className="object-cover"
+          />
+          {/* 办学传统文字叠加 */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div 
+              className="p-8 rounded-lg text-center"
+              style={{ backgroundColor: 'rgba(255,255,255,0.95)' }}
+            >
+              <div className="text-sm mb-2" style={{ color: '#5B2C6F' }}>办学传统</div>
+              <div className="space-y-1">
+                <p className="text-2xl font-serif font-bold" style={{ color: '#8B1A1A' }}>启迪有方</p>
+                <p className="text-2xl font-serif font-bold" style={{ color: '#8B1A1A' }}>治学严谨</p>
+                <p className="text-2xl font-serif font-bold" style={{ color: '#8B1A1A' }}>爱生育人</p>
               </div>
-
-              {/* 查看详情按钮 */}
-              <button
-                className="mt-6 inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors duration-300 self-start"
-                style={{ color: '#5B2C6F' }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = 'rgba(91, 44, 111, 0.05)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'transparent';
-                }}
-              >
-                查看更多
-                <ArrowRight size={16} />
-              </button>
             </div>
           </div>
-        ))}
+        </div>
+
+        {/* 最右侧品牌色块 */}
+        <div 
+          className="w-20 flex-shrink-0"
+          style={{ backgroundColor: '#5B2C6F' }}
+        />
       </div>
     </section>
   );
