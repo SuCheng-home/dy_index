@@ -9,7 +9,7 @@ export function QhAchievementSection() {
       items: [
         { year: '2024', text: '获评江苏省"五星级高中"' },
         { year: '2023', text: '高考一本上线率95.8%' },
-        { year: '2023', text: '物理、化学学科基地评定' },
+        { year: '2023', text: '物理、化学学科基地评定通过' },
       ],
       span: 'lg:col-span-6',
     },
@@ -25,8 +25,8 @@ export function QhAchievementSection() {
     {
       title: '教师发展',
       items: [
-        { year: '2024', text: '省特级教师数量3人' },
-        { year: '2023', text: '省名师工作室建立' },
+        { year: '2024', text: '省特级教师数量达3人' },
+        { year: '2023', text: '省名师工作室正式建立' },
         { year: '2023', text: '教学比赛获省一等奖' },
       ],
       span: 'lg:col-span-3',
@@ -43,49 +43,82 @@ export function QhAchievementSection() {
   ];
 
   return (
-    <section className="max-w-7xl mx-auto py-20 px-8 relative">
-      <div className="relative z-10">
-        {/* 模块标题 */}
-        <div className="flex items-center gap-3 mb-10">
-          <Trophy size={32} style={{ color: '#19376D' }} />
-          <h3 className="font-serif text-3xl font-bold text-[#121212]">办学成果</h3>
-          <span className="text-sm text-[#666666]">Achievements</span>
-        </div>
+    <section className="max-w-7xl mx-auto py-20 px-8">
+      {/* 模块标题 */}
+      <div className="flex items-center gap-2 mb-10">
+        <Trophy size={32} style={{ color: '#19376D' }} />
+        <h3 className="font-serif text-3xl font-bold" style={{ color: '#121212' }}>
+          办学成果
+        </h3>
+        <span className="text-sm" style={{ color: '#666666' }}>
+          Achievements
+        </span>
+      </div>
 
-        {/* 内容网格 - 非对称权重布局 */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          {achievements.map((section, index) => (
-            <div key={index} className={`${section.span}`}>
-              <div className="rounded-3xl border border-[#19376D]/20 bg-white/80 backdrop-blur-sm p-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col">
-                {/* 标题 */}
-                <h4 className="font-serif font-bold text-xl text-[#19376D] mb-6 pb-4 border-b border-[#19376D]/20">
-                  {section.title}
-                </h4>
+      {/* 内容网格 - 非对称权重布局 */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        {achievements.map((section, index) => (
+          <div key={index} className={section.span}>
+            <div
+              className="rounded-2xl border backdrop-blur-sm p-6 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 h-full flex flex-col"
+              style={{
+                borderColor: 'rgba(25, 55, 109, 0.2)',
+                backgroundColor: 'rgba(255, 255, 255, 0.8)',
+              }}
+            >
+              {/* 标题 */}
+              <h4
+                className="font-serif font-bold text-xl pb-4 border-b mb-6"
+                style={{ color: '#19376D', borderColor: 'rgba(25, 55, 109, 0.2)' }}
+              >
+                {section.title}
+              </h4>
 
-                {/* 成果列表 */}
-                <div className="flex-1 space-y-4">
-                  {section.items.map((item, itemIndex) => (
-                    <div key={itemIndex} className="flex gap-3 items-start">
-                      <div className="flex-shrink-0 mt-1">
-                        <div className="w-2 h-2 rounded-full" style={{ backgroundColor: '#19376D' }} />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-xs text-[#666666] font-medium mb-1">{item.year}</p>
-                        <p className="text-[#333333] text-sm leading-relaxed line-clamp-2">{item.text}</p>
-                      </div>
+              {/* 成果列表 */}
+              <div className={`flex-1 ${section.span === 'lg:col-span-12' ? 'grid grid-cols-1 md:grid-cols-3 gap-4' : 'flex flex-col gap-4'}`}>
+                {section.items.map((item, itemIndex) => (
+                  <div key={itemIndex} className="flex gap-3 items-start">
+                    <div className="flex-shrink-0 mt-1.5">
+                      <div
+                        className="w-2 h-2 rounded-full"
+                        style={{ backgroundColor: '#19376D' }}
+                      />
                     </div>
-                  ))}
-                </div>
-
-                {/* 查看详情按钮 */}
-                <button className="mt-6 inline-flex items-center gap-2 px-4 py-2 rounded-lg text-[#19376D] font-medium hover:bg-[#19376D]/5 transition-colors duration-300">
-                  查看更多
-                  <ArrowRight size={16} />
-                </button>
+                    <div className="flex-1 min-w-0">
+                      <p
+                        className="text-xs font-medium mb-1"
+                        style={{ color: '#666666' }}
+                      >
+                        {item.year}
+                      </p>
+                      <p
+                        className="text-sm leading-relaxed line-clamp-2"
+                        style={{ color: '#333333' }}
+                      >
+                        {item.text}
+                      </p>
+                    </div>
+                  </div>
+                ))}
               </div>
+
+              {/* 查看详情按钮 */}
+              <button
+                className="mt-6 inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors duration-300 self-start"
+                style={{ color: '#19376D' }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = 'rgba(25, 55, 109, 0.05)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                }}
+              >
+                查看更多
+                <ArrowRight size={16} />
+              </button>
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
     </section>
   );
