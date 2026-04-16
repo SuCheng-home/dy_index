@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState, useRef } from "react"
+import { useScrollReveal } from "@/hooks/use-scroll-reveal"
 
 const stats = [
   { value: 83, suffix: "年", label: "办学历史", description: "薪火相传" },
@@ -55,12 +56,22 @@ function AnimatedNumber({ value, suffix }: { value: number; suffix: string }) {
 }
 
 export function StatsSection() {
+  const { ref, isRevealed } = useScrollReveal()
+  
   return (
-    <section className="relative overflow-hidden bg-gradient-to-r from-[#8B1A1A] via-[#7A1515] to-[#8B1A1A] py-16">
+    <section ref={ref} className="relative overflow-hidden bg-gradient-to-r from-[#8B1A1A] via-[#7A1515] to-[#8B1A1A] py-16">
       <div className="relative z-10 mx-auto max-w-7xl px-4">
         <div className="grid gap-8 md:grid-cols-5">
-          {stats.map((stat) => (
-            <div key={stat.label} className="text-center">
+          {stats.map((stat, index) => (
+            <div
+              key={stat.label}
+              className="text-center transition-all duration-1000"
+              style={{
+                opacity: isRevealed ? 1 : 0,
+                transform: isRevealed ? "translateY(0)" : "translateY(30px)",
+                transitionDelay: `${index * 0.1}s`,
+              }}
+            >
               <AnimatedNumber value={stat.value} suffix={stat.suffix} />
               <div className="mt-2 text-lg font-medium text-[#F5E6D3]">{stat.label}</div>
               <div className="text-sm text-[#F5E6D3]/60">{stat.description}</div>

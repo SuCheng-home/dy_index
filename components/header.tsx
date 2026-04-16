@@ -283,12 +283,12 @@ export function Header({ variant = "default" }: { variant?: "default" | "home" }
           onMouseLeave={handleNavLeave}
         >
           <div className="bg-white border-t" style={{ borderColor: '#f0f0f0' }}>
-            <div className="max-w-[1400px] mx-auto flex" style={{ minHeight: '380px' }}>
-              {/* 左侧：图片区域 - 保持图片原始比例 */}
-              <div className="w-[520px] flex-shrink-0 relative overflow-hidden">
+            <div className="flex" style={{ minHeight: '420px' }}>
+              {/* 左侧：图片区域 - 顶到左侧边缘 */}
+              <div className="w-[45%] flex-shrink-0 relative overflow-hidden">
                 {currentNavItem && (
                   <Image
-                    src={currentNavItem.image}
+                    src="/view/view4.jpg"
                     alt={currentNavItem.label}
                     fill
                     className="object-cover transition-transform duration-700"
@@ -299,24 +299,24 @@ export function Header({ variant = "default" }: { variant?: "default" | "home" }
                 <div
                   className="absolute inset-0"
                   style={{ 
-                    background: 'linear-gradient(to right, transparent 30%, rgba(255,255,255,0.4) 70%, rgba(255,255,255,0.95) 100%)' 
+                    background: 'linear-gradient(to right, transparent 40%, rgba(255,255,255,0.5) 70%, rgba(255,255,255,1) 100%)' 
                   }}
                 />
-                {/* 右侧颗粒效果 */}
+                {/* 右侧颗粒效果 - 更明显 */}
                 <div
                   className="absolute inset-0"
                   style={{
-                    backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
-                    opacity: 0.08,
+                    backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+                    opacity: 0.12,
                     mixBlendMode: 'overlay',
-                    maskImage: 'linear-gradient(to right, transparent 40%, black 100%)',
-                    WebkitMaskImage: 'linear-gradient(to right, transparent 40%, black 100%)',
+                    maskImage: 'linear-gradient(to right, transparent 30%, black 100%)',
+                    WebkitMaskImage: 'linear-gradient(to right, transparent 30%, black 100%)',
                   }}
                 />
               </div>
 
               {/* 中间：二级菜单 */}
-              <div className="w-[280px] flex-shrink-0 border-r py-6 px-2" style={{ borderColor: '#f0f0f0' }}>
+              <div className="w-[260px] flex-shrink-0 border-r py-8 px-4" style={{ borderColor: '#f0f0f0' }}>
                 {currentNavItem?.subMenus.map((sub, i) => (
                   <button
                     key={sub.label}
@@ -337,7 +337,7 @@ export function Header({ variant = "default" }: { variant?: "default" | "home" }
               </div>
 
               {/* 右侧：三级链接 */}
-              <div className="flex-1 py-8 px-10">
+              <div className="flex-1 py-8 px-8 max-w-[320px]">
                 {currentNavItem?.subMenus[activeSubMenu]?.children && (
                   <div className="space-y-1">
                     {currentNavItem.subMenus[activeSubMenu].children.map((child) => (

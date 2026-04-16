@@ -4,6 +4,7 @@ import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { Calendar, ArrowRight, Bell, ChevronRight } from "lucide-react"
+import { useScrollReveal } from "@/hooks/use-scroll-reveal"
 
 const categories = ["全部", "校园新闻", "教学动态", "德育活动", "媒体报道"]
 
@@ -50,10 +51,12 @@ const notices = [
   { id: 5, title: "关于举办家长开放日活动的通知", date: "2026-03-25", isNew: false },
   { id: 6, title: "校园安全教育周活动安排", date: "2026-03-22", isNew: false },
   { id: 7, title: "第三届读书节即将启动", date: "2026-03-20", isNew: false },
+  { id: 8, title: "高二年级学业水平测试安排", date: "2026-03-18", isNew: false },
 ]
 
 export function NewsSection() {
   const [activeCategory, setActiveCategory] = useState("全部")
+  const { ref: sectionRef, isRevealed } = useScrollReveal()
 
   const filteredNews =
     activeCategory === "全部"
@@ -61,46 +64,64 @@ export function NewsSection() {
       : newsItems.filter((item) => item.category === activeCategory)
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-[#F5F0E8] to-[#FDFBF7] py-20">
+    <section
+      ref={sectionRef}
+      className="relative overflow-hidden bg-gradient-to-b from-[#F5F0E8] to-[#FDFBF7] py-20"
+    >
       <div className="mx-auto max-w-7xl px-4">
         {/* 标题 */}
-        <div className="mb-12 text-center">
-          <span className="mb-2 inline-block font-serif text-sm tracking-widest text-[#D4AF37]">
-            NEWS & NOTICE
-          </span>
+        <div
+          className="mb-12 text-center transition-all duration-1000"
+          style={{
+            opacity: isRevealed ? 1 : 0,
+            transform: isRevealed ? "translateY(0)" : "translateY(30px)",
+          }}
+        >
           <h2 className="mb-4 font-serif text-3xl font-bold text-[#2A0A0A] md:text-4xl">
             新闻公告
           </h2>
           <div className="mx-auto h-1 w-20 bg-gradient-to-r from-[#D4AF37] to-[#8B1A1A]" />
         </div>
 
-        <div className="grid gap-8 lg:grid-cols-3">
-          {/* 左侧新闻区域 */}
-          <div className="lg:col-span-2">
-            {/* 分类筛选 */}
-            <div className="mb-6 flex flex-wrap gap-2">
-              {categories.map((category) => (
-                <button
-                  key={category}
-                  onClick={() => setActiveCategory(category)}
-                  className={`rounded-full px-4 py-1.5 text-sm font-medium transition-all ${
-                    activeCategory === category
-                      ? "bg-[#8B1A1A] text-[#F5E6D3] shadow-md"
-                      : "bg-[#FDFBF7] text-[#666] hover:bg-[#8B1A1A]/10 hover:text-[#8B1A1A]"
-                  }`}
-                >
-                  {category}
-                </button>
-              ))}
-            </div>
+        {/* 分类筛选 */}
+        <div
+          className="mb-8 flex flex-wrap gap-2 transition-all duration-1000"
+          style={{
+            opacity: isRevealed ? 1 : 0,
+            transform: isRevealed ? "translateY(0)" : "translateY(30px)",
+            transitionDelay: "0.1s",
+          }}
+        >
+          {categories.map((category) => (
+            <button
+              key={category}
+              onClick={() => setActiveCategory(category)}
+              className={`rounded-full px-4 py-1.5 text-sm font-medium transition-all ${
+                activeCategory === category
+                  ? "bg-[#8B1A1A] text-[#F5E6D3] shadow-md"
+                  : "bg-[#FDFBF7] text-[#666] hover:bg-[#8B1A1A]/10 hover:text-[#8B1A1A]"
+              }`}
+            >
+              {category}
+            </button>
+          ))}
+        </div>
 
-            {/* 新闻卡片网格 */}
+        {/* 内容区域 - 使用flex对齐 */}
+        <div className="flex gap-8">
+          {/* 左侧新闻卡片 2x2 */}
+          <div className="flex-1">
             <div className="grid gap-6 sm:grid-cols-2">
-              {filteredNews.map((item) => (
+              {filteredNews.map((item, index) => (
                 <Link
                   key={item.id}
                   href={`/news/${item.id}`}
-                  className="group overflow-hidden rounded-lg bg-[#FDFBF7] shadow-md transition-all hover:-translate-y-1 hover:shadow-xl"
+                  className="group overflow-hidden rounded-lg bg-[#FDFBF7] shadow-md transition-all duration-700 hover:-translate-y-1 hover:shadow-xl"
+                  style={{
+                    opacity: isRevealed ? 1 : 0,
+                    transform: isRevealed ? "translateY(0)" : "translateY(40px)",
+                    transitionDelay: `${0.15 + index * 0.1}s`,
+                  }}
                 >
                   <div className="relative aspect-[4/3] overflow-hidden">
                     <Image
@@ -136,7 +157,13 @@ export function NewsSection() {
             </div>
 
             {/* 查看更多 */}
-            <div className="mt-6 text-center">
+            <div
+              className="mt-6 text-center transition-all duration-700"
+              style={{
+                opacity: isRevealed ? 1 : 0,
+                transitionDelay: "0.6s",
+              }}
+            >
               <Link
                 href="/news"
                 className="inline-flex items-center gap-2 text-sm font-medium text-[#8B1A1A] transition-colors hover:text-[#6B1010]"
@@ -147,43 +174,54 @@ export function NewsSection() {
             </div>
           </div>
 
-          {/* 右侧通知公告 */}
-          <div className="rounded-lg border border-[#E8DCC8] bg-[#FDFBF7] shadow-md">
-            <div className="flex items-center justify-between border-b border-[#E8DCC8] px-5 py-4">
-              <div className="flex items-center gap-2">
-                <Bell className="h-5 w-5 text-[#D4AF37]" />
-                <h3 className="font-serif text-lg font-bold text-[#2A0A0A]">通知公告</h3>
-              </div>
-              <Link
-                href="/news"
-                className="text-xs text-[#8B1A1A] transition-colors hover:text-[#6B1010]"
-              >
-                更多
-              </Link>
-            </div>
-            <div className="divide-y divide-[#E8DCC8]">
-              {notices.map((notice) => (
+          {/* 右侧通知公告 - 与左侧对齐 */}
+          <div
+            className="w-[340px] flex-shrink-0 hidden lg:flex flex-col transition-all duration-1000"
+            style={{
+              opacity: isRevealed ? 1 : 0,
+              transform: isRevealed ? "translateY(0)" : "translateY(40px)",
+              transitionDelay: "0.3s",
+            }}
+          >
+            <div className="flex-1 flex flex-col rounded-lg border border-[#E8DCC8] bg-[#FDFBF7] shadow-md overflow-hidden">
+              {/* 标题栏 */}
+              <div className="flex items-center justify-between border-b border-[#E8DCC8] px-5 py-4 flex-shrink-0">
+                <div className="flex items-center gap-2">
+                  <Bell className="h-5 w-5 text-[#D4AF37]" />
+                  <h3 className="font-serif text-lg font-bold text-[#2A0A0A]">通知公告</h3>
+                </div>
                 <Link
-                  key={notice.id}
-                  href={notice.id === 1 ? "/service/admission" : "/news"}
-                  className="group flex items-start gap-3 px-5 py-4 transition-colors hover:bg-[#8B1A1A]/5"
+                  href="/news"
+                  className="text-xs text-[#8B1A1A] transition-colors hover:text-[#6B1010]"
                 >
-                  <ChevronRight className="mt-0.5 h-4 w-4 flex-shrink-0 text-[#D4AF37]" />
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                      <h4 className="truncate text-sm text-[#333] transition-colors group-hover:text-[#8B1A1A]">
-                        {notice.title}
-                      </h4>
-                      {notice.isNew && (
-                        <span className="flex-shrink-0 rounded bg-[#8B1A1A] px-1.5 py-0.5 text-[10px] text-[#F5E6D3]">
-                          NEW
-                        </span>
-                      )}
-                    </div>
-                    <p className="mt-1 text-xs text-[#999]">{notice.date}</p>
-                  </div>
+                  更多
                 </Link>
-              ))}
+              </div>
+              {/* 通知列表 - 填充剩余空间 */}
+              <div className="flex-1 divide-y divide-[#E8DCC8] overflow-auto">
+                {notices.map((notice) => (
+                  <Link
+                    key={notice.id}
+                    href={notice.id === 1 ? "/service/admission" : "/news"}
+                    className="group flex items-start gap-3 px-5 py-3.5 transition-colors hover:bg-[#8B1A1A]/5"
+                  >
+                    <ChevronRight className="mt-0.5 h-4 w-4 flex-shrink-0 text-[#D4AF37]" />
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2">
+                        <h4 className="truncate text-sm text-[#333] transition-colors group-hover:text-[#8B1A1A]">
+                          {notice.title}
+                        </h4>
+                        {notice.isNew && (
+                          <span className="flex-shrink-0 rounded bg-[#8B1A1A] px-1.5 py-0.5 text-[10px] text-[#F5E6D3]">
+                            NEW
+                          </span>
+                        )}
+                      </div>
+                      <p className="mt-1 text-xs text-[#999]">{notice.date}</p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
             </div>
           </div>
         </div>

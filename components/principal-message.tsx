@@ -1,12 +1,23 @@
+"use client"
+
 import Image from "next/image"
 import { Quote } from "lucide-react"
+import { useScrollReveal } from "@/hooks/use-scroll-reveal"
 
 export function PrincipalMessage() {
+  const { ref, isRevealed } = useScrollReveal()
+  
   return (
-    <section className="bg-gradient-to-b from-[#FDFBF7] to-[#F5F0E8] py-20">
+    <section ref={ref} className="bg-gradient-to-b from-[#FDFBF7] to-[#F5F0E8] py-20">
       <div className="mx-auto max-w-7xl px-4">
         <div className="mx-auto max-w-4xl">
-          <div className="relative rounded-2xl bg-[#FDFBF7] p-8 shadow-xl md:p-12">
+          <div
+            className="relative rounded-2xl bg-[#FDFBF7] p-8 shadow-xl md:p-12 transition-all duration-1000"
+            style={{
+              opacity: isRevealed ? 1 : 0,
+              transform: isRevealed ? "translateY(0)" : "translateY(40px)",
+            }}
+          >
             {/* 装饰引号 */}
             <Quote className="absolute -left-3 -top-3 h-16 w-16 text-[#D4AF37]/20 md:-left-6 md:-top-6 md:h-24 md:w-24" />
             

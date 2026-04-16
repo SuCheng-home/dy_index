@@ -4,6 +4,7 @@ import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { Play } from "lucide-react"
+import { useScrollReveal } from "@/hooks/use-scroll-reveal"
 
 const categories = ["全部", "校园风光", "文体活动", "学生风采", "教学场景"]
 
@@ -60,6 +61,7 @@ const galleryItems = [
 
 export function CampusGallery() {
   const [activeCategory, setActiveCategory] = useState("全部")
+  const { ref, isRevealed } = useScrollReveal()
 
   const filteredItems =
     activeCategory === "全部"
@@ -67,10 +69,16 @@ export function CampusGallery() {
       : galleryItems.filter((item) => item.category === activeCategory)
 
   return (
-    <section className="bg-[#FDFBF7] py-20">
+    <section ref={ref} className="bg-[#FDFBF7] py-20">
       <div className="mx-auto max-w-7xl px-4">
         {/* 标题 */}
-        <div className="mb-12 text-center">
+        <div
+          className="mb-12 text-center transition-all duration-1000"
+          style={{
+            opacity: isRevealed ? 1 : 0,
+            transform: isRevealed ? "translateY(0)" : "translateY(30px)",
+          }}
+        >
           <span className="mb-2 inline-block font-serif text-sm tracking-widest text-[#D4AF37]">
             GALLERY
           </span>
@@ -81,7 +89,14 @@ export function CampusGallery() {
         </div>
 
         {/* 分类筛选 */}
-        <div className="mb-8 flex flex-wrap justify-center gap-2">
+        <div
+          className="mb-8 flex flex-wrap justify-center gap-2 transition-all duration-1000"
+          style={{
+            opacity: isRevealed ? 1 : 0,
+            transform: isRevealed ? "translateY(0)" : "translateY(30px)",
+            transitionDelay: "0.1s",
+          }}
+        >
           {categories.map((category) => (
             <button
               key={category}
@@ -99,10 +114,15 @@ export function CampusGallery() {
 
         {/* 图片网格 */}
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {filteredItems.map((item) => (
+          {filteredItems.map((item, index) => (
             <div
               key={item.id}
-              className={`group relative aspect-[4/3] overflow-hidden rounded-lg shadow-md ${item.span}`}
+              className={`group relative aspect-[4/3] overflow-hidden rounded-lg shadow-md transition-all duration-700 ${item.span}`}
+              style={{
+                opacity: isRevealed ? 1 : 0,
+                transform: isRevealed ? "translateY(0)" : "translateY(40px)",
+                transitionDelay: `${0.2 + index * 0.08}s`,
+              }}
             >
               <Image
                 src={item.image}

@@ -5,6 +5,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { Calendar, Building2, ChevronRight, ChevronLeft, ArrowRight } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { useScrollReveal } from "@/hooks/use-scroll-reveal"
 
 const departments = [
   { id: "all", label: "全部" },
@@ -113,6 +114,7 @@ function getNewsForDate(date: Date) {
 export function TodayDanzhong() {
   const [activeTab, setActiveTab] = useState("all")
   const [dateOffset, setDateOffset] = useState(0)
+  const { ref: sectionRef, isRevealed } = useScrollReveal()
 
   const displayDate = new Date()
   displayDate.setDate(displayDate.getDate() + dateOffset)
@@ -129,10 +131,16 @@ export function TodayDanzhong() {
   const hasNews = filteredNews.length > 0
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-[#FDFBF7] to-[#F8F4ED] py-16">
+    <section ref={sectionRef} className="relative overflow-hidden bg-gradient-to-b from-[#FDFBF7] to-[#F8F4ED] py-16">
       <div className="mx-auto max-w-7xl px-4">
         {/* 标题区域 */}
-        <div className="mb-10 flex flex-col items-center justify-between gap-4 sm:flex-row">
+        <div
+          className="mb-10 flex flex-col items-center justify-between gap-4 sm:flex-row transition-all duration-1000"
+          style={{
+            opacity: isRevealed ? 1 : 0,
+            transform: isRevealed ? "translateY(0)" : "translateY(30px)",
+          }}
+        >
           <div className="flex items-center gap-4">
             <div className="relative">
               <div className="h-12 w-1.5 rounded-full bg-gradient-to-b from-[#8B1A1A] to-[#D4AF37]" />
@@ -167,7 +175,14 @@ export function TodayDanzhong() {
         </div>
 
         {/* 部门筛选标签 */}
-        <div className="mb-8 flex flex-wrap items-center gap-2">
+        <div
+          className="mb-8 flex flex-wrap items-center gap-2 transition-all duration-1000"
+          style={{
+            opacity: isRevealed ? 1 : 0,
+            transform: isRevealed ? "translateY(0)" : "translateY(30px)",
+            transitionDelay: "0.1s",
+          }}
+        >
           {departments.map((dept) => (
             <button
               key={dept.id}
@@ -185,7 +200,14 @@ export function TodayDanzhong() {
         </div>
 
         {/* 新闻内容区 */}
-        <div className="grid gap-6 lg:grid-cols-3">
+        <div
+          className="grid gap-6 lg:grid-cols-3 transition-all duration-1000"
+          style={{
+            opacity: isRevealed ? 1 : 0,
+            transform: isRevealed ? "translateY(0)" : "translateY(40px)",
+            transitionDelay: "0.2s",
+          }}
+        >
           {/* 左侧重点新闻 */}
           <div className="lg:col-span-2">
             <div className="grid gap-6 sm:grid-cols-2">

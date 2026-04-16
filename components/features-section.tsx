@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
+import { useScrollReveal } from "@/hooks/use-scroll-reveal"
 
 const features = [
   {
@@ -35,10 +36,18 @@ const features = [
 ]
 
 export function FeaturesSection() {
+  const { ref, isRevealed } = useScrollReveal()
+  
   return (
-    <section className="relative overflow-hidden bg-[#2A0A0A] py-20">
+    <section ref={ref} className="relative overflow-hidden bg-[#2A0A0A] py-20">
       <div className="relative z-10 mx-auto max-w-7xl px-4">
-        <div className="mb-16 text-center">
+        <div
+          className="mb-16 text-center transition-all duration-1000"
+          style={{
+            opacity: isRevealed ? 1 : 0,
+            transform: isRevealed ? "translateY(0)" : "translateY(30px)",
+          }}
+        >
           <span className="mb-2 inline-block font-serif text-sm tracking-widest text-[#D4AF37]">
             FEATURES
           </span>
@@ -53,8 +62,12 @@ export function FeaturesSection() {
             <Link
               key={feature.title}
               href={feature.href}
-              className="group relative rounded-lg bg-gradient-to-b from-[#3A1A1A] to-[#2A0A0A] p-6 transition-all hover:-translate-y-2 hover:shadow-2xl"
-              style={{ animationDelay: `${index * 100}ms` }}
+              className="group relative rounded-lg bg-gradient-to-b from-[#3A1A1A] to-[#2A0A0A] p-6 transition-all duration-700 hover:-translate-y-2 hover:shadow-2xl"
+              style={{
+                opacity: isRevealed ? 1 : 0,
+                transform: isRevealed ? "translateY(0)" : "translateY(40px)",
+                transitionDelay: `${0.15 + index * 0.1}s`,
+              }}
             >
               <div className={`absolute left-0 top-0 h-1 w-full rounded-t-lg bg-gradient-to-r ${feature.color}`} />
 
