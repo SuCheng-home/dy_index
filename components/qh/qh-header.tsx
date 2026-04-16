@@ -65,15 +65,15 @@ export function QhHeader({ onSearchClick }: QhHeaderProps) {
             <Image
               src="/logo.png"
               alt="江苏省丹阳高级中学"
-              width={200}
-              height={56}
-              className="h-12 w-auto"
+              width={240}
+              height={68}
+              className="h-14 w-auto"
               priority
             />
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden xl:flex items-center gap-1">
+          <nav className="hidden xl:flex items-center">
             {mainNavItems.map((item, index) => (
               <div
                 key={item.label}
@@ -82,7 +82,7 @@ export function QhHeader({ onSearchClick }: QhHeaderProps) {
                 onMouseLeave={handleNavLeave}
               >
                 <button
-                  className="px-5 py-3 text-base font-bold transition-all duration-300 whitespace-nowrap flex items-center gap-1.5 relative group"
+                  className="px-3 py-4 text-base font-bold transition-all duration-300 whitespace-nowrap flex items-center gap-1 relative group"
                   style={{ color: activeNav === index ? '#5B2C6F' : '#333' }}
                 >
                   {/* 香樟叶图标 - 悬停时显示 */}
@@ -107,8 +107,10 @@ export function QhHeader({ onSearchClick }: QhHeaderProps) {
 
                 {/* 普通下拉菜单 */}
                 <div
-                  className="absolute top-full left-0 pt-1 transition-all duration-300 pointer-events-none"
+                  className="absolute left-0 transition-all duration-300 z-[100]"
                   style={{
+                    top: '100%',
+                    marginTop: '4px',
                     opacity: activeNav === index ? 1 : 0,
                     visibility: activeNav === index ? 'visible' : 'hidden',
                     transform: activeNav === index ? 'translateY(0)' : 'translateY(-8px)',
@@ -120,8 +122,8 @@ export function QhHeader({ onSearchClick }: QhHeaderProps) {
                   onMouseLeave={handleNavLeave}
                 >
                   <div 
-                    className="bg-white rounded-lg shadow-xl border py-1 min-w-[220px]"
-                    style={{ borderColor: '#f0f0f0' }}
+                    className="bg-white rounded-lg shadow-xl border py-2 min-w-[200px]"
+                    style={{ borderColor: '#eee' }}
                   >
                     {item.subMenus.map((sub) => (
                       <Link

@@ -7,8 +7,8 @@ export interface NavItem {
   label: string
   href: string
   subMenus: SubMenuItem[]
-  imageBd: string  // 北大风格图片
-  imageQh: string  // 清华风格图片
+  imageBd: string
+  imageQh: string
 }
 
 export const mainNavItems: NavItem[] = [
@@ -36,7 +36,7 @@ export const mainNavItems: NavItem[] = [
       { label: '党委办公室', children: ['党建动态', '文明建设'] },
       { label: '支部活动' },
       { label: '主题教育' },
-      { label: '廉政建设' },
+      { label: '廉洁建设' },
       { label: '工会工作' },
       { label: '团委工作', children: ['团员活动', '志愿服务'] },
     ],
