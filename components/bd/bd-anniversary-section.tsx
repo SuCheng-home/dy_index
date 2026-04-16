@@ -28,7 +28,7 @@ export default function BdAnniversarySection() {
           src="/banner-80th.png"
           alt="江苏省丹阳高级中学80周年校庆"
           fill
-          className="object-cover object-top"
+          className="object-cover object-bottom"
           priority
         />
         {/* Overlay gradient */}
