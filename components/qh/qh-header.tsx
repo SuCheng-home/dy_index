@@ -1,19 +1,33 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { Search, ChevronRight, Menu, X } from 'lucide-react'
+import { Search, ChevronDown, Menu, X } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { mainNavItems, type NavItem } from '../shared/nav-data'
+import { mainNavItems } from '../shared/nav-data'
 
 interface QhHeaderProps {
   onSearchClick?: () => void
 }
 
+// 香樟叶图标组件
+function CamphorLeaf({ className = '', style = {} }: { className?: string; style?: React.CSSProperties }) {
+  return (
+    <svg 
+      viewBox="0 0 24 24" 
+      className={className}
+      style={style}
+      fill="currentColor"
+    >
+      <path d="M12 2C8 2 4 6 4 12c0 4 2 7 4 9l1-1c2 1 3 2 3 2s1-1 3-2l1 1c2-2 4-5 4-9 0-6-4-10-8-10zm0 2c3 0 6 3 6 8 0 3-1.5 5.5-3 7-1-.5-2-1-3-1s-2 .5-3 1c-1.5-1.5-3-4-3-7 0-5 3-8 6-8z"/>
+      <path d="M12 6c-2.5 0-4 2-4 5s1.5 5 4 7c2.5-2 4-4 4-7s-1.5-5-4-5z" opacity="0.6"/>
+    </svg>
+  )
+}
+
 export function QhHeader({ onSearchClick }: QhHeaderProps) {
   const [scrolled, setScrolled] = useState(false)
   const [activeNav, setActiveNav] = useState<number | null>(null)
-  const [activeSubMenu, setActiveSubMenu] = useState<number>(0)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [mobileExpandedItem, setMobileExpandedItem] = useState<string | null>(null)
   const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null)
@@ -27,23 +41,19 @@ export function QhHeader({ onSearchClick }: QhHeaderProps) {
   const handleNavEnter = (index: number) => {
     if (dropdownTimeoutRef.current) clearTimeout(dropdownTimeoutRef.current)
     setActiveNav(index)
-    setActiveSubMenu(0)
   }
 
   const handleNavLeave = () => {
     dropdownTimeoutRef.current = setTimeout(() => {
       setActiveNav(null)
-      setActiveSubMenu(0)
-    }, 200)
+    }, 150)
   }
-
-  const currentNavItem: NavItem | null = activeNav !== null ? mainNavItems[activeNav] : null
 
   return (
     <header
-      className="fixed top-0 left-0 right-16 z-40 transition-all duration-500"
+      className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
       style={{
-        backgroundColor: scrolled ? 'rgba(255,255,255,0.97)' : '#fff',
+        backgroundColor: scrolled ? 'rgba(255,255,255,0.98)' : '#fff',
         backdropFilter: scrolled ? 'blur(12px)' : 'none',
         boxShadow: scrolled ? '0 2px 24px rgba(0,0,0,0.06)' : 'none',
       }}
@@ -63,7 +73,7 @@ export function QhHeader({ onSearchClick }: QhHeaderProps) {
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden xl:flex items-center gap-0">
+          <nav className="hidden xl:flex items-center gap-1">
             {mainNavItems.map((item, index) => (
               <div
                 key={item.label}
@@ -72,30 +82,85 @@ export function QhHeader({ onSearchClick }: QhHeaderProps) {
                 onMouseLeave={handleNavLeave}
               >
                 <button
-                  className="px-3.5 py-2 text-sm font-medium transition-colors duration-300 whitespace-nowrap relative"
+                  className="px-4 py-2 text-sm font-medium transition-all duration-300 whitespace-nowrap flex items-center gap-1 relative group"
                   style={{ color: activeNav === index ? '#5B2C6F' : '#333' }}
                 >
-                  {item.label}
-                  <span
-                    className="absolute bottom-0 left-3 right-3 h-[2px] transition-all duration-300"
-                    style={{
-                      backgroundColor: '#5B2C6F',
-                      transform: activeNav === index ? 'scaleX(1)' : 'scaleX(0)',
-                      transformOrigin: 'center',
+                  {/* 香樟叶图标 - 悬停时显示 */}
+                  <CamphorLeaf 
+                    className="w-4 h-4 transition-all duration-300"
+                    style={{ 
+                      color: '#5B2C6F',
+                      opacity: activeNav === index ? 1 : 0,
+                      transform: activeNav === index ? 'translateX(0) rotate(0)' : 'translateX(-8px) rotate(-45deg)',
+                    }}
+                  />
+                  <span>{item.label}</span>
+                  <ChevronDown 
+                    size={14} 
+                    className="transition-transform duration-300"
+                    style={{ 
+                      color: activeNav === index ? '#5B2C6F' : '#999',
+                      transform: activeNav === index ? 'rotate(180deg)' : 'rotate(0)',
                     }}
                   />
                 </button>
+
+                {/* 普通下拉菜单 */}
+                <div
+                  className="absolute top-full left-0 pt-2 transition-all duration-300"
+                  style={{
+                    opacity: activeNav === index ? 1 : 0,
+                    visibility: activeNav === index ? 'visible' : 'hidden',
+                    transform: activeNav === index ? 'translateY(0)' : 'translateY(-8px)',
+                  }}
+                  onMouseEnter={() => {
+                    if (dropdownTimeoutRef.current) clearTimeout(dropdownTimeoutRef.current)
+                  }}
+                  onMouseLeave={handleNavLeave}
+                >
+                  <div 
+                    className="bg-white rounded-lg shadow-xl border py-2 min-w-[200px]"
+                    style={{ borderColor: '#f0f0f0' }}
+                  >
+                    {item.subMenus.map((sub, subIndex) => (
+                      <Link
+                        key={sub.label}
+                        href="#"
+                        className="flex items-center gap-2 px-4 py-3 text-sm transition-all duration-300 group/item"
+                        style={{ color: '#555' }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.backgroundColor = 'rgba(91,44,111,0.06)'
+                          e.currentTarget.style.color = '#5B2C6F'
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.backgroundColor = 'transparent'
+                          e.currentTarget.style.color = '#555'
+                        }}
+                      >
+                        {/* 小香樟叶图标 */}
+                        <CamphorLeaf 
+                          className="w-3.5 h-3.5 transition-all duration-300 opacity-0 group-hover/item:opacity-100"
+                          style={{ 
+                            color: '#5B2C6F',
+                            transform: 'rotate(-15deg)',
+                          }}
+                        />
+                        <span>{sub.label}</span>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
               </div>
             ))}
           </nav>
 
           {/* Right actions */}
           <div className="flex items-center gap-2 flex-shrink-0">
-            <a href="#" className="hidden md:block text-xs whitespace-nowrap" style={{ color: '#666' }}>
+            <a href="#" className="hidden md:block text-xs whitespace-nowrap hover:text-[#5B2C6F] transition-colors" style={{ color: '#666' }}>
               学校主页
             </a>
             <span className="hidden md:block text-gray-300">|</span>
-            <a href="#" className="hidden md:block text-xs whitespace-nowrap" style={{ color: '#666' }}>
+            <a href="#" className="hidden md:block text-xs whitespace-nowrap hover:text-[#5B2C6F] transition-colors" style={{ color: '#666' }}>
               EN
             </a>
             <button
@@ -112,96 +177,13 @@ export function QhHeader({ onSearchClick }: QhHeaderProps) {
       </div>
 
       {/* Purple accent line */}
-      <div className="h-[2px]" style={{ background: 'linear-gradient(to right, #5B2C6F, #9B59B6)' }} />
-
-      {/* Mega dropdown - Desktop */}
-      <div
-        className="hidden xl:block absolute top-full left-0 right-16 transition-all duration-400 overflow-hidden"
-        style={{
-          maxHeight: activeNav !== null ? '420px' : '0px',
-          opacity: activeNav !== null ? 1 : 0,
-          boxShadow: activeNav !== null ? '0 12px 40px rgba(0,0,0,0.1)' : 'none',
-        }}
-        onMouseEnter={() => {
-          if (dropdownTimeoutRef.current) clearTimeout(dropdownTimeoutRef.current)
-        }}
-        onMouseLeave={handleNavLeave}
-      >
-        <div className="bg-white border-t" style={{ borderColor: '#f0f0f0' }}>
-          <div className="max-w-[1400px] mx-auto flex" style={{ minHeight: '380px' }}>
-            {/* Left: Image */}
-            <div className="w-[480px] flex-shrink-0 relative overflow-hidden">
-              {currentNavItem && (
-                <Image
-                  src={currentNavItem.imageQh}
-                  alt={currentNavItem.label}
-                  fill
-                  className="object-cover"
-                />
-              )}
-              <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, transparent 60%, rgba(255,255,255,0.4))' }} />
-            </div>
-
-            {/* Middle: Sub-menu */}
-            <div className="w-[280px] flex-shrink-0 border-r py-6 px-2" style={{ borderColor: '#f0f0f0' }}>
-              {currentNavItem?.subMenus.map((sub, i) => (
-                <button
-                  key={sub.label}
-                  className="w-full text-left px-6 py-3.5 text-[15px] transition-all duration-300 rounded-sm flex items-center justify-between"
-                  style={{
-                    color: activeSubMenu === i ? '#5B2C6F' : '#444',
-                    backgroundColor: activeSubMenu === i ? 'rgba(91,44,111,0.04)' : 'transparent',
-                    fontWeight: activeSubMenu === i ? 600 : 400,
-                  }}
-                  onMouseEnter={() => setActiveSubMenu(i)}
-                >
-                  {sub.label}
-                  {sub.children && sub.children.length > 0 && (
-                    <ChevronRight size={14} style={{ color: activeSubMenu === i ? '#5B2C6F' : '#ccc' }} />
-                  )}
-                </button>
-              ))}
-            </div>
-
-            {/* Right: Tertiary */}
-            <div className="flex-1 py-8 px-10">
-              {currentNavItem?.subMenus[activeSubMenu]?.children && (
-                <div className="space-y-1">
-                  {currentNavItem.subMenus[activeSubMenu].children!.map((child) => (
-                    <Link
-                      key={child}
-                      href="#"
-                      className="flex items-center gap-2 px-4 py-3 text-sm rounded-sm transition-all duration-300"
-                      style={{ color: '#555' }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = 'rgba(91,44,111,0.04)'
-                        e.currentTarget.style.color = '#5B2C6F'
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = 'transparent'
-                        e.currentTarget.style.color = '#555'
-                      }}
-                    >
-                      <ChevronRight size={12} style={{ color: '#5B2C6F' }} />
-                      {child}
-                    </Link>
-                  ))}
-                </div>
-              )}
-              {(!currentNavItem?.subMenus[activeSubMenu]?.children ||
-                currentNavItem.subMenus[activeSubMenu].children!.length === 0) && (
-                <div className="flex items-center justify-center h-full">
-                  <p className="text-sm" style={{ color: '#bbb' }}>
-                    {'点击"'}
-                    <span style={{ color: '#5B2C6F' }}>{currentNavItem?.subMenus[activeSubMenu]?.label}</span>
-                    {'"查看详情'}
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
+      <div 
+        className="h-[2px] transition-opacity duration-300" 
+        style={{ 
+          background: 'linear-gradient(to right, #5B2C6F, #9B59B6)',
+          opacity: scrolled ? 1 : 0.5,
+        }} 
+      />
 
       {/* Mobile menu */}
       <div
@@ -217,11 +199,16 @@ export function QhHeader({ onSearchClick }: QhHeaderProps) {
                 style={{ color: mobileExpandedItem === item.label ? '#5B2C6F' : '#333' }}
                 onClick={() => setMobileExpandedItem(mobileExpandedItem === item.label ? null : item.label)}
               >
-                {item.label}
-                <ChevronRight
+                <span className="flex items-center gap-2">
+                  {mobileExpandedItem === item.label && (
+                    <CamphorLeaf className="w-4 h-4" style={{ color: '#5B2C6F' }} />
+                  )}
+                  {item.label}
+                </span>
+                <ChevronDown
                   size={14}
                   className="transition-transform duration-300"
-                  style={{ transform: mobileExpandedItem === item.label ? 'rotate(90deg)' : 'rotate(0)' }}
+                  style={{ transform: mobileExpandedItem === item.label ? 'rotate(180deg)' : 'rotate(0)' }}
                 />
               </button>
               <div
@@ -233,8 +220,9 @@ export function QhHeader({ onSearchClick }: QhHeaderProps) {
                   <a
                     key={sub.label}
                     href="#"
-                    className="block py-2 pl-4 text-sm text-gray-500 hover:text-[#5B2C6F]"
+                    className="flex items-center gap-2 py-2 pl-6 text-sm text-gray-500 hover:text-[#5B2C6F]"
                   >
+                    <CamphorLeaf className="w-3 h-3 opacity-50" style={{ color: '#5B2C6F' }} />
                     {sub.label}
                   </a>
                 ))}

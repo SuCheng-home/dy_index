@@ -130,27 +130,39 @@ export function QhAchievementSection() {
           </div>
         </div>
 
-        {/* 右侧图片区 */}
-        <div className="flex-1 relative overflow-hidden">
+        {/* 右侧视频预览区 */}
+        <div className="flex-1 relative overflow-hidden group cursor-pointer">
           <Image
             src="/view/view6.jpg"
-            alt="丹阳高中学生"
+            alt="丹阳高中宣传片"
             fill
-            className="object-cover"
+            className="object-cover transition-transform duration-700 group-hover:scale-105"
           />
-          {/* 办学传统文字叠加 */}
+          {/* 暗色遮罩 */}
+          <div className="absolute inset-0 bg-black/30 transition-opacity duration-300 group-hover:bg-black/40" />
+          {/* 播放按钮 */}
           <div className="absolute inset-0 flex items-center justify-center">
-            <div 
-              className="p-8 rounded-lg text-center"
-              style={{ backgroundColor: 'rgba(255,255,255,0.95)' }}
-            >
-              <div className="text-sm mb-2" style={{ color: '#5B2C6F' }}>办学传统</div>
-              <div className="space-y-1">
-                <p className="text-2xl font-serif font-bold" style={{ color: '#8B1A1A' }}>启迪有方</p>
-                <p className="text-2xl font-serif font-bold" style={{ color: '#8B1A1A' }}>治学严谨</p>
-                <p className="text-2xl font-serif font-bold" style={{ color: '#8B1A1A' }}>爱生育人</p>
+            <div className="relative">
+              {/* 播放按钮外圈动画 */}
+              <div 
+                className="absolute inset-0 rounded-full animate-ping"
+                style={{ backgroundColor: 'rgba(255,255,255,0.3)', animationDuration: '2s' }}
+              />
+              <div 
+                className="w-20 h-20 rounded-full flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
+                style={{ backgroundColor: 'rgba(255,255,255,0.9)' }}
+              >
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="#5B2C6F">
+                  <path d="M8 5v14l11-7z"/>
+                </svg>
               </div>
             </div>
+          </div>
+          {/* 视频标题 */}
+          <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/70 to-transparent">
+            <p className="text-white text-sm mb-1 opacity-80">学校宣传片</p>
+            <h4 className="text-white text-xl font-serif font-bold">江苏省丹阳高级中学</h4>
+            <p className="text-white/70 text-sm mt-1">点击播放视频</p>
           </div>
         </div>
 

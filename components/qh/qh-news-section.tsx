@@ -59,12 +59,6 @@ export function QhNewsSection() {
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />
-                {/* 左下角引用文字装饰 */}
-                <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm p-4 max-w-xs">
-                  <p className="text-xs text-gray-500 mb-1">AI+衔接层课程</p>
-                  <p className="text-sm text-gray-700 leading-relaxed">AI赋能下的衔接课程优化实践与创新，贯通大中衔接人才培养体系。</p>
-                  <div className="text-4xl font-serif mt-2" style={{ color: '#5B2C6F' }}>&ldquo;&rdquo;</div>
-                </div>
               </div>
               {/* 日期+标题 */}
               <div className="mt-4">
