@@ -22,20 +22,20 @@ export default function BdAnniversarySection() {
       className="relative py-0 overflow-hidden"
       style={{ backgroundColor: '#8B1A1A' }}
     >
-      {/* Full width anniversary banner */}
-      <div className="relative w-full h-[400px]">
+      {/* Full width anniversary banner - taller to show 1941-2021 text */}
+      <div className="relative w-full h-[480px]">
         <Image
           src="/banner-80th.png"
           alt="江苏省丹阳高级中学80周年校庆"
           fill
-          className="object-cover"
+          className="object-cover object-top"
           priority
         />
         {/* Overlay gradient */}
         <div 
           className="absolute inset-0"
           style={{
-            background: 'linear-gradient(to right, rgba(139,26,26,0.3) 0%, transparent 50%, rgba(139,26,26,0.3) 100%)'
+            background: 'linear-gradient(to right, rgba(139,26,26,0.2) 0%, transparent 50%, rgba(139,26,26,0.2) 100%)'
           }}
         />
       </div>
