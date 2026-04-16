@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useRef } from 'react'
-import { ChevronLeft, ChevronRight, Quote } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Quote, User } from 'lucide-react'
 import { useScrollReveal } from './use-scroll-reveal'
 
 const historyItems = [
@@ -117,8 +117,26 @@ export default function BdHistorySection() {
             </span>
           </div>
 
-          {/* Center content - text only, no image */}
+          {/* Center content with avatar icon */}
           <div className="flex flex-col items-center justify-center w-full max-w-[800px] mx-auto relative z-10">
+            {/* Avatar placeholder */}
+            <div
+              className="mb-6 transition-all duration-[2000ms]"
+              style={{
+                opacity: revealed ? 1 : 0,
+                transform: revealed ? 'translateY(0) scale(1)' : 'translateY(30px) scale(0.9)',
+                transitionDelay: '0.2s',
+                transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
+              }}
+            >
+              <div
+                className="w-24 h-24 rounded-full flex items-center justify-center"
+                style={{ backgroundColor: 'rgba(139,26,26,0.1)', border: '2px solid rgba(139,26,26,0.2)' }}
+              >
+                <User size={48} style={{ color: '#8B1A1A', opacity: 0.6 }} />
+              </div>
+            </div>
+
             {/* Header with name and role */}
             <div
               className="text-center mb-8 transition-all duration-[2000ms]"

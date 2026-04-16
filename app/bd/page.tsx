@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import BdHeader from '@/components/bd/bd-header'
 import BdHero from '@/components/bd/bd-hero'
 import BdNewsSection from '@/components/bd/bd-news-section'
-import BdAnniversarySection from '@/components/bd/bd-anniversary-section'
+
 import BdHistorySection from '@/components/bd/bd-history-section'
 import BdStatsSection from '@/components/bd/bd-stats-section'
 import BdTeacherSection from '@/components/bd/bd-teacher-section'
@@ -20,7 +20,6 @@ export default function BdPage() {
       <BdHeader />
       <BdHero />
       <BdNewsSection />
-      <BdAnniversarySection />
       <BdStatsSection />
       <BdHistorySection />
       <BdTeacherSection />
