@@ -55,11 +55,12 @@ export default function BdHistorySection() {
       <div className="max-w-[1400px] mx-auto px-8">
         {/* Section title */}
         <h2
-          className="text-center text-3xl font-serif font-bold mb-16 transition-all duration-700"
+          className="text-center text-3xl font-serif font-bold mb-16 transition-all duration-[1200ms]"
           style={{
             color: '#222',
             opacity: revealed ? 1 : 0,
-            transform: revealed ? 'translateY(0)' : 'translateY(20px)',
+            transform: revealed ? 'translateY(0)' : 'translateY(40px)',
+            transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
           }}
         >
           丹中历史
@@ -68,11 +69,12 @@ export default function BdHistorySection() {
         <div className="relative flex items-stretch gap-0 min-h-[560px]">
           {/* Giant year numbers - left side decorative */}
           <div
-            className="absolute left-0 top-0 bottom-0 w-[180px] flex items-center justify-center select-none pointer-events-none z-0 transition-all duration-700"
+            className="absolute left-0 top-0 bottom-0 w-[180px] flex items-center justify-center select-none pointer-events-none z-0 transition-all duration-[1400ms]"
             style={{
               opacity: revealed ? 1 : 0,
-              transform: revealed ? 'translateX(0)' : 'translateX(-40px)',
-              transitionDelay: '0.2s',
+              transform: revealed ? 'translateX(0)' : 'translateX(-80px)',
+              transitionDelay: '0.3s',
+              transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
             }}
           >
             <span
@@ -91,11 +93,12 @@ export default function BdHistorySection() {
 
           {/* Giant year numbers - right side decorative */}
           <div
-            className="absolute right-0 top-0 bottom-0 w-[180px] flex items-center justify-center select-none pointer-events-none z-0 transition-all duration-700"
+            className="absolute right-0 top-0 bottom-0 w-[180px] flex items-center justify-center select-none pointer-events-none z-0 transition-all duration-[1400ms]"
             style={{
               opacity: revealed ? 1 : 0,
-              transform: revealed ? 'translateX(0)' : 'translateX(40px)',
-              transitionDelay: '0.3s',
+              transform: revealed ? 'translateX(0)' : 'translateX(80px)',
+              transitionDelay: '0.4s',
+              transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
             }}
           >
             <span
@@ -116,12 +119,12 @@ export default function BdHistorySection() {
           <div className="flex items-center gap-16 w-full max-w-[1000px] mx-auto relative z-10">
             {/* Left: Person image */}
             <div
-              className="w-[400px] flex-shrink-0 transition-all duration-700"
+              className="w-[400px] flex-shrink-0 transition-all duration-[1400ms]"
               style={{
                 opacity: revealed ? 1 : 0,
-                transform: revealed ? 'translateY(0)' : 'translateY(30px)',
-                transitionDelay: '0.2s',
-                transitionTimingFunction: 'cubic-bezier(0.2, 0.9, 0.4, 1)',
+                transform: revealed ? 'translateY(0)' : 'translateY(60px)',
+                transitionDelay: '0.3s',
+                transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
               }}
             >
               <div className="relative rounded-sm overflow-hidden shadow-2xl" style={{ aspectRatio: '3/4' }}>
@@ -143,12 +146,12 @@ export default function BdHistorySection() {
 
             {/* Right: Text content */}
             <div
-              className="flex-1 transition-all duration-700"
+              className="flex-1 transition-all duration-[1400ms]"
               style={{
                 opacity: revealed ? 1 : 0,
-                transform: revealed ? 'translateY(0)' : 'translateY(30px)',
-                transitionDelay: '0.35s',
-                transitionTimingFunction: 'cubic-bezier(0.2, 0.9, 0.4, 1)',
+                transform: revealed ? 'translateY(0)' : 'translateY(60px)',
+                transitionDelay: '0.5s',
+                transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
               }}
             >
               <span

@@ -91,11 +91,12 @@ export default function BdStudentLife() {
       <div className="max-w-[1200px] mx-auto px-8">
         {/* Title */}
         <h2
-          className="text-3xl font-serif font-bold text-center mb-16 transition-all duration-700"
+          className="text-3xl font-serif font-bold text-center mb-16 transition-all duration-[1200ms]"
           style={{
             color: '#222',
             opacity: revealed ? 1 : 0,
-            transform: revealed ? 'translateY(0)' : 'translateY(20px)',
+            transform: revealed ? 'translateY(0)' : 'translateY(40px)',
+            transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
           }}
         >
           学生生活
@@ -106,12 +107,12 @@ export default function BdStudentLife() {
           {activities.map((activity, index) => (
             <div
               key={activity.title}
-              className="relative transition-all duration-700 cursor-pointer"
+              className="relative transition-all duration-[1400ms] cursor-pointer"
               style={{
                 opacity: revealed ? 1 : 0,
-                transform: revealed ? 'translateY(0)' : 'translateY(30px)',
-                transitionDelay: `${index * 0.12}s`,
-                transitionTimingFunction: 'cubic-bezier(0.2, 0.9, 0.4, 1)',
+                transform: revealed ? 'translateY(0)' : 'translateY(60px)',
+                transitionDelay: `${index * 0.2}s`,
+                transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
               }}
               onMouseEnter={() => setHoveredCard(index)}
               onMouseLeave={() => setHoveredCard(null)}

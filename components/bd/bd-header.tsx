@@ -1,8 +1,10 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { Search, X, ChevronDown } from 'lucide-react'
+import { Search, X, ChevronRight } from 'lucide-react'
 import Link from 'next/link'
+import Image from 'next/image'
+import { mainNavItems, type NavItem } from '../shared/nav-data'
 
 const utilityLinks = [
   { label: '学生', href: '#' },
@@ -20,44 +22,12 @@ const quickLinks = [
   { label: '初中部', href: '#' },
 ]
 
-const mainNav = [
-  {
-    label: '了解丹中',
-    href: '#',
-    children: ['学校简介', '校长致辞', '校训校风', '组织机构', '校园风光'],
-  },
-  {
-    label: '新闻公告',
-    href: '#news',
-    children: ['校园新闻', '媒体丹中', '通知公告', '招标信息'],
-  },
-  {
-    label: '招生招聘',
-    href: '#',
-    children: ['高中招生', '国际部招生', '人才招聘'],
-  },
-  {
-    label: '学院课程',
-    href: '#',
-    children: ['课程体系', '学科建设', '教学成果', '教研动态'],
-  },
-  {
-    label: '师生风采',
-    href: '#teachers',
-    children: ['名师荟萃', '学科带头人', '优秀学子', '校友风采'],
-  },
-  {
-    label: '学生生活',
-    href: '#student-life',
-    children: ['书院文化', '社团活动', '体育赛事', '艺术节'],
-  },
-]
-
 export default function BdHeader() {
   const [scrolled, setScrolled] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
-  const [activeDropdown, setActiveDropdown] = useState<number | null>(null)
+  const [activeNav, setActiveNav] = useState<number | null>(null)
+  const [activeSubMenu, setActiveSubMenu] = useState<number>(0)
   const searchInputRef = useRef<HTMLInputElement>(null)
   const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
@@ -73,32 +43,37 @@ export default function BdHeader() {
     }
   }, [searchOpen])
 
-  const handleDropdownEnter = (index: number) => {
+  const handleNavEnter = (index: number) => {
     if (dropdownTimeoutRef.current) clearTimeout(dropdownTimeoutRef.current)
-    setActiveDropdown(index)
+    setActiveNav(index)
+    setActiveSubMenu(0)
   }
 
-  const handleDropdownLeave = () => {
-    dropdownTimeoutRef.current = setTimeout(() => setActiveDropdown(null), 150)
+  const handleNavLeave = () => {
+    dropdownTimeoutRef.current = setTimeout(() => {
+      setActiveNav(null)
+      setActiveSubMenu(0)
+    }, 200)
   }
+
+  const currentNavItem: NavItem | null = activeNav !== null ? mainNavItems[activeNav] : null
 
   return (
     <header
       className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
       style={{
-        backgroundColor: scrolled ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,1)',
-        backdropFilter: scrolled ? 'blur(10px)' : 'none',
-        boxShadow: scrolled ? '0 2px 20px rgba(0,0,0,0.08)' : 'none',
+        backgroundColor: scrolled ? 'rgba(255,255,255,0.97)' : '#fff',
+        backdropFilter: scrolled ? 'blur(12px)' : 'none',
+        boxShadow: scrolled ? '0 2px 24px rgba(0,0,0,0.06)' : 'none',
       }}
     >
       {/* Top utility bar */}
       <div
-        className="border-b transition-all duration-500"
+        className="border-b transition-all duration-500 overflow-hidden"
         style={{
           borderColor: '#eee',
           height: scrolled ? '0px' : '36px',
           opacity: scrolled ? 0 : 1,
-          overflow: 'hidden',
         }}
       >
         <div className="max-w-[1400px] mx-auto px-8 h-9 flex items-center justify-between">
@@ -134,23 +109,16 @@ export default function BdHeader() {
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link href="/bd" className="flex items-center gap-3 flex-shrink-0">
-            {/* School crest */}
             <div
               className="w-14 h-14 rounded-full flex items-center justify-center border-2 flex-shrink-0"
               style={{ borderColor: '#8B1A1A', backgroundColor: '#fff' }}
             >
-              <span
-                className="text-xs font-bold leading-tight text-center"
-                style={{ color: '#8B1A1A', fontFamily: 'serif' }}
-              >
-                {'丹中'}
+              <span className="text-xs font-bold leading-tight text-center" style={{ color: '#8B1A1A', fontFamily: 'serif' }}>
+                丹中
               </span>
             </div>
             <div className="flex flex-col">
-              <span
-                className="text-xl font-bold tracking-wide whitespace-nowrap"
-                style={{ color: '#8B1A1A', fontFamily: 'serif' }}
-              >
+              <span className="text-xl font-bold tracking-wide whitespace-nowrap" style={{ color: '#8B1A1A', fontFamily: 'serif' }}>
                 江苏省丹阳高级中学
               </span>
               <span className="text-[10px] tracking-[0.2em] whitespace-nowrap" style={{ color: '#999' }}>
@@ -160,74 +128,30 @@ export default function BdHeader() {
           </Link>
 
           {/* Nav items */}
-          <nav className="flex items-center gap-1">
-            {mainNav.map((item, index) => (
+          <nav className="flex items-center gap-0">
+            {mainNavItems.map((item, index) => (
               <div
                 key={item.label}
                 className="relative"
-                onMouseEnter={() => handleDropdownEnter(index)}
-                onMouseLeave={handleDropdownLeave}
+                onMouseEnter={() => handleNavEnter(index)}
+                onMouseLeave={handleNavLeave}
               >
                 <Link
                   href={item.href}
-                  className="px-5 py-2 text-[15px] font-medium transition-colors duration-300 flex items-center gap-1 relative group"
-                  style={{ color: index === 0 ? '#8B1A1A' : '#333' }}
+                  className="px-4 py-2 text-[15px] font-medium transition-colors duration-300 flex items-center relative whitespace-nowrap"
+                  style={{ color: activeNav === index ? '#8B1A1A' : '#333' }}
                 >
                   {item.label}
-                  <ChevronDown
-                    size={14}
-                    className="transition-transform duration-300"
+                  {/* Active underline */}
+                  <span
+                    className="absolute bottom-0 left-4 right-4 h-[2px] transition-all duration-300"
                     style={{
-                      transform: activeDropdown === index ? 'rotate(180deg)' : 'rotate(0deg)',
-                      color: '#999',
+                      backgroundColor: '#8B1A1A',
+                      transform: activeNav === index ? 'scaleX(1)' : 'scaleX(0)',
+                      transformOrigin: 'center',
                     }}
                   />
-                  {/* Red underline on first item */}
-                  {index === 0 && (
-                    <span
-                      className="absolute bottom-0 left-5 right-5 h-[2px]"
-                      style={{ backgroundColor: '#8B1A1A' }}
-                    />
-                  )}
                 </Link>
-
-                {/* Dropdown */}
-                {item.children && (
-                  <div
-                    className="absolute top-full left-1/2 -translate-x-1/2 pt-2 transition-all duration-300"
-                    style={{
-                      opacity: activeDropdown === index ? 1 : 0,
-                      pointerEvents: activeDropdown === index ? 'auto' : 'none',
-                      transform: `translateX(-50%) translateY(${activeDropdown === index ? '0' : '-8px'})`,
-                    }}
-                  >
-                    <div
-                      className="bg-white rounded-lg shadow-xl border py-2 min-w-[160px]"
-                      style={{ borderColor: '#f0f0f0' }}
-                    >
-                      {item.children.map((child) => (
-                        <Link
-                          key={child}
-                          href="#"
-                          className="block px-5 py-2.5 text-sm transition-all duration-200"
-                          style={{ color: '#555' }}
-                          onMouseEnter={(e) => {
-                            e.currentTarget.style.backgroundColor = '#faf5f5'
-                            e.currentTarget.style.color = '#8B1A1A'
-                            e.currentTarget.style.paddingLeft = '24px'
-                          }}
-                          onMouseLeave={(e) => {
-                            e.currentTarget.style.backgroundColor = 'transparent'
-                            e.currentTarget.style.color = '#555'
-                            e.currentTarget.style.paddingLeft = '20px'
-                          }}
-                        >
-                          {child}
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                )}
               </div>
             ))}
           </nav>
@@ -279,6 +203,96 @@ export default function BdHeader() {
 
       {/* Red accent line */}
       <div className="h-[3px]" style={{ backgroundColor: '#8B1A1A' }} />
+
+      {/* Mega dropdown panel */}
+      <div
+        className="absolute top-full left-0 right-0 transition-all duration-400 overflow-hidden"
+        style={{
+          maxHeight: activeNav !== null ? '420px' : '0px',
+          opacity: activeNav !== null ? 1 : 0,
+          boxShadow: activeNav !== null ? '0 12px 40px rgba(0,0,0,0.1)' : 'none',
+        }}
+        onMouseEnter={() => {
+          if (dropdownTimeoutRef.current) clearTimeout(dropdownTimeoutRef.current)
+        }}
+        onMouseLeave={handleNavLeave}
+      >
+        <div className="bg-white border-t" style={{ borderColor: '#f0f0f0' }}>
+          <div className="max-w-[1400px] mx-auto flex" style={{ minHeight: '380px' }}>
+            {/* Left: Image area */}
+            <div className="w-[480px] flex-shrink-0 relative overflow-hidden">
+              {currentNavItem && (
+                <Image
+                  src={currentNavItem.image}
+                  alt={currentNavItem.label}
+                  fill
+                  className="object-cover"
+                />
+              )}
+              <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, transparent 60%, rgba(255,255,255,0.4))' }} />
+            </div>
+
+            {/* Middle: Sub-menu list */}
+            <div className="w-[280px] flex-shrink-0 border-r py-6 px-2" style={{ borderColor: '#f0f0f0' }}>
+              {currentNavItem?.subMenus.map((sub, i) => (
+                <button
+                  key={sub.label}
+                  className="w-full text-left px-6 py-3.5 text-[15px] transition-all duration-300 rounded-sm flex items-center justify-between"
+                  style={{
+                    color: activeSubMenu === i ? '#8B1A1A' : '#444',
+                    backgroundColor: activeSubMenu === i ? 'rgba(139,26,26,0.04)' : 'transparent',
+                    fontWeight: activeSubMenu === i ? 600 : 400,
+                  }}
+                  onMouseEnter={() => setActiveSubMenu(i)}
+                >
+                  {sub.label}
+                  {sub.children && sub.children.length > 0 && (
+                    <ChevronRight size={14} style={{ color: activeSubMenu === i ? '#8B1A1A' : '#ccc' }} />
+                  )}
+                </button>
+              ))}
+            </div>
+
+            {/* Right: Tertiary links */}
+            <div className="flex-1 py-8 px-10">
+              {currentNavItem?.subMenus[activeSubMenu]?.children && (
+                <div className="space-y-1">
+                  {currentNavItem.subMenus[activeSubMenu].children!.map((child) => (
+                    <Link
+                      key={child}
+                      href="#"
+                      className="flex items-center gap-2 px-4 py-3 text-sm rounded-sm transition-all duration-300 group"
+                      style={{ color: '#555' }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor = 'rgba(139,26,26,0.04)'
+                        e.currentTarget.style.color = '#8B1A1A'
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = 'transparent'
+                        e.currentTarget.style.color = '#555'
+                      }}
+                    >
+                      <ChevronRight size={12} style={{ color: '#8B1A1A' }} />
+                      {child}
+                    </Link>
+                  ))}
+                </div>
+              )}
+              {/* If no children, show a placeholder message */}
+              {(!currentNavItem?.subMenus[activeSubMenu]?.children ||
+                currentNavItem.subMenus[activeSubMenu].children!.length === 0) && (
+                <div className="flex items-center justify-center h-full">
+                  <p className="text-sm" style={{ color: '#bbb' }}>
+                    {'点击"'}
+                    <span style={{ color: '#8B1A1A' }}>{currentNavItem?.subMenus[activeSubMenu]?.label}</span>
+                    {'"查看详情'}
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
     </header>
   )
 }

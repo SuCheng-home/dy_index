@@ -59,12 +59,12 @@ export default function BdNewsSection() {
               <Link
                 key={news.id}
                 href={`/bd/news/${news.id}`}
-                className="group block transition-all duration-700"
+                className="group block transition-all duration-[1200ms]"
                 style={{
                   opacity: revealed ? 1 : 0,
-                  transform: revealed ? 'translateY(0)' : 'translateY(20px)',
-                  transitionDelay: `${index * 0.08}s`,
-                  transitionTimingFunction: 'cubic-bezier(0.2, 0.9, 0.4, 1)',
+                  transform: revealed ? 'translateY(0)' : 'translateY(50px)',
+                  transitionDelay: `${index * 0.15}s`,
+                  transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
                 }}
               >
                 {/* Image */}
@@ -103,12 +103,12 @@ export default function BdNewsSection() {
 
           {/* Right: Notice text list */}
           <div
-            className="w-[340px] flex-shrink-0 transition-all duration-700"
+            className="w-[340px] flex-shrink-0 transition-all duration-[1200ms]"
             style={{
               opacity: revealed ? 1 : 0,
-              transform: revealed ? 'translateY(0)' : 'translateY(20px)',
-              transitionDelay: '0.4s',
-              transitionTimingFunction: 'cubic-bezier(0.2, 0.9, 0.4, 1)',
+              transform: revealed ? 'translateY(0)' : 'translateY(50px)',
+              transitionDelay: '0.6s',
+              transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
             }}
           >
             {notices.map((notice, index) => (

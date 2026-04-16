@@ -11,7 +11,7 @@ const stats = [
   { value: 98, label: '高考一本率', suffix: '%', prefix: '' },
 ]
 
-function useCountUp(target: number, isActive: boolean, duration = 2000) {
+function useCountUp(target: number, isActive: boolean, duration = 2800) {
   const [count, setCount] = useState(0)
 
   const animate = useCallback(() => {
@@ -45,12 +45,12 @@ function StatItem({ value, label, suffix, isActive, delay }: {
 
   return (
     <div
-      className="text-center transition-all duration-700"
+      className="text-center transition-all duration-[1400ms]"
       style={{
         opacity: isActive ? 1 : 0,
-        transform: isActive ? 'translateY(0)' : 'translateY(20px)',
+        transform: isActive ? 'translateY(0) scale(1)' : 'translateY(40px) scale(0.95)',
         transitionDelay: `${delay}s`,
-        transitionTimingFunction: 'cubic-bezier(0.2, 0.9, 0.4, 1)',
+        transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
       }}
     >
       <div className="flex items-baseline justify-center gap-1">
@@ -88,7 +88,7 @@ export default function BdStatsSection() {
               label={stat.label}
               suffix={stat.suffix}
               isActive={revealed}
-              delay={index * 0.1}
+              delay={index * 0.15}
             />
           ))}
         </div>

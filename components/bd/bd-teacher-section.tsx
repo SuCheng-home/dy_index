@@ -42,10 +42,11 @@ export default function BdTeacherSection() {
       <div className="max-w-[1400px] mx-auto px-8">
         {/* Section header */}
         <div
-          className="flex items-center justify-between mb-16 transition-all duration-700"
+          className="flex items-center justify-between mb-16 transition-all duration-[1200ms]"
           style={{
             opacity: revealed ? 1 : 0,
-            transform: revealed ? 'translateY(0)' : 'translateY(20px)',
+            transform: revealed ? 'translateY(0)' : 'translateY(40px)',
+            transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
           }}
         >
           <h2 className="text-3xl font-serif font-bold" style={{ color: '#222' }}>
@@ -81,12 +82,12 @@ export default function BdTeacherSection() {
             {teachers.map((teacher, index) => (
               <div
                 key={teacher.name}
-                className="flex flex-col items-center transition-all duration-700"
+                className="flex flex-col items-center transition-all duration-[1400ms]"
                 style={{
                   opacity: revealed ? 1 : 0,
-                  transform: revealed ? 'translateY(0)' : 'translateY(30px)',
-                  transitionDelay: `${index * 0.12}s`,
-                  transitionTimingFunction: 'cubic-bezier(0.2, 0.9, 0.4, 1)',
+                  transform: revealed ? 'translateY(0)' : 'translateY(60px)',
+                  transitionDelay: `${index * 0.2}s`,
+                  transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
                 }}
                 onMouseEnter={() => setHoveredIndex(index)}
                 onMouseLeave={() => setHoveredIndex(null)}
