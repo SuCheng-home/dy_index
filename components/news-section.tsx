@@ -14,6 +14,8 @@ const newsItems = [
     category: "校园新闻",
     title: "我校举行2024届高三毕业典礼暨成人礼仪式",
     date: "2026-04-05",
+    day: "05",
+    yearMonth: "2026.04",
     image: "/view/view6.jpg",
     summary: "典礼上，师生共同回顾三年时光，展望美好未来。",
   },
@@ -22,6 +24,8 @@ const newsItems = [
     category: "教学动态",
     title: "清华大学招生组莅临我校开展招生宣讲活动",
     date: "2026-04-03",
+    day: "03",
+    yearMonth: "2026.04",
     image: "/view/view8.jpg",
     summary: "清华大学江苏招生组专家详细介绍了招生政策和专业设置。",
   },
@@ -30,6 +34,8 @@ const newsItems = [
     category: "媒体报道",
     title: "《新华日报》专题报道我校大成教育创新实践成果",
     date: "2026-04-01",
+    day: "01",
+    yearMonth: "2026.04",
     image: "/view/view7.jpg",
     summary: "我校在教育改革创新方面的做法获得广泛关注和肯定。",
   },
@@ -38,25 +44,31 @@ const newsItems = [
     category: "德育活动",
     title: "第十五届校园文化艺术节隆重开幕",
     date: "2026-03-28",
-    image: "/view/view8.jpg",
+    day: "28",
+    yearMonth: "2026.03",
+    image: "/view/view3.jpg",
     summary: "艺术节以「青春·梦想·未来」为主题，精彩纷呈。",
   },
 ]
 
 const notices = [
-  { id: 1, title: "关于2026年高一招生工作的通知", date: "2026-04-06", isNew: true },
-  { id: 2, title: "江苏省丹阳高级中学教师招聘公告", date: "2026-04-04", isNew: true },
-  { id: 3, title: "关于开展阳光体育活动的通知", date: "2026-03-30", isNew: false },
-  { id: 4, title: "2026年春季学期校历安排", date: "2026-03-28", isNew: false },
-  { id: 5, title: "关于举办家长开放日活动的通知", date: "2026-03-25", isNew: false },
-  { id: 6, title: "校园安全教育周活动安排", date: "2026-03-22", isNew: false },
-  { id: 7, title: "第三届读书节即将启动", date: "2026-03-20", isNew: false },
-  { id: 8, title: "高二年级学业水平测试安排", date: "2026-03-18", isNew: false },
+  { id: 1, title: "关于2026年高一招生工作的通知", day: "11", yearMonth: "2026.04", isNew: true },
+  { id: 2, title: "院士1课堂 | 探寻材料科技征程里的\"中国答案\"！", day: "10", yearMonth: "2026.04", isNew: true },
+  { id: 3, title: "崇文学堂 | AI时代，商科教育何去何从？", day: "01", yearMonth: "2026.04", isNew: false },
+  { id: 4, title: "解锁18岁！马力全开奔赴滚烫未来！", day: "10", yearMonth: "2026.03", isNew: false },
+  { id: 5, title: "新学期，崇文少年已就位！", day: "06", yearMonth: "2026.03", isNew: false },
+]
+
+const announcements = [
+  { id: 1, title: "南京一中招标代理成交公告", day: "03", yearMonth: "2026.04" },
+  { id: 2, title: "竞争性谈判公告", day: "27", yearMonth: "2026.03" },
+  { id: 3, title: "第七周工作日程（4月13日-4月19日）", day: "10", yearMonth: "2026.04" },
 ]
 
 export function NewsSection() {
   const [activeCategory, setActiveCategory] = useState("全部")
   const { ref: sectionRef, isRevealed } = useScrollReveal()
+  const [currentSlide, setCurrentSlide] = useState(0)
 
   const filteredNews =
     activeCategory === "全部"
@@ -68,7 +80,18 @@ export function NewsSection() {
       ref={sectionRef}
       className="relative overflow-hidden bg-gradient-to-b from-[#F5F0E8] to-[#FDFBF7] py-20"
     >
-      <div className="mx-auto max-w-7xl px-4">
+      {/* 建筑剪影背景 */}
+      <div
+        className="absolute inset-0 pointer-events-none opacity-[0.04]"
+        style={{
+          backgroundImage: "url(/silhouette.jpg)",
+          backgroundPosition: "center bottom",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "80% auto",
+        }}
+      />
+
+      <div className="relative z-10 mx-auto max-w-7xl px-4">
         {/* 标题 */}
         <div
           className="mb-12 text-center transition-all duration-1000"
@@ -107,122 +130,136 @@ export function NewsSection() {
           ))}
         </div>
 
-        {/* 内容区域 - 使用flex对齐 */}
-        <div className="flex gap-8">
-          {/* 左侧新闻卡片 2x2 */}
-          <div className="flex-1">
-            <div className="grid gap-6 sm:grid-cols-2">
-              {filteredNews.map((item, index) => (
-                <Link
-                  key={item.id}
-                  href={`/news/${item.id}`}
-                  className="group overflow-hidden rounded-lg bg-[#FDFBF7] shadow-md transition-all duration-700 hover:-translate-y-1 hover:shadow-xl"
-                  style={{
-                    opacity: isRevealed ? 1 : 0,
-                    transform: isRevealed ? "translateY(0)" : "translateY(40px)",
-                    transitionDelay: `${0.15 + index * 0.1}s`,
-                  }}
-                >
-                  <div className="relative aspect-[4/3] overflow-hidden">
-                    <Image
-                      src={item.image}
-                      alt={item.title}
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-110"
-                    />
-                    <div className="absolute left-3 top-3">
-                      <span className="rounded bg-[#8B1A1A] px-2 py-1 text-xs font-medium text-[#F5E6D3]">
-                        {item.category}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="p-4">
-                    <h3 className="mb-2 line-clamp-2 font-medium text-[#2A0A0A] transition-colors group-hover:text-[#8B1A1A]">
-                      {item.title}
-                    </h3>
-                    <p className="mb-3 line-clamp-2 text-sm text-[#666]">{item.summary}</p>
-                    <div className="flex items-center justify-between text-xs text-[#999]">
-                      <span className="flex items-center gap-1">
-                        <Calendar className="h-3.5 w-3.5" />
-                        {item.date}
-                      </span>
-                      <span className="flex items-center gap-1 text-[#8B1A1A] opacity-0 transition-opacity group-hover:opacity-100">
-                        阅读更多
-                        <ArrowRight className="h-3.5 w-3.5" />
-                      </span>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-
-            {/* 查看更多 */}
-            <div
-              className="mt-6 text-center transition-all duration-700"
-              style={{
-                opacity: isRevealed ? 1 : 0,
-                transitionDelay: "0.6s",
-              }}
+        {/* 校园新闻区域 */}
+        <div
+          className="mb-12 transition-all duration-1000"
+          style={{
+            opacity: isRevealed ? 1 : 0,
+            transform: isRevealed ? "translateY(0)" : "translateY(40px)",
+            transitionDelay: "0.15s",
+          }}
+        >
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-xl font-bold text-[#2A0A0A]">校园新闻</h3>
+            <Link
+              href="/news"
+              className="flex items-center gap-1 text-sm text-[#8B1A1A] hover:text-[#D4AF37] transition-colors"
             >
-              <Link
-                href="/news"
-                className="inline-flex items-center gap-2 text-sm font-medium text-[#8B1A1A] transition-colors hover:text-[#6B1010]"
-              >
-                查看更多新闻
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </div>
+              查看更多
+              <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
 
-          {/* 右侧通知公告 - 与左侧对齐 */}
-          <div
-            className="w-[340px] flex-shrink-0 hidden lg:flex flex-col transition-all duration-1000"
-            style={{
-              opacity: isRevealed ? 1 : 0,
-              transform: isRevealed ? "translateY(0)" : "translateY(40px)",
-              transitionDelay: "0.3s",
-            }}
-          >
-            <div className="flex-1 flex flex-col rounded-lg border border-[#E8DCC8] bg-[#FDFBF7] shadow-md overflow-hidden">
-              {/* 标题栏 */}
-              <div className="flex items-center justify-between border-b border-[#E8DCC8] px-5 py-4 flex-shrink-0">
-                <div className="flex items-center gap-2">
-                  <Bell className="h-5 w-5 text-[#D4AF37]" />
-                  <h3 className="font-serif text-lg font-bold text-[#2A0A0A]">通知公告</h3>
+          <div className="flex gap-6">
+            {/* 左侧轮播图 */}
+            <div className="w-[55%] flex-shrink-0">
+              <div className="relative aspect-[4/3] rounded-lg overflow-hidden shadow-lg">
+                <Image
+                  src={filteredNews[currentSlide]?.image || "/view/view6.jpg"}
+                  alt={filteredNews[currentSlide]?.title || "校园新闻"}
+                  fill
+                  className="object-cover"
+                />
+                {/* 底部标题栏 */}
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#1a365d]/95 to-[#1a365d]/70 px-6 py-4">
+                  <h4 className="text-white font-medium mb-2">
+                    {filteredNews[currentSlide]?.title || "校园新闻"}
+                  </h4>
+                  {/* 轮播指示器 */}
+                  <div className="flex justify-end gap-2">
+                    {filteredNews.slice(0, 5).map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setCurrentSlide(index)}
+                        className={`w-2 h-2 rounded-full transition-all ${
+                          currentSlide === index ? "bg-white w-4" : "bg-white/50"
+                        }`}
+                      />
+                    ))}
+                  </div>
                 </div>
-                <Link
-                  href="/news"
-                  className="text-xs text-[#8B1A1A] transition-colors hover:text-[#6B1010]"
-                >
-                  更多
-                </Link>
               </div>
-              {/* 通知列表 - 填充剩余空间 */}
-              <div className="flex-1 divide-y divide-[#E8DCC8] overflow-auto">
-                {notices.map((notice) => (
+            </div>
+
+            {/* 右侧新闻列表 */}
+            <div className="flex-1">
+              <div className="space-y-0 divide-y divide-[#E8DCC8]">
+                {filteredNews.slice(0, 5).map((news, index) => (
                   <Link
-                    key={notice.id}
-                    href={notice.id === 1 ? "/service/admission" : "/news"}
-                    className="group flex items-start gap-3 px-5 py-3.5 transition-colors hover:bg-[#8B1A1A]/5"
+                    key={news.id}
+                    href={`/news/${news.id}`}
+                    className="group flex items-start gap-4 py-4 hover:bg-[#8B1A1A]/5 px-2 -mx-2 transition-colors"
+                    style={{
+                      opacity: isRevealed ? 1 : 0,
+                      transform: isRevealed ? "translateX(0)" : "translateX(20px)",
+                      transitionDelay: `${0.2 + index * 0.08}s`,
+                      transitionDuration: "0.7s",
+                    }}
                   >
-                    <ChevronRight className="mt-0.5 h-4 w-4 flex-shrink-0 text-[#D4AF37]" />
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2">
-                        <h4 className="truncate text-sm text-[#333] transition-colors group-hover:text-[#8B1A1A]">
-                          {notice.title}
-                        </h4>
-                        {notice.isNew && (
-                          <span className="flex-shrink-0 rounded bg-[#8B1A1A] px-1.5 py-0.5 text-[10px] text-[#F5E6D3]">
-                            NEW
-                          </span>
-                        )}
-                      </div>
-                      <p className="mt-1 text-xs text-[#999]">{notice.date}</p>
+                    {/* 日期 */}
+                    <div className="flex-shrink-0 text-center w-16 border-r border-[#E8DCC8] pr-4">
+                      <span className="block text-2xl font-bold text-[#1a365d]">{news.day}</span>
+                      <span className="block text-xs text-[#999]">{news.yearMonth}</span>
+                    </div>
+                    {/* 标题 */}
+                    <div className="flex-1 pt-1">
+                      <h4 className="text-sm text-[#333] group-hover:text-[#8B1A1A] transition-colors line-clamp-2">
+                        {news.title}
+                      </h4>
                     </div>
                   </Link>
                 ))}
               </div>
             </div>
+          </div>
+        </div>
+
+        {/* 校务公告区域 */}
+        <div
+          className="transition-all duration-1000"
+          style={{
+            opacity: isRevealed ? 1 : 0,
+            transform: isRevealed ? "translateY(0)" : "translateY(40px)",
+            transitionDelay: "0.4s",
+          }}
+        >
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-xl font-bold text-[#2A0A0A]">校务公告</h3>
+            <Link
+              href="/news"
+              className="flex items-center gap-1 text-sm text-[#8B1A1A] hover:text-[#D4AF37] transition-colors"
+            >
+              查看更多
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-3 gap-6">
+            {announcements.map((item, index) => (
+              <Link
+                key={item.id}
+                href={`/news/${item.id}`}
+                className="group flex items-center gap-4 p-4 rounded-lg bg-[#FDFBF7] hover:bg-[#8B1A1A]/5 transition-all border border-[#E8DCC8]"
+                style={{
+                  opacity: isRevealed ? 1 : 0,
+                  transform: isRevealed ? "translateY(0)" : "translateY(20px)",
+                  transitionDelay: `${0.5 + index * 0.1}s`,
+                  transitionDuration: "0.7s",
+                }}
+              >
+                {/* 日期 */}
+                <div className="flex-shrink-0 text-center border-r border-[#E8DCC8] pr-4">
+                  <span className="block text-2xl font-bold text-[#1a365d]">{item.day}</span>
+                  <span className="block text-xs text-[#999]">{item.yearMonth}</span>
+                </div>
+                {/* 标题 */}
+                <div className="flex-1">
+                  <h4 className="text-sm text-[#333] group-hover:text-[#8B1A1A] transition-colors line-clamp-2">
+                    {item.title}
+                  </h4>
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
       </div>
