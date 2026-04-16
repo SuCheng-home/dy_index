@@ -132,3 +132,26 @@
   text-orientation: upright;
   letter-spacing: 4px;
 }
+
+/* 江苏省丹阳高级中学品牌色彩系统 */
+@layer base {
+  :root {
+    /* 丹阳高中品牌色彩体系 */
+    --qh-primary: #19376D; /* 学府藏青 - 主色 */
+    --qh-party: #C8102E; /* 政务辅助色 - 党建红 */
+    --qh-gold: #B8860B; /* 品牌辅助色 - 文脉金 */
+    --qh-bg-base: #F5F7FA; /* 页面基底色 */
+    --qh-text-title: #121212; /* 标题色 */
+    --qh-text-body: #333333; /* 正文色 */
+    --qh-text-minor: #666666; /* 辅助文字色 */
+    --qh-border: #E5E7EB; /* 分割线色 */
+  }
+
+  .font-serif-title {
+    font-family: 'Source Han Serif SC', 'SimSun', 'Noto Serif SC', serif;
+  }
+
+  .font-serif {
+    font-family: 'Source Han Serif SC', 'SimSun', 'Noto Serif SC', serif;
+  }
+}
