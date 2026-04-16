@@ -1,6 +1,8 @@
 'use client';
 
 import { useState } from 'react';
+import { QhHeader } from '@/components/qh/qh-header';
+import { QhAside } from '@/components/qh/qh-aside';
 import { QhHeroBanner } from '@/components/qh/qh-hero-banner';
 import { QhNewsSection } from '@/components/qh/qh-news-section';
 import { QhNoticeSection } from '@/components/qh/qh-notice-section';
@@ -12,15 +14,24 @@ import { QhNewsSearchModal } from '@/components/qh/qh-news-search-modal';
 import { QhFeedbackBox } from '@/components/qh/qh-feedback-box';
 import { QhNewsDetail } from '@/components/qh/qh-news-detail';
 
+export interface NewsItem {
+  id: string;
+  title: string;
+  date: string;
+  category: string;
+  image?: string;
+  excerpt?: string;
+  content?: string;
+}
+
 export default function QhPage() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [feedbackOpen, setFeedbackOpen] = useState(false);
-  const [selectedNews, setSelectedNews] = useState<{
-    title: string;
-    date: string;
-    content: string;
-    image: string;
-  } | null>(null);
+  const [selectedNews, setSelectedNews] = useState<NewsItem | null>(null);
+
+  const handleNewsClick = (news: NewsItem) => {
+    setSelectedNews(news);
+  };
 
   return (
     <div className="min-h-screen relative overflow-x-hidden" style={{ backgroundColor: '#F8F9FB' }}>
@@ -40,16 +51,25 @@ export default function QhPage() {
         </div>
       </div>
 
+      {/* 顶部固定导航 */}
+      <QhHeader onSearchClick={() => setSearchOpen(true)} />
+
+      {/* 右侧固定纵向悬浮导航 */}
+      <QhAside 
+        onSearchClick={() => setSearchOpen(true)} 
+        onFeedbackClick={() => setFeedbackOpen(true)} 
+      />
+
       {/* 主要内容区 */}
-      <main className="relative z-10">
+      <main className="relative z-10 pr-16">
         {/* 首屏 Hero Banner */}
-        <QhHeroBanner onSearchClick={() => setSearchOpen(true)} />
+        <QhHeroBanner onNewsClick={handleNewsClick} />
 
         {/* 新闻动态模块 - 杂志排版风格 */}
-        <QhNewsSection onNewsClick={setSelectedNews} />
+        <QhNewsSection onNewsClick={handleNewsClick} />
 
         {/* 通知公告模块 */}
-        <QhNoticeSection />
+        <QhNoticeSection onNewsClick={handleNewsClick} />
 
         {/* 视频新闻模块 */}
         <QhVideoSection />
@@ -59,15 +79,16 @@ export default function QhPage() {
 
         {/* 校园服务快捷入口 */}
         <QhServiceSection onFeedbackClick={() => setFeedbackOpen(true)} />
-      </main>
 
-      {/* 页脚 */}
-      <QhFooter />
+        {/* 页脚 */}
+        <QhFooter />
+      </main>
 
       {/* 新闻搜索弹窗 */}
       <QhNewsSearchModal 
         isOpen={searchOpen} 
-        onClose={() => setSearchOpen(false)} 
+        onClose={() => setSearchOpen(false)}
+        onNewsClick={handleNewsClick}
       />
 
       {/* 意见箱弹窗 */}
