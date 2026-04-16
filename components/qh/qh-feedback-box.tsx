@@ -100,7 +100,7 @@ export function QhFeedbackBox({ isOpen, onClose }: QhFeedbackBoxProps) {
         {/* 头部 */}
         <div 
           className="relative px-6 py-5"
-          style={{ backgroundColor: '#19376D' }}
+          style={{ backgroundColor: '#5B2C6F' }}
         >
           <button 
             onClick={handleClose}
@@ -141,7 +141,7 @@ export function QhFeedbackBox({ isOpen, onClose }: QhFeedbackBoxProps) {
               <button
                 onClick={handleClose}
                 className="px-8 py-3 rounded-xl font-medium text-white transition-all duration-300 hover:shadow-lg"
-                style={{ backgroundColor: '#19376D' }}
+                style={{ backgroundColor: '#5B2C6F' }}
               >
                 关闭
               </button>
@@ -166,7 +166,7 @@ export function QhFeedbackBox({ isOpen, onClose }: QhFeedbackBoxProps) {
                           : 'hover:shadow-sm'
                       }`}
                       style={{
-                        backgroundColor: formData.type === type ? '#19376D' : 'rgba(25, 55, 109, 0.06)',
+                        backgroundColor: formData.type === type ? '#5B2C6F' : 'rgba(91, 44, 111, 0.06)',
                         color: formData.type === type ? '#fff' : '#333',
                       }}
                     >
@@ -182,7 +182,7 @@ export function QhFeedbackBox({ isOpen, onClose }: QhFeedbackBoxProps) {
                   type="checkbox"
                   checked={formData.anonymous}
                   onChange={(e) => setFormData({ ...formData, anonymous: e.target.checked })}
-                  className="w-4 h-4 rounded border-gray-300 text-[#19376D] focus:ring-[#19376D]"
+                  className="w-4 h-4 rounded border-gray-300 text-[#5B2C6F] focus:ring-[#5B2C6F]"
                 />
                 <span className="text-sm" style={{ color: '#666' }}>匿名提交</span>
               </label>
@@ -200,9 +200,9 @@ export function QhFeedbackBox({ isOpen, onClose }: QhFeedbackBoxProps) {
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     placeholder="请输入您的姓名"
                     className={`w-full px-4 py-3 rounded-xl text-sm outline-none transition-all duration-300 ${
-                      errors.name ? 'ring-2 ring-red-500' : 'focus:ring-2 focus:ring-[#19376D]'
+                      errors.name ? 'ring-2 ring-red-500' : 'focus:ring-2 focus:ring-[#5B2C6F]'
                     }`}
-                    style={{ backgroundColor: 'rgba(25, 55, 109, 0.04)' }}
+                    style={{ backgroundColor: 'rgba(91, 44, 111, 0.04)' }}
                   />
                   {errors.name && (
                     <p className="mt-1 text-xs text-red-500 flex items-center gap-1">
@@ -226,9 +226,9 @@ export function QhFeedbackBox({ isOpen, onClose }: QhFeedbackBoxProps) {
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     placeholder="选填"
                     className={`w-full px-4 py-3 rounded-xl text-sm outline-none transition-all duration-300 ${
-                      errors.phone ? 'ring-2 ring-red-500' : 'focus:ring-2 focus:ring-[#19376D]'
+                      errors.phone ? 'ring-2 ring-red-500' : 'focus:ring-2 focus:ring-[#5B2C6F]'
                     }`}
-                    style={{ backgroundColor: 'rgba(25, 55, 109, 0.04)' }}
+                    style={{ backgroundColor: 'rgba(91, 44, 111, 0.04)' }}
                   />
                   {errors.phone && (
                     <p className="mt-1 text-xs text-red-500 flex items-center gap-1">
@@ -248,9 +248,9 @@ export function QhFeedbackBox({ isOpen, onClose }: QhFeedbackBoxProps) {
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     placeholder="选填"
                     className={`w-full px-4 py-3 rounded-xl text-sm outline-none transition-all duration-300 ${
-                      errors.email ? 'ring-2 ring-red-500' : 'focus:ring-2 focus:ring-[#19376D]'
+                      errors.email ? 'ring-2 ring-red-500' : 'focus:ring-2 focus:ring-[#5B2C6F]'
                     }`}
-                    style={{ backgroundColor: 'rgba(25, 55, 109, 0.04)' }}
+                    style={{ backgroundColor: 'rgba(91, 44, 111, 0.04)' }}
                   />
                   {errors.email && (
                     <p className="mt-1 text-xs text-red-500 flex items-center gap-1">
@@ -273,9 +273,9 @@ export function QhFeedbackBox({ isOpen, onClose }: QhFeedbackBoxProps) {
                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                   placeholder="请简要概括您的反馈"
                   className={`w-full px-4 py-3 rounded-xl text-sm outline-none transition-all duration-300 ${
-                    errors.title ? 'ring-2 ring-red-500' : 'focus:ring-2 focus:ring-[#19376D]'
+                    errors.title ? 'ring-2 ring-red-500' : 'focus:ring-2 focus:ring-[#5B2C6F]'
                   }`}
-                  style={{ backgroundColor: 'rgba(25, 55, 109, 0.04)' }}
+                  style={{ backgroundColor: 'rgba(91, 44, 111, 0.04)' }}
                 />
                 {errors.title && (
                   <p className="mt-1 text-xs text-red-500 flex items-center gap-1">
@@ -296,9 +296,9 @@ export function QhFeedbackBox({ isOpen, onClose }: QhFeedbackBoxProps) {
                   placeholder="请详细描述您的意见或建议..."
                   rows={5}
                   className={`w-full px-4 py-3 rounded-xl text-sm outline-none resize-none transition-all duration-300 ${
-                    errors.content ? 'ring-2 ring-red-500' : 'focus:ring-2 focus:ring-[#19376D]'
+                    errors.content ? 'ring-2 ring-red-500' : 'focus:ring-2 focus:ring-[#5B2C6F]'
                   }`}
-                  style={{ backgroundColor: 'rgba(25, 55, 109, 0.04)' }}
+                  style={{ backgroundColor: 'rgba(91, 44, 111, 0.04)' }}
                 />
                 <div className="flex justify-between mt-1">
                   {errors.content ? (
@@ -320,7 +320,7 @@ export function QhFeedbackBox({ isOpen, onClose }: QhFeedbackBoxProps) {
                 type="submit"
                 disabled={isSubmitting}
                 className="flex items-center justify-center gap-2 w-full py-4 rounded-xl font-medium text-white transition-all duration-300 hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed"
-                style={{ backgroundColor: '#19376D' }}
+                style={{ backgroundColor: '#5B2C6F' }}
               >
                 {isSubmitting ? (
                   <>

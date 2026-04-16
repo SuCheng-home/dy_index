@@ -1,64 +1,108 @@
 'use client';
 
 import Image from 'next/image';
-import { ChevronDown, ArrowRight } from 'lucide-react';
-import type { NewsItem } from '@/app/qh/page';
 
-interface QhHeroBannerProps {
-  onNewsClick?: (news: NewsItem) => void;
-}
-
-export function QhHeroBanner({ onNewsClick }: QhHeroBannerProps) {
-  const quickNews: NewsItem[] = [
-    { 
-      id: '1',
-      title: '学校入选全国党建工作示范校', 
-      date: '2026-04-15',
-      category: '党建工作',
-      image: '/qh/news-main.jpg',
-      excerpt: '近日，我校被中共中央组织部、教育部党组联合评定为"全国中小学党建工作示范校"。',
-      content: '近日，我校被中共中央组织部、教育部党组联合评定为"全国中小学党建工作示范校"，这是对我校党建工作的充分肯定，也是全校师生共同努力的成果。'
-    },
-    { 
-      id: '2',
-      title: '2026年春季招生报名已开始', 
-      date: '2026-04-12',
-      category: '通知公告',
-      image: '/qh/campus-landmark.jpg',
-      excerpt: '欢迎广大学生家长咨询报名，咨询电话：0511-86522062',
-      content: '2026年春季招生报名工作正式启动。学校将继续秉承"立德树人、笃学创新"的办学理念，为广大学子提供优质的教育资源。'
-    },
-    { 
-      id: '3',
-      title: '高考百日誓师大会隆重举行', 
-      date: '2026-04-10',
-      category: '学生活动',
-      image: '/qh/news-exam.jpg',
-      excerpt: '高三全体师生齐聚操场，为即将到来的高考加油助威。',
-      content: '在距离2026年高考100天之际，我校隆重举行高考百日誓师大会。高三全体师生齐聚操场，共同见证这一激动人心的时刻。'
-    },
-  ];
-
+export function QhHeroBanner() {
   return (
     <section className="w-full min-h-screen relative overflow-hidden pt-20">
-      {/* 背景图层 - 校园实景 */}
-      <Image
-        src="/qh/hero-bg.jpg"
-        alt="江苏省丹阳高级中学校园全景"
-        fill
-        className="object-cover"
-        priority
-      />
-
-      {/* 渐变覆盖层 - 从底部深色到顶部透明 */}
-      <div
+      {/* 紫色渐变背景 */}
+      <div 
         className="absolute inset-0"
         style={{
-          background: 'linear-gradient(to top, rgba(25, 55, 109, 0.95) 0%, rgba(25, 55, 109, 0.7) 40%, rgba(25, 55, 109, 0.3) 100%)',
+          background: 'linear-gradient(135deg, #4A1A5E 0%, #5B2C6F 30%, #7D3C98 60%, #9B59B6 100%)',
         }}
       />
 
-      {/* 不规则裁切装饰 - 曲线效果 */}
+      {/* 动态光线效果 */}
+      <div className="absolute inset-0 overflow-hidden">
+        {/* 光线1 */}
+        <div 
+          className="absolute top-0 left-1/4 w-[800px] h-[2px] origin-left rotate-[30deg] opacity-30"
+          style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent)' }}
+        />
+        {/* 光线2 */}
+        <div 
+          className="absolute top-20 left-1/3 w-[1000px] h-[1px] origin-left rotate-[25deg] opacity-20"
+          style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)' }}
+        />
+        {/* 光线3 */}
+        <div 
+          className="absolute top-40 right-1/4 w-[600px] h-[1px] origin-right rotate-[-20deg] opacity-25"
+          style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent)' }}
+        />
+        {/* 曲线光带 */}
+        <svg className="absolute inset-0 w-full h-full" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="curveGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="rgba(255,255,255,0)" />
+              <stop offset="50%" stopColor="rgba(255,255,255,0.15)" />
+              <stop offset="100%" stopColor="rgba(255,255,255,0)" />
+            </linearGradient>
+          </defs>
+          <path 
+            d="M0,200 Q400,100 800,250 T1600,200" 
+            fill="none" 
+            stroke="url(#curveGrad)" 
+            strokeWidth="2"
+            className="animate-pulse"
+          />
+          <path 
+            d="M0,400 Q500,300 1000,450 T2000,400" 
+            fill="none" 
+            stroke="url(#curveGrad)" 
+            strokeWidth="1"
+          />
+        </svg>
+      </div>
+
+      {/* 背景底图（半透明树木剪影）*/}
+      <div className="absolute inset-0 opacity-20">
+        <Image
+          src="/qh/hero-bg.jpg"
+          alt=""
+          fill
+          className="object-cover object-bottom"
+          priority
+        />
+      </div>
+
+      {/* 浮动装饰球 */}
+      <div className="absolute top-32 left-[15%] w-6 h-6 rounded-full bg-orange-400 opacity-80 animate-bounce" style={{ animationDuration: '3s' }} />
+      <div className="absolute top-48 right-[20%] w-10 h-10 rounded-full opacity-70 animate-bounce" style={{ animationDuration: '4s', background: 'linear-gradient(135deg, #E91E63 0%, #9C27B0 100%)' }} />
+      <div className="absolute bottom-[30%] left-[10%] w-8 h-8 rounded-full bg-pink-400 opacity-60 animate-bounce" style={{ animationDuration: '3.5s' }} />
+      <div className="absolute bottom-[40%] right-[15%] w-5 h-5 rounded-full bg-orange-500 opacity-70 animate-bounce" style={{ animationDuration: '2.5s' }} />
+      <div className="absolute top-[40%] left-[30%] w-4 h-4 rounded-full bg-pink-300 opacity-50 animate-bounce" style={{ animationDuration: '4.5s' }} />
+
+      {/* 主内容区 */}
+      <div className="relative z-10 min-h-[calc(100vh-5rem)] flex flex-col items-center justify-center text-center px-6">
+        {/* 校徽 + 校名 */}
+        <div className="flex items-center gap-4 mb-8 bg-white/10 backdrop-blur-sm px-8 py-4 rounded-full">
+          <div className="w-14 h-14 rounded-full flex items-center justify-center text-white font-bold text-xl border-2 border-white/30" style={{ background: 'rgba(255,255,255,0.15)' }}>
+            丹
+          </div>
+          <div className="text-left">
+            <h2 className="font-serif text-xl font-bold text-white tracking-wider">江苏省丹阳高级中学</h2>
+            <p className="text-xs text-white/70 tracking-widest">JIANGSU DANYANG SENIOR HIGH SCHOOL</p>
+          </div>
+        </div>
+
+        {/* 主标语 */}
+        <h1 className="font-serif font-bold text-white mb-6" style={{ fontSize: 'clamp(2.5rem, 8vw, 5rem)', textShadow: '0 4px 20px rgba(0,0,0,0.3)' }}>
+          立德树人 &nbsp; 笃学创新 &nbsp; 追求卓越
+        </h1>
+
+        {/* 副标语 - 书法风格底纹 */}
+        <div className="relative">
+          <p 
+            className="font-serif text-3xl md:text-4xl font-medium tracking-widest opacity-40"
+            style={{ color: 'rgba(255,255,255,0.5)', textShadow: '0 2px 10px rgba(0,0,0,0.2)' }}
+          >
+            自强不息 &nbsp; 厚德载物
+          </p>
+        </div>
+      </div>
+
+      {/* 底部波浪效果 */}
       <div className="absolute bottom-0 left-0 right-0 h-32 overflow-hidden">
         <svg viewBox="0 0 1440 120" className="absolute bottom-0 w-full h-full" preserveAspectRatio="none">
           <path
@@ -66,138 +110,6 @@ export function QhHeroBanner({ onNewsClick }: QhHeroBannerProps) {
             fill="#F8F9FB"
           />
         </svg>
-      </div>
-
-      {/* 主内容区 - 非对称布局 */}
-      <div className="relative z-10 min-h-[calc(100vh-5rem)] flex items-end pb-48">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full">
-          <div className="grid grid-cols-12 gap-8 items-end">
-            {/* 左侧主标题区 - 占 7 列 */}
-            <div className="col-span-12 lg:col-span-7">
-              {/* 日期徽章 */}
-              <div className="inline-flex items-center gap-3 mb-6">
-                <div 
-                  className="px-4 py-2 rounded-full text-sm font-medium"
-                  style={{ backgroundColor: 'rgba(184, 134, 11, 0.9)', color: '#fff' }}
-                >
-                  2026年04月
-                </div>
-                <div className="w-12 h-px bg-white/50" />
-              </div>
-
-              {/* 主标题 */}
-              <h2 className="font-serif font-bold text-white mb-4" style={{ fontSize: 'clamp(2.5rem, 6vw, 4.5rem)', lineHeight: '1.1' }}>
-                立德树人
-                <br />
-                <span style={{ color: '#B8860B' }}>笃学创新</span>
-              </h2>
-
-              {/* 副标题 */}
-              <p className="text-white/80 text-lg max-w-md leading-relaxed mb-8">
-                江苏省四星级公办重点中学，培养德智体美劳全面发展的社会主义建设者和接班人
-              </p>
-
-              {/* 快捷操作按钮 */}
-              <div className="flex flex-wrap gap-4">
-                <button 
-                  className="px-6 py-3 rounded-full font-medium text-white transition-all duration-300 hover:shadow-lg hover:scale-105"
-                  style={{ backgroundColor: '#B8860B' }}
-                >
-                  了解更多
-                </button>
-                <button 
-                  className="px-6 py-3 rounded-full font-medium transition-all duration-300 hover:bg-white/20"
-                  style={{ 
-                    border: '2px solid rgba(255,255,255,0.5)', 
-                    color: '#fff' 
-                  }}
-                >
-                  招生咨询
-                </button>
-              </div>
-            </div>
-
-            {/* 右侧浮动卡片 - 占 5 列，悬浮效果 */}
-            <div className="col-span-12 lg:col-span-5 lg:-mb-24 relative">
-              <div 
-                className="rounded-3xl p-6 backdrop-blur-md shadow-2xl border border-white/10"
-                style={{ backgroundColor: 'rgba(255, 255, 255, 0.95)' }}
-              >
-                {/* 卡片标题 */}
-                <div className="flex items-center justify-between mb-5">
-                  <div className="flex items-center gap-2">
-                    <div className="w-1 h-6 rounded-full" style={{ backgroundColor: '#C8102E' }} />
-                    <h3 className="font-serif font-bold text-lg" style={{ color: '#121212' }}>校园快讯</h3>
-                  </div>
-                  <button 
-                    className="text-xs flex items-center gap-1 transition-colors duration-300"
-                    style={{ color: '#666' }}
-                    onMouseEnter={(e) => { e.currentTarget.style.color = '#19376D'; }}
-                    onMouseLeave={(e) => { e.currentTarget.style.color = '#666'; }}
-                  >
-                    更多 <ArrowRight size={12} />
-                  </button>
-                </div>
-
-                {/* 快讯列表 */}
-                <div className="flex flex-col gap-3">
-                  {quickNews.map((item) => (
-                    <button
-                      key={item.id}
-                      onClick={() => onNewsClick?.(item)}
-                      className="flex items-start gap-4 group p-3 -mx-3 rounded-xl hover:bg-gray-50 transition-all duration-300 text-left"
-                    >
-                      {/* 日期徽章 */}
-                      <div 
-                        className="flex-shrink-0 w-14 h-14 rounded-xl flex flex-col items-center justify-center transition-all duration-300 group-hover:scale-105"
-                        style={{ backgroundColor: 'rgba(25, 55, 109, 0.08)' }}
-                      >
-                        <span className="text-xs font-medium" style={{ color: '#666' }}>04月</span>
-                        <span className="text-xl font-bold" style={{ color: '#19376D' }}>{item.date.split('-')[2]}</span>
-                      </div>
-                      {/* 标题 */}
-                      <div className="flex-1 pt-1">
-                        <p 
-                          className="font-medium group-hover:text-[#19376D] transition-colors duration-300 line-clamp-2"
-                          style={{ color: '#333' }}
-                        >
-                          {item.title}
-                        </p>
-                        <span 
-                          className="text-xs mt-1 inline-block"
-                          style={{ color: '#999' }}
-                        >
-                          {item.category}
-                        </span>
-                      </div>
-                      {/* 箭头 */}
-                      <ArrowRight 
-                        size={16} 
-                        className="flex-shrink-0 mt-3 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300"
-                        style={{ color: '#19376D' }}
-                      />
-                    </button>
-                  ))}
-                </div>
-
-                {/* 查看更多 */}
-                <button 
-                  className="mt-4 w-full py-3 rounded-xl text-sm font-medium transition-all duration-300 hover:shadow-md flex items-center justify-center gap-2"
-                  style={{ backgroundColor: '#19376D', color: '#fff' }}
-                >
-                  查看全部新闻
-                  <ArrowRight size={16} />
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* 底部滚动提示 */}
-      <div className="absolute bottom-40 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 animate-bounce">
-        <span className="text-white/60 text-xs">向下滚动</span>
-        <ChevronDown size={20} className="text-white/60" />
       </div>
     </section>
   );

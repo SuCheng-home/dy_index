@@ -29,7 +29,7 @@ export function QhAside({ onSearchClick, onFeedbackClick }: QhAsideProps) {
       {/* 右侧固定导航栏 */}
       <aside
         className="fixed right-0 top-0 h-screen w-16 z-50 flex flex-col justify-center items-center gap-6"
-        style={{ backgroundColor: '#19376D' }}
+        style={{ backgroundColor: '#5B2C6F' }}
       >
         {/* 搜索图标 */}
         <button 
@@ -155,7 +155,7 @@ export function QhAside({ onSearchClick, onFeedbackClick }: QhAsideProps) {
           {/* 面板头部 */}
           <div 
             className="h-20 px-6 flex items-center justify-between"
-            style={{ backgroundColor: '#19376D' }}
+            style={{ backgroundColor: '#5B2C6F' }}
           >
             <h3 className="text-white font-serif font-bold text-lg">快捷导航</h3>
             <button 
@@ -175,24 +175,24 @@ export function QhAside({ onSearchClick, onFeedbackClick }: QhAsideProps) {
                   href={link.href}
                   className="flex items-center gap-3 px-4 py-4 rounded-xl transition-all duration-300"
                   style={{ 
-                    backgroundColor: 'rgba(25, 55, 109, 0.04)',
+                    backgroundColor: 'rgba(91, 44, 111, 0.04)',
                     color: '#333',
                     animationDelay: `${index * 50}ms`
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = 'rgba(25, 55, 109, 0.1)';
-                    e.currentTarget.style.color = '#19376D';
+                    e.currentTarget.style.backgroundColor = 'rgba(91, 44, 111, 0.1)';
+                    e.currentTarget.style.color = '#5B2C6F';
                     e.currentTarget.style.transform = 'translateX(8px)';
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = 'rgba(25, 55, 109, 0.04)';
+                    e.currentTarget.style.backgroundColor = 'rgba(91, 44, 111, 0.04)';
                     e.currentTarget.style.color = '#333';
                     e.currentTarget.style.transform = 'translateX(0)';
                   }}
                 >
                   <div 
                     className="w-2 h-2 rounded-full"
-                    style={{ backgroundColor: '#19376D' }}
+                    style={{ backgroundColor: '#5B2C6F' }}
                   />
                   <span className="font-medium">{link.name}</span>
                 </a>
@@ -200,8 +200,8 @@ export function QhAside({ onSearchClick, onFeedbackClick }: QhAsideProps) {
             </div>
 
             {/* 联系信息 */}
-            <div className="mt-8 p-4 rounded-xl" style={{ backgroundColor: 'rgba(25, 55, 109, 0.04)' }}>
-              <h4 className="font-medium mb-3" style={{ color: '#19376D' }}>联系我们</h4>
+            <div className="mt-8 p-4 rounded-xl" style={{ backgroundColor: 'rgba(91, 44, 111, 0.04)' }}>
+              <h4 className="font-medium mb-3" style={{ color: '#5B2C6F' }}>联系我们</h4>
               <div className="flex flex-col gap-2 text-sm" style={{ color: '#666' }}>
                 <p>地址：江苏省丹阳市新民西路138号</p>
                 <p>电话：0511-86522062</p>

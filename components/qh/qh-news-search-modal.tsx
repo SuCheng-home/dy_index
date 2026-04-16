@@ -123,7 +123,7 @@ export function QhNewsSearchModal({ isOpen, onClose, onNewsClick }: QhNewsSearch
         style={{ backgroundColor: '#fff' }}
       >
         {/* 搜索头部 */}
-        <div className="p-6 pb-4" style={{ backgroundColor: '#19376D' }}>
+        <div className="p-6 pb-4" style={{ backgroundColor: '#5B2C6F' }}>
           {/* 关闭按钮 */}
           <button 
             onClick={onClose}
@@ -144,7 +144,7 @@ export function QhNewsSearchModal({ isOpen, onClose, onNewsClick }: QhNewsSearch
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="输入关键词搜索新闻..."
-              className="w-full pl-12 pr-4 py-4 rounded-2xl text-base outline-none transition-all duration-300 focus:ring-2 focus:ring-[#B8860B]"
+              className="w-full pl-12 pr-4 py-4 rounded-2xl text-base outline-none transition-all duration-300 focus:ring-2 focus:ring-[#5B2C6F]"
               style={{ backgroundColor: '#fff' }}
             />
           </div>
@@ -157,7 +157,7 @@ export function QhNewsSearchModal({ isOpen, onClose, onNewsClick }: QhNewsSearch
                 onClick={() => setActiveCategory(cat)}
                 className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-300 ${
                   activeCategory === cat
-                    ? 'bg-white text-[#19376D]'
+                    ? 'bg-white text-[#5B2C6F]'
                     : 'bg-white/20 text-white/90 hover:bg-white/30'
                 }`}
               >
@@ -185,15 +185,15 @@ export function QhNewsSearchModal({ isOpen, onClose, onNewsClick }: QhNewsSearch
                       onClick={() => setSearchQuery(term)}
                       className="px-4 py-2 rounded-full text-sm transition-all duration-300 hover:shadow-md"
                       style={{ 
-                        backgroundColor: 'rgba(25, 55, 109, 0.06)',
+                        backgroundColor: 'rgba(91, 44, 111, 0.06)',
                         color: '#333'
                       }}
                       onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = 'rgba(25, 55, 109, 0.12)';
-                        e.currentTarget.style.color = '#19376D';
+                        e.currentTarget.style.backgroundColor = 'rgba(91, 44, 111, 0.12)';
+                        e.currentTarget.style.color = '#5B2C6F';
                       }}
                       onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = 'rgba(25, 55, 109, 0.06)';
+                        e.currentTarget.style.backgroundColor = 'rgba(91, 44, 111, 0.06)';
                         e.currentTarget.style.color = '#333';
                       }}
                     >
@@ -216,10 +216,10 @@ export function QhNewsSearchModal({ isOpen, onClose, onNewsClick }: QhNewsSearch
                         key={term}
                         onClick={() => setSearchQuery(term)}
                         className="px-4 py-2 rounded-full text-sm border transition-all duration-300"
-                        style={{ 
-                          borderColor: 'rgba(25, 55, 109, 0.2)',
-                          color: '#666'
-                        }}
+                  style={{ 
+                    borderColor: 'rgba(91, 44, 111, 0.2)',
+                    color: '#666'
+                  }}
                       >
                         {term}
                       </button>
@@ -235,24 +235,24 @@ export function QhNewsSearchModal({ isOpen, onClose, onNewsClick }: QhNewsSearch
             <div>
               {isSearching ? (
                 <div className="flex items-center justify-center py-12">
-                  <div className="w-8 h-8 border-2 border-[#19376D] border-t-transparent rounded-full animate-spin" />
+                  <div className="w-8 h-8 border-2 border-[#5B2C6F] border-t-transparent rounded-full animate-spin" />
                 </div>
               ) : searchResults.length > 0 ? (
                 <div className="flex flex-col gap-4">
                   <p className="text-sm" style={{ color: '#666' }}>
-                    找到 <span style={{ color: '#19376D' }} className="font-medium">{searchResults.length}</span> 条相关新闻
+                    找到 <span style={{ color: '#5B2C6F' }} className="font-medium">{searchResults.length}</span> 条相关新闻
                   </p>
                   {searchResults.map((news) => (
                     <button
                       key={news.id}
                       onClick={() => handleNewsClick(news)}
                       className="flex gap-4 p-4 rounded-2xl text-left transition-all duration-300 hover:shadow-lg group"
-                      style={{ backgroundColor: 'rgba(25, 55, 109, 0.03)' }}
+                      style={{ backgroundColor: 'rgba(91, 44, 111, 0.03)' }}
                       onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = 'rgba(25, 55, 109, 0.08)';
+                        e.currentTarget.style.backgroundColor = 'rgba(91, 44, 111, 0.08)';
                       }}
                       onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = 'rgba(25, 55, 109, 0.03)';
+                        e.currentTarget.style.backgroundColor = 'rgba(91, 44, 111, 0.03)';
                       }}
                     >
                       {/* 图片 */}
@@ -281,7 +281,7 @@ export function QhNewsSearchModal({ isOpen, onClose, onNewsClick }: QhNewsSearch
                           </span>
                         </div>
                         <h4 
-                          className="font-medium line-clamp-1 mb-1 group-hover:text-[#19376D] transition-colors duration-300"
+                          className="font-medium line-clamp-1 mb-1 group-hover:text-[#5B2C6F] transition-colors duration-300"
                           style={{ color: '#121212' }}
                         >
                           {news.title}
@@ -294,7 +294,7 @@ export function QhNewsSearchModal({ isOpen, onClose, onNewsClick }: QhNewsSearch
                       <ArrowRight 
                         size={20} 
                         className="flex-shrink-0 self-center opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300"
-                        style={{ color: '#19376D' }}
+                        style={{ color: '#5B2C6F' }}
                       />
                     </button>
                   ))}
@@ -303,7 +303,7 @@ export function QhNewsSearchModal({ isOpen, onClose, onNewsClick }: QhNewsSearch
                 <div className="flex flex-col items-center justify-center py-12">
                   <div 
                     className="w-16 h-16 rounded-full flex items-center justify-center mb-4"
-                    style={{ backgroundColor: 'rgba(25, 55, 109, 0.06)' }}
+                    style={{ backgroundColor: 'rgba(91, 44, 111, 0.06)' }}
                   >
                     <Search size={24} style={{ color: '#999' }} />
                   </div>
@@ -318,7 +318,7 @@ export function QhNewsSearchModal({ isOpen, onClose, onNewsClick }: QhNewsSearch
           {!searchQuery.trim() && activeCategory === '全部' && (
             <div className="mt-6">
               <div className="flex items-center gap-2 mb-4">
-                <Tag size={16} style={{ color: '#19376D' }} />
+                <Tag size={16} style={{ color: '#5B2C6F' }} />
                 <span className="text-sm font-medium" style={{ color: '#333' }}>最新新闻</span>
               </div>
               <div className="flex flex-col gap-3">
@@ -327,22 +327,22 @@ export function QhNewsSearchModal({ isOpen, onClose, onNewsClick }: QhNewsSearch
                     key={news.id}
                     onClick={() => handleNewsClick(news)}
                     className="flex items-center gap-3 p-3 rounded-xl text-left transition-all duration-300 group"
-                    style={{ backgroundColor: 'rgba(25, 55, 109, 0.03)' }}
+                    style={{ backgroundColor: 'rgba(91, 44, 111, 0.03)' }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.backgroundColor = 'rgba(25, 55, 109, 0.08)';
+                      e.currentTarget.style.backgroundColor = 'rgba(91, 44, 111, 0.08)';
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.backgroundColor = 'rgba(25, 55, 109, 0.03)';
+                      e.currentTarget.style.backgroundColor = 'rgba(91, 44, 111, 0.03)';
                     }}
                   >
                     <span 
                       className="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold"
-                      style={{ backgroundColor: '#19376D', color: '#fff' }}
+                      style={{ backgroundColor: '#5B2C6F', color: '#fff' }}
                     >
                       {news.date.split('-')[2]}
                     </span>
                     <span 
-                      className="flex-1 line-clamp-1 group-hover:text-[#19376D] transition-colors duration-300"
+                      className="flex-1 line-clamp-1 group-hover:text-[#5B2C6F] transition-colors duration-300"
                       style={{ color: '#333' }}
                     >
                       {news.title}

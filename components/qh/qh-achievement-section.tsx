@@ -46,7 +46,7 @@ export function QhAchievementSection() {
     <section className="max-w-7xl mx-auto py-20 px-8">
       {/* 模块标题 */}
       <div className="flex items-center gap-2 mb-10">
-        <Trophy size={32} style={{ color: '#19376D' }} />
+        <Trophy size={32} style={{ color: '#5B2C6F' }} />
         <h3 className="font-serif text-3xl font-bold" style={{ color: '#121212' }}>
           办学成果
         </h3>
@@ -62,14 +62,14 @@ export function QhAchievementSection() {
             <div
               className="rounded-2xl border backdrop-blur-sm p-6 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 h-full flex flex-col"
               style={{
-                borderColor: 'rgba(25, 55, 109, 0.2)',
+                borderColor: 'rgba(91, 44, 111, 0.2)',
                 backgroundColor: 'rgba(255, 255, 255, 0.8)',
               }}
             >
               {/* 标题 */}
               <h4
                 className="font-serif font-bold text-xl pb-4 border-b mb-6"
-                style={{ color: '#19376D', borderColor: 'rgba(25, 55, 109, 0.2)' }}
+                style={{ color: '#5B2C6F', borderColor: 'rgba(91, 44, 111, 0.2)' }}
               >
                 {section.title}
               </h4>
@@ -79,10 +79,10 @@ export function QhAchievementSection() {
                 {section.items.map((item, itemIndex) => (
                   <div key={itemIndex} className="flex gap-3 items-start">
                     <div className="flex-shrink-0 mt-1.5">
-                      <div
-                        className="w-2 h-2 rounded-full"
-                        style={{ backgroundColor: '#19376D' }}
-                      />
+                    <div
+                      className="w-2 h-2 rounded-full"
+                      style={{ backgroundColor: '#5B2C6F' }}
+                    />
                     </div>
                     <div className="flex-1 min-w-0">
                       <p
@@ -105,9 +105,9 @@ export function QhAchievementSection() {
               {/* 查看详情按钮 */}
               <button
                 className="mt-6 inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors duration-300 self-start"
-                style={{ color: '#19376D' }}
+                style={{ color: '#5B2C6F' }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = 'rgba(25, 55, 109, 0.05)';
+                  e.currentTarget.style.backgroundColor = 'rgba(91, 44, 111, 0.05)';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.backgroundColor = 'transparent';
