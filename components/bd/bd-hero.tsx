@@ -28,7 +28,7 @@ export default function BdHero() {
       if (isTransitioning) return
       setIsTransitioning(true)
       setCurrent(index)
-      setTimeout(() => setIsTransitioning(false), 700)
+      setTimeout(() => setIsTransitioning(false), 1400)
     },
     [isTransitioning]
   )
@@ -39,8 +39,9 @@ export default function BdHero() {
     [current, goTo]
   )
 
+  // 更长的间隔，更有高级感
   useEffect(() => {
-    const timer = setInterval(next, 5000)
+    const timer = setInterval(next, 7000)
     return () => clearInterval(timer)
   }, [next])
 
@@ -50,11 +51,12 @@ export default function BdHero() {
       {slides.map((slide, index) => (
         <div
           key={index}
-          className="absolute inset-0 transition-all duration-700"
+          className="absolute inset-0 transition-all duration-[1400ms]"
           style={{
             opacity: current === index ? 1 : 0,
-            transform: `scale(${current === index ? 1 : 1.05})`,
+            transform: `scale(${current === index ? 1 : 1.08})`,
             zIndex: current === index ? 1 : 0,
+            transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
           }}
         >
           <Image
@@ -117,7 +119,7 @@ export default function BdHero() {
           <button
             key={index}
             onClick={() => goTo(index)}
-            className="transition-all duration-500 rounded-full"
+            className="transition-all duration-700 rounded-full"
             style={{
               width: current === index ? '32px' : '10px',
               height: '10px',

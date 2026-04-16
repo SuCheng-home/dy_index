@@ -223,7 +223,7 @@ export default function BdHeader() {
             <div className="w-[480px] flex-shrink-0 relative overflow-hidden">
               {currentNavItem && (
                 <Image
-                  src={currentNavItem.image}
+                  src={currentNavItem.imageBd}
                   alt={currentNavItem.label}
                   fill
                   className="object-cover"

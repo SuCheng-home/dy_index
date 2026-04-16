@@ -7,14 +7,16 @@ export interface NavItem {
   label: string
   href: string
   subMenus: SubMenuItem[]
-  image: string
+  imageBd: string  // 北大风格图片
+  imageQh: string  // 清华风格图片
 }
 
 export const mainNavItems: NavItem[] = [
   {
     label: '校园信息',
     href: '#',
-    image: '/bd/hero-1.jpg',
+    imageBd: '/bd/hero-1.jpg',
+    imageQh: '/qh/nav-campus.jpg',
     subMenus: [
       { label: '学校简介', children: ['办学理念', '校史沿革'] },
       { label: '校长致辞' },
@@ -28,7 +30,8 @@ export const mainNavItems: NavItem[] = [
   {
     label: '党建工作',
     href: '#',
-    image: '/bd/hero-2.jpg',
+    imageBd: '/bd/hero-2.jpg',
+    imageQh: '/qh/nav-party.jpg',
     subMenus: [
       { label: '党委办公室', children: ['党建动态', '文明建设'] },
       { label: '支部活动' },
@@ -41,7 +44,8 @@ export const mainNavItems: NavItem[] = [
   {
     label: '德育之窗',
     href: '#',
-    image: '/bd/news-1.jpg',
+    imageBd: '/bd/news-1.jpg',
+    imageQh: '/qh/nav-student.jpg',
     subMenus: [
       { label: '学生工作处', children: ['班主任工作', '心理健康'] },
       { label: '德育活动' },
@@ -54,7 +58,8 @@ export const mainNavItems: NavItem[] = [
   {
     label: '教学管理',
     href: '#',
-    image: '/bd/news-2.jpg',
+    imageBd: '/bd/news-2.jpg',
+    imageQh: '/qh/nav-teaching.jpg',
     subMenus: [
       { label: '科研教学处', children: ['教学动态', '课程安排'] },
       { label: '教研组建设' },
@@ -67,7 +72,8 @@ export const mainNavItems: NavItem[] = [
   {
     label: '教师发展',
     href: '#teachers',
-    image: '/bd/teacher-1.jpg',
+    imageBd: '/bd/teacher-1.jpg',
+    imageQh: '/qh/nav-campus.jpg',
     subMenus: [
       { label: '教师培训', children: ['青蓝工程', '名师工作室'] },
       { label: '教学竞赛' },
@@ -80,7 +86,8 @@ export const mainNavItems: NavItem[] = [
   {
     label: '群团工作',
     href: '#',
-    image: '/bd/student-club.jpg',
+    imageBd: '/bd/student-club.jpg',
+    imageQh: '/qh/nav-student.jpg',
     subMenus: [
       { label: '工会群团', children: ['教工活动', '教工之家'] },
       { label: '团委' },
@@ -92,7 +99,8 @@ export const mainNavItems: NavItem[] = [
   {
     label: '校园服务',
     href: '#',
-    image: '/bd/campus-autumn.jpg',
+    imageBd: '/bd/campus-autumn.jpg',
+    imageQh: '/qh/nav-campus.jpg',
     subMenus: [
       { label: '学校发展中心', children: ['规划发展', '对外交流'] },
       { label: '学校保障中心' },
@@ -105,7 +113,8 @@ export const mainNavItems: NavItem[] = [
   {
     label: '国际教育',
     href: '#',
-    image: '/bd/student-academy.jpg',
+    imageBd: '/bd/student-academy.jpg',
+    imageQh: '/qh/nav-teaching.jpg',
     subMenus: [
       { label: '国际课程', children: ['AP课程', 'A-Level课程'] },
       { label: '留学指导' },
