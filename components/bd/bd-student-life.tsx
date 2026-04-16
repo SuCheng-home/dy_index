@@ -91,7 +91,7 @@ export default function BdStudentLife() {
       <div className="max-w-[1200px] mx-auto px-8">
         {/* Title */}
         <h2
-          className="text-3xl font-serif font-bold text-center mb-16 transition-all duration-[1200ms]"
+          className="text-3xl font-serif font-bold text-center mb-16 transition-all duration-[2000ms]"
           style={{
             color: '#222',
             opacity: revealed ? 1 : 0,
@@ -107,7 +107,7 @@ export default function BdStudentLife() {
           {activities.map((activity, index) => (
             <div
               key={activity.title}
-              className="relative transition-all duration-[1400ms] cursor-pointer"
+              className="relative transition-all duration-[2000ms] cursor-pointer"
               style={{
                 opacity: revealed ? 1 : 0,
                 transform: revealed ? 'translateY(0)' : 'translateY(60px)',

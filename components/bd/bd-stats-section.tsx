@@ -45,7 +45,7 @@ function StatItem({ value, label, suffix, isActive, delay }: {
 
   return (
     <div
-      className="text-center transition-all duration-[1400ms]"
+      className="text-center transition-all duration-[2000ms]"
       style={{
         opacity: isActive ? 1 : 0,
         transform: isActive ? 'translateY(0) scale(1)' : 'translateY(40px) scale(0.95)',

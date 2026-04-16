@@ -42,7 +42,7 @@ export default function BdTeacherSection() {
       <div className="max-w-[1400px] mx-auto px-8">
         {/* Section header */}
         <div
-          className="flex items-center justify-between mb-16 transition-all duration-[1200ms]"
+          className="flex items-center justify-between mb-16 transition-all duration-[2000ms]"
           style={{
             opacity: revealed ? 1 : 0,
             transform: revealed ? 'translateY(0)' : 'translateY(40px)',
@@ -82,7 +82,7 @@ export default function BdTeacherSection() {
             {teachers.map((teacher, index) => (
               <div
                 key={teacher.name}
-                className="flex flex-col items-center transition-all duration-[1400ms]"
+                className="flex flex-col items-center transition-all duration-[2000ms]"
                 style={{
                   opacity: revealed ? 1 : 0,
                   transform: revealed ? 'translateY(0)' : 'translateY(60px)',

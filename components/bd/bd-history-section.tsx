@@ -55,7 +55,7 @@ export default function BdHistorySection() {
       <div className="max-w-[1400px] mx-auto px-8">
         {/* Section title */}
         <h2
-          className="text-center text-3xl font-serif font-bold mb-16 transition-all duration-[1200ms]"
+          className="text-center text-3xl font-serif font-bold mb-16 transition-all duration-[2000ms]"
           style={{
             color: '#222',
             opacity: revealed ? 1 : 0,
@@ -69,7 +69,7 @@ export default function BdHistorySection() {
         <div className="relative flex items-stretch gap-0 min-h-[560px]">
           {/* Giant year numbers - left side decorative */}
           <div
-            className="absolute left-0 top-0 bottom-0 w-[180px] flex items-center justify-center select-none pointer-events-none z-0 transition-all duration-[1400ms]"
+            className="absolute left-0 top-0 bottom-0 w-[180px] flex items-center justify-center select-none pointer-events-none z-0 transition-all duration-[2000ms]"
             style={{
               opacity: revealed ? 1 : 0,
               transform: revealed ? 'translateX(0)' : 'translateX(-80px)',
@@ -93,7 +93,7 @@ export default function BdHistorySection() {
 
           {/* Giant year numbers - right side decorative */}
           <div
-            className="absolute right-0 top-0 bottom-0 w-[180px] flex items-center justify-center select-none pointer-events-none z-0 transition-all duration-[1400ms]"
+            className="absolute right-0 top-0 bottom-0 w-[180px] flex items-center justify-center select-none pointer-events-none z-0 transition-all duration-[2000ms]"
             style={{
               opacity: revealed ? 1 : 0,
               transform: revealed ? 'translateX(0)' : 'translateX(80px)',
@@ -119,7 +119,7 @@ export default function BdHistorySection() {
           <div className="flex items-center gap-16 w-full max-w-[1000px] mx-auto relative z-10">
             {/* Left: Person image */}
             <div
-              className="w-[400px] flex-shrink-0 transition-all duration-[1400ms]"
+              className="w-[400px] flex-shrink-0 transition-all duration-[2000ms]"
               style={{
                 opacity: revealed ? 1 : 0,
                 transform: revealed ? 'translateY(0)' : 'translateY(60px)',
@@ -146,7 +146,7 @@ export default function BdHistorySection() {
 
             {/* Right: Text content */}
             <div
-              className="flex-1 transition-all duration-[1400ms]"
+              className="flex-1 transition-all duration-[2000ms]"
               style={{
                 opacity: revealed ? 1 : 0,
                 transform: revealed ? 'translateY(0)' : 'translateY(60px)',

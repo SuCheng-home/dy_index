@@ -51,6 +51,25 @@ export default function BdNewsSection() {
   return (
     <section ref={sectionRef} id="news" className="py-20" style={{ backgroundColor: '#fff' }}>
       <div className="max-w-[1400px] mx-auto px-8">
+        {/* Section title */}
+        <div
+          className="flex items-center justify-between mb-12 transition-all duration-[2000ms]"
+          style={{
+            opacity: revealed ? 1 : 0,
+            transform: revealed ? 'translateY(0)' : 'translateY(40px)',
+            transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
+          }}
+        >
+          <h2 className="text-3xl font-serif font-bold" style={{ color: '#222' }}>
+            新闻动态
+          </h2>
+          <div className="flex items-center gap-3">
+            <span className="w-2 h-2 rounded-full" style={{ backgroundColor: '#8B1A1A' }} />
+            <span className="w-20 h-px" style={{ backgroundColor: '#ddd' }} />
+            <span className="text-sm cursor-pointer hover:text-[#8B1A1A] transition-colors" style={{ color: '#999' }}>更多</span>
+          </div>
+        </div>
+        
         {/* Featured news - 2x2 grid left + notice list right */}
         <div className="flex gap-8">
           {/* Left: news cards 2x2 */}
@@ -59,11 +78,11 @@ export default function BdNewsSection() {
               <Link
                 key={news.id}
                 href={`/bd/news/${news.id}`}
-                className="group block transition-all duration-[1200ms]"
+                className="group block transition-all duration-[2000ms]"
                 style={{
                   opacity: revealed ? 1 : 0,
                   transform: revealed ? 'translateY(0)' : 'translateY(50px)',
-                  transitionDelay: `${index * 0.15}s`,
+                  transitionDelay: `${0.1 + index * 0.15}s`,
                   transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
                 }}
               >
@@ -103,11 +122,11 @@ export default function BdNewsSection() {
 
           {/* Right: Notice text list */}
           <div
-            className="w-[340px] flex-shrink-0 transition-all duration-[1200ms]"
+            className="w-[340px] flex-shrink-0 transition-all duration-[2000ms]"
             style={{
               opacity: revealed ? 1 : 0,
               transform: revealed ? 'translateY(0)' : 'translateY(50px)',
-              transitionDelay: '0.6s',
+              transitionDelay: '0.7s',
               transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
             }}
           >
