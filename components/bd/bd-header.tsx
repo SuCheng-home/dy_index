@@ -108,23 +108,15 @@ export default function BdHeader() {
       <div className="max-w-[1400px] mx-auto px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link href="/bd" className="flex items-center gap-3 flex-shrink-0">
-            <div
-              className="w-14 h-14 rounded-full flex items-center justify-center border-2 flex-shrink-0"
-              style={{ borderColor: '#8B1A1A', backgroundColor: '#fff' }}
-            >
-              <span className="text-xs font-bold leading-tight text-center" style={{ color: '#8B1A1A', fontFamily: 'serif' }}>
-                丹中
-              </span>
-            </div>
-            <div className="flex flex-col">
-              <span className="text-xl font-bold tracking-wide whitespace-nowrap" style={{ color: '#8B1A1A', fontFamily: 'serif' }}>
-                江苏省丹阳高级中学
-              </span>
-              <span className="text-[10px] tracking-[0.2em] whitespace-nowrap" style={{ color: '#999' }}>
-                JIANGSU DANYANG HIGH SCHOOL
-              </span>
-            </div>
+          <Link href="/bd" className="flex items-center flex-shrink-0">
+            <Image
+              src="/logo.png"
+              alt="江苏省丹阳高级中学"
+              width={200}
+              height={56}
+              className="h-12 w-auto"
+              priority
+            />
           </Link>
 
           {/* Nav items */}

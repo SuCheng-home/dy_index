@@ -51,21 +51,15 @@ export function QhHeader({ onSearchClick }: QhHeaderProps) {
       <div className="max-w-[1400px] mx-auto px-4 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link href="/qh" className="flex items-center gap-3 flex-shrink-0">
-            <div
-              className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-md flex-shrink-0"
-              style={{ background: 'linear-gradient(135deg, #5B2C6F 0%, #7D3C98 100%)' }}
-            >
-              丹
-            </div>
-            <div className="flex-shrink-0">
-              <h1 className="font-serif font-bold text-lg whitespace-nowrap" style={{ color: '#5B2C6F' }}>
-                江苏省丹阳高级中学
-              </h1>
-              <p className="text-[10px] tracking-wider whitespace-nowrap" style={{ color: '#666' }}>
-                JIANGSU DANYANG SENIOR HIGH SCHOOL
-              </p>
-            </div>
+          <Link href="/qh" className="flex items-center flex-shrink-0">
+            <Image
+              src="/logo.png"
+              alt="江苏省丹阳高级中学"
+              width={200}
+              height={56}
+              className="h-12 w-auto"
+              priority
+            />
           </Link>
 
           {/* Desktop Nav */}

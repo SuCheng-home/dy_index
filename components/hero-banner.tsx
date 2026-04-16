@@ -5,23 +5,27 @@ import Image from "next/image"
 import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react"
 
 const bannerImages = [
-  "/banner-80th.png",
   "/view/view1.jpg",
   "/view/view2.jpg",
-  "/view/view3.jpg"
+  "/view/view3.jpg",
+  "/view/view4.jpg",
+  "/view/view5.jpg",
+  "/view/view6.jpg",
+  "/view/view7.jpg",
+  "/view/view8.jpg",
 ]
 
-export function HeroBanner({ className }: { className?: string }) {
+export function HeroBanner() {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isHovered, setIsHovered] = useState(false)
 
   useEffect(() => {
     let timer: NodeJS.Timeout
-    // 如果鼠标没有悬停在 banner 上，则自动轮播
+    // 如果鼠标没有悬停在 banner 上，则自动轮播（更长间隔更有高级感）
     if (!isHovered) {
       timer = setInterval(() => {
         setCurrentIndex((prev) => (prev + 1) % bannerImages.length)
-      }, 3000) // 每 3 秒切换一次
+      }, 6000) // 每 6 秒切换一次
     }
     return () => {
       if (timer) clearInterval(timer)
@@ -36,18 +40,18 @@ export function HeroBanner({ className }: { className?: string }) {
     setCurrentIndex((prev) => (prev - 1 + bannerImages.length) % bannerImages.length)
   }
 
-  // 添加滚轮事件监听，实现滚动一次就切换到"今日丹中"
+  // 添加滚轮事件监听，实现滚动一次就切换到"今日丹中"，严丝合缝
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
-      // 只有在页面最顶部且向下滚动时才触发
-      if (window.scrollY === 0 && e.deltaY > 0) {
+      // 只有在页面顶部附近且向下滚动时才触发
+      if (window.scrollY < 100 && e.deltaY > 0) {
         e.preventDefault() // 阻止默认滚动
         
         const target = document.getElementById("today-danzhong")
         if (target) {
-          // 平滑滚动到目标元素，减去一点头部的高度补偿
+          // 平滑滚动到目标元素顶部，严丝合缝对齐
           window.scrollTo({
-            top: target.offsetTop - 80,
+            top: target.offsetTop,
             behavior: "smooth"
           })
         }
@@ -64,7 +68,7 @@ export function HeroBanner({ className }: { className?: string }) {
 
   return (
     <section
-      className={`relative w-full overflow-hidden bg-[#8B1A1A] ${className || ""}`}
+      className="relative w-full overflow-hidden bg-[#8B1A1A]"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -73,13 +77,11 @@ export function HeroBanner({ className }: { className?: string }) {
           <Image
             key={src}
             src={src}
-            alt={index === 0 ? "江苏省丹阳高级中学 80周年庆" : `江苏省丹阳高级中学 - 风景 ${index}`}
+            alt={`江苏省丹阳高级中学 - 校园风光 ${index + 1}`}
             fill
             priority={index === 0}
             sizes="100vw"
-            className={`transition-opacity duration-1000 ${
-              index === 0 ? "object-contain bg-[#8B1A1A]" : "object-cover"
-            } object-center ${
+            className={`transition-opacity duration-1000 object-cover object-center ${
               index === currentIndex ? "opacity-100 z-10" : "opacity-0 z-0"
             }`}
           />

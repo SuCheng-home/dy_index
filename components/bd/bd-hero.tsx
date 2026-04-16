@@ -6,16 +6,24 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 const slides = [
   {
-    image: '/bd/hero-1.jpg',
-    title: '丹阳高级中学教育集团2026年寒假战略研讨会',
+    image: '/view/view1.jpg',
+    title: '江苏省丹阳高级中学',
   },
   {
-    image: '/bd/hero-2.jpg',
+    image: '/view/view2.jpg',
     title: '深化课程改革 推动教育高质量发展',
   },
   {
-    image: '/bd/campus-autumn.jpg',
+    image: '/view/view3.jpg',
     title: '千年学宫 人皆能大成',
+  },
+  {
+    image: '/view/view4.jpg',
+    title: '立德树人 追求卓越',
+  },
+  {
+    image: '/view/view5.jpg',
+    title: '传承文脉 开拓创新',
   },
 ]
 
