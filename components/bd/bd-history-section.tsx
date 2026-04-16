@@ -1,43 +1,45 @@
 'use client'
 
 import { useState, useRef } from 'react'
-import Image from 'next/image'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Quote } from 'lucide-react'
 import { useScrollReveal } from './use-scroll-reveal'
 
 const historyItems = [
   {
     year: '2024',
-    title: '张建国',
-    role: '现任校长',
-    image: '/bd/principal.jpg',
+    title: '张明远',
+    role: '校长 · 特级教师',
+    subtitle: '校长致辞',
     description: [
-      '2024年9月，丹阳高级中学新校区正式启用，开启学校发展新篇章。',
-      '2024年高考再创辉煌，一本上线率突破85%，多名学子被清华、北大录取。',
-      '学校荣获"全国文明校园"称号，办学质量获社会各界高度认可。',
+      '欢迎来到江苏省丹阳高级中学！作为一所承载着八十余年历史底蕴的百年名校，我们始终秉承「大成教育」理念，以立德树人为根本，以培养全面发展的时代英才为使命。',
+      '教育是点燃火焰，而非填满容器。我们相信每一位学生都有无限的潜能，在这里，你将遇到优秀的老师、志同道合的伙伴，收获知识、友谊和成长。',
+      '愿每一位丹中学子，都能在这里找到属于自己的舞台，书写精彩的青春篇章！',
     ],
+    slogan: '大成教育 · 成就未来',
   },
   {
-    year: '2020',
-    title: '李明远',
+    year: '20xx',
+    title: 'xxx',
     role: '前任校长',
-    image: '/bd/hero-2.jpg',
+    subtitle: '任期回顾',
     description: [
-      '2020年，学校积极应对疫情挑战，率先开展线上教学改革。',
-      '推进"智慧校园"建设，引入AI辅助教学系统。',
-      '成功承办江苏省中学生科技创新大赛，我校学子斩获多项金奖。',
+      '在任期间，积极推进教育教学改革，提升办学质量。',
+      '加强师资队伍建设，引进优秀教育人才。',
+      '推动校园文化建设，营造良好育人环境。',
     ],
+    slogan: '立德树人 · 追求卓越',
   },
   {
     year: '1941',
     title: '创校元年',
     role: '建校历史',
-    image: '/bd/campus-autumn.jpg',
+    subtitle: '薪火相传',
     description: [
       '1941年，丹阳高级中学前身——私立正则中学在战火中诞生。',
       '秉承"厚德·明理·笃行"校训，为国家培养了无数栋梁之才。',
       '八十余年薪火相传，从私立正则到省丹中，始终不忘教育初心。',
     ],
+    slogan: '厚德明理 · 笃行致远',
   },
 ]
 
@@ -66,7 +68,7 @@ export default function BdHistorySection() {
           丹中历史
         </h2>
 
-        <div className="relative flex items-stretch gap-0 min-h-[560px]">
+        <div className="relative flex items-stretch gap-0 min-h-[520px]">
           {/* Giant year numbers - left side decorative */}
           <div
             className="absolute left-0 top-0 bottom-0 w-[180px] flex items-center justify-center select-none pointer-events-none z-0 transition-all duration-[2000ms]"
@@ -115,66 +117,87 @@ export default function BdHistorySection() {
             </span>
           </div>
 
-          {/* Center content */}
-          <div className="flex items-center gap-16 w-full max-w-[1000px] mx-auto relative z-10">
-            {/* Left: Person image */}
+          {/* Center content - text only, no image */}
+          <div className="flex flex-col items-center justify-center w-full max-w-[800px] mx-auto relative z-10">
+            {/* Header with name and role */}
             <div
-              className="w-[400px] flex-shrink-0 transition-all duration-[2000ms]"
+              className="text-center mb-8 transition-all duration-[2000ms]"
               style={{
                 opacity: revealed ? 1 : 0,
-                transform: revealed ? 'translateY(0)' : 'translateY(60px)',
+                transform: revealed ? 'translateY(0)' : 'translateY(40px)',
                 transitionDelay: '0.3s',
                 transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
               }}
             >
-              <div className="relative rounded-sm overflow-hidden shadow-2xl" style={{ aspectRatio: '3/4' }}>
-                <Image
-                  src={item.image}
-                  alt={item.title}
-                  fill
-                  className="object-cover transition-transform duration-700"
-                />
-                {/* Red overlay at bottom */}
-                <div
-                  className="absolute bottom-0 left-0 right-0 h-1/3"
-                  style={{
-                    background: 'linear-gradient(to top, rgba(139,26,26,0.3), transparent)',
-                  }}
-                />
-              </div>
+              <h3 className="text-3xl font-bold font-serif mb-2" style={{ color: '#222' }}>
+                {item.title}
+              </h3>
+              <span className="text-base" style={{ color: '#8B1A1A' }}>
+                {item.role}
+              </span>
             </div>
 
-            {/* Right: Text content */}
+            {/* Subtitle */}
             <div
-              className="flex-1 transition-all duration-[2000ms]"
+              className="flex items-center gap-4 mb-8 transition-all duration-[2000ms]"
               style={{
                 opacity: revealed ? 1 : 0,
-                transform: revealed ? 'translateY(0)' : 'translateY(60px)',
+                transform: revealed ? 'translateY(0)' : 'translateY(40px)',
+                transitionDelay: '0.4s',
+                transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
+              }}
+            >
+              <span className="w-12 h-px" style={{ backgroundColor: '#8B1A1A' }} />
+              <span className="text-lg font-medium" style={{ color: '#8B1A1A' }}>{item.subtitle}</span>
+              <span className="w-12 h-px" style={{ backgroundColor: '#8B1A1A' }} />
+            </div>
+
+            {/* Quote icon */}
+            <div
+              className="mb-6 transition-all duration-[2000ms]"
+              style={{
+                opacity: revealed ? 1 : 0,
+                transform: revealed ? 'scale(1)' : 'scale(0.8)',
                 transitionDelay: '0.5s',
                 transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
               }}
             >
+              <Quote size={32} style={{ color: '#8B1A1A', opacity: 0.3 }} />
+            </div>
+
+            {/* Description text */}
+            <div
+              className="text-center space-y-4 transition-all duration-[2000ms]"
+              style={{
+                opacity: revealed ? 1 : 0,
+                transform: revealed ? 'translateY(0)' : 'translateY(40px)',
+                transitionDelay: '0.6s',
+                transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
+              }}
+            >
+              {item.description.map((text, i) => (
+                <p key={i} className="text-[16px] leading-[2]" style={{ color: '#555' }}>
+                  {text}
+                </p>
+              ))}
+            </div>
+
+            {/* Slogan */}
+            <div
+              className="mt-10 transition-all duration-[2000ms]"
+              style={{
+                opacity: revealed ? 1 : 0,
+                transform: revealed ? 'translateY(0)' : 'translateY(30px)',
+                transitionDelay: '0.7s',
+                transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
+              }}
+            >
               <span
-                className="text-5xl font-bold font-serif block mb-6"
+                className="text-xl font-serif font-bold tracking-wider"
                 style={{ color: '#8B1A1A' }}
               >
-                {item.year}
+                {item.slogan}
               </span>
-              <div className="flex items-baseline gap-3 mb-8">
-                <h3 className="text-2xl font-bold" style={{ color: '#222' }}>
-                  {item.title}
-                </h3>
-                <span className="text-base" style={{ color: '#999' }}>
-                  {item.role}
-                </span>
-              </div>
-              <div className="space-y-4">
-                {item.description.map((text, i) => (
-                  <p key={i} className="text-[15px] leading-[1.8]" style={{ color: '#555' }}>
-                    {text}
-                  </p>
-                ))}
-              </div>
             </div>
           </div>
 
@@ -213,6 +236,21 @@ export default function BdHistorySection() {
           >
             <ChevronRight size={20} />
           </button>
+
+          {/* Page indicators */}
+          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 flex gap-2">
+            {historyItems.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setCurrentIndex(i)}
+                className="w-2 h-2 rounded-full transition-all duration-300"
+                style={{
+                  backgroundColor: i === currentIndex ? '#8B1A1A' : 'rgba(139,26,26,0.2)',
+                  transform: i === currentIndex ? 'scale(1.2)' : 'scale(1)',
+                }}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </section>
