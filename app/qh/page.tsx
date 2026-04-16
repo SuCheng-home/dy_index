@@ -6,7 +6,7 @@ import { QhAside } from '@/components/qh/qh-aside';
 import { QhHeroBanner } from '@/components/qh/qh-hero-banner';
 import { QhNewsSection } from '@/components/qh/qh-news-section';
 import { QhNoticeSection } from '@/components/qh/qh-notice-section';
-import { QhVideoSection } from '@/components/qh/qh-video-section';
+import { QhStudentSection } from '@/components/qh/qh-student-section';
 import { QhAchievementSection } from '@/components/qh/qh-achievement-section';
 import { QhServiceSection } from '@/components/qh/qh-service-section';
 import { QhFooter } from '@/components/qh/qh-footer';
@@ -55,8 +55,8 @@ export default function QhPage() {
         {/* 通知公告模块 */}
         <QhNoticeSection />
 
-        {/* 视频新闻模块 */}
-        <QhVideoSection />
+        {/* 学生天地模块 */}
+        <QhStudentSection />
 
         {/* 核心办学成果模块 */}
         <QhAchievementSection />

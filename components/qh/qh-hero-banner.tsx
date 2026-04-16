@@ -95,11 +95,26 @@ export function QhHeroBanner() {
         ))}
       </div>
 
-      {/* 底部波浪效果 */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 overflow-hidden z-10">
-        <svg viewBox="0 0 1440 120" className="absolute bottom-0 w-full h-full" preserveAspectRatio="none">
+      {/* 底部波浪效果 - 多层叠加更明显 */}
+      <div className="absolute bottom-0 left-0 right-0 h-40 overflow-hidden z-10">
+        {/* 第一层波浪 - 浅色 */}
+        <svg viewBox="0 0 1440 120" className="absolute bottom-0 w-full h-32" preserveAspectRatio="none">
           <path
-            d="M0,60 C360,120 720,0 1080,60 C1260,90 1380,80 1440,60 L1440,120 L0,120 Z"
+            d="M0,80 C240,120 480,40 720,80 C960,120 1200,40 1440,80 L1440,120 L0,120 Z"
+            fill="rgba(248,249,251,0.5)"
+          />
+        </svg>
+        {/* 第二层波浪 - 主色 */}
+        <svg viewBox="0 0 1440 120" className="absolute bottom-0 w-full h-28" preserveAspectRatio="none">
+          <path
+            d="M0,60 C360,100 720,20 1080,60 C1260,80 1380,70 1440,60 L1440,120 L0,120 Z"
+            fill="rgba(248,249,251,0.8)"
+          />
+        </svg>
+        {/* 第三层波浪 - 实色 */}
+        <svg viewBox="0 0 1440 120" className="absolute bottom-0 w-full h-24" preserveAspectRatio="none">
+          <path
+            d="M0,40 C480,90 960,10 1440,40 L1440,120 L0,120 Z"
             fill="#F8F9FB"
           />
         </svg>

@@ -82,7 +82,7 @@ export function QhHeader({ onSearchClick }: QhHeaderProps) {
                 onMouseLeave={handleNavLeave}
               >
                 <button
-                  className="px-4 py-2 text-sm font-medium transition-all duration-300 whitespace-nowrap flex items-center gap-1 relative group"
+                  className="px-5 py-3 text-base font-bold transition-all duration-300 whitespace-nowrap flex items-center gap-1.5 relative group"
                   style={{ color: activeNav === index ? '#5B2C6F' : '#333' }}
                 >
                   {/* 香樟叶图标 - 悬停时显示 */}
@@ -107,11 +107,12 @@ export function QhHeader({ onSearchClick }: QhHeaderProps) {
 
                 {/* 普通下拉菜单 */}
                 <div
-                  className="absolute top-full left-0 pt-2 transition-all duration-300"
+                  className="absolute top-full left-0 pt-1 transition-all duration-300 pointer-events-none"
                   style={{
                     opacity: activeNav === index ? 1 : 0,
                     visibility: activeNav === index ? 'visible' : 'hidden',
                     transform: activeNav === index ? 'translateY(0)' : 'translateY(-8px)',
+                    pointerEvents: activeNav === index ? 'auto' : 'none',
                   }}
                   onMouseEnter={() => {
                     if (dropdownTimeoutRef.current) clearTimeout(dropdownTimeoutRef.current)
@@ -119,27 +120,25 @@ export function QhHeader({ onSearchClick }: QhHeaderProps) {
                   onMouseLeave={handleNavLeave}
                 >
                   <div 
-                    className="bg-white rounded-lg shadow-xl border py-2 min-w-[200px]"
+                    className="bg-white rounded-lg shadow-xl border py-1 min-w-[220px]"
                     style={{ borderColor: '#f0f0f0' }}
                   >
-                    {item.subMenus.map((sub, subIndex) => (
+                    {item.subMenus.map((sub) => (
                       <Link
                         key={sub.label}
                         href="#"
-                        className="flex items-center gap-2 px-4 py-3 text-sm transition-all duration-300 group/item"
-                        style={{ color: '#555' }}
+                        className="flex items-center gap-2 px-5 py-3 text-sm font-medium transition-all duration-300 group/item hover:bg-purple-50"
+                        style={{ color: '#444' }}
                         onMouseEnter={(e) => {
-                          e.currentTarget.style.backgroundColor = 'rgba(91,44,111,0.06)'
                           e.currentTarget.style.color = '#5B2C6F'
                         }}
                         onMouseLeave={(e) => {
-                          e.currentTarget.style.backgroundColor = 'transparent'
-                          e.currentTarget.style.color = '#555'
+                          e.currentTarget.style.color = '#444'
                         }}
                       >
                         {/* 小香樟叶图标 */}
                         <CamphorLeaf 
-                          className="w-3.5 h-3.5 transition-all duration-300 opacity-0 group-hover/item:opacity-100"
+                          className="w-4 h-4 transition-all duration-300 opacity-0 group-hover/item:opacity-100 flex-shrink-0"
                           style={{ 
                             color: '#5B2C6F',
                             transform: 'rotate(-15deg)',
