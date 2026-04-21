@@ -1,0 +1,128 @@
+'use client';
+
+import Image from 'next/image';
+import Link from 'next/link';
+import { Newspaper, ArrowRight } from 'lucide-react';
+import { getQhNewsByKind } from '@/lib/qh-news-data';
+
+export function QhNewsSection() {
+  const qhNews = getQhNewsByKind('news');
+  const [mainNews, topNews, ...sideNewsList] = qhNews;
+  const sideNews = sideNewsList.slice(0, 2);
+
+  if (!mainNews || !topNews) return null;
+
+  return (
+    <section className="w-full py-16 relative" style={{ backgroundColor: '#F8F9FB' }}>
+      {/* 左上角紫色装饰块 */}
+      <div className="absolute top-0 left-0 w-32 h-64" style={{ backgroundColor: '#5B2C6F' }} />
+      
+      <div className="max-w-[1400px] mx-auto px-6 lg:px-8 relative z-10">
+        {/* 模块标题 */}
+        <div className="flex items-center justify-center gap-3 mb-12">
+          <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ backgroundColor: 'rgba(91, 44, 111, 0.1)' }}>
+            <Newspaper size={24} style={{ color: '#5B2C6F' }} />
+          </div>
+          <div className="text-center">
+            <h3 className="font-serif text-3xl font-bold" style={{ color: '#121212' }}>
+              新闻<span className="text-sm font-normal ml-1" style={{ color: '#E91E63' }}>News</span>动态
+            </h3>
+          </div>
+        </div>
+
+        {/* 杂志布局：左大右小 */}
+        <div className="grid grid-cols-12 gap-6">
+          {/* 左侧大新闻 - 7列 */}
+          <div className="col-span-12 lg:col-span-7">
+            <Link href={`/qh/news/${mainNews.id}`} className="group block">
+              {/* 大图 */}
+              <div className="relative w-full aspect-[4/3] overflow-hidden bg-gray-100">
+                <Image
+                  src={mainNews.image ?? '/qh/news-main.jpg'}
+                  alt={mainNews.title}
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+              </div>
+              {/* 日期+标题 */}
+              <div className="mt-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="h-px flex-1" style={{ backgroundColor: '#5B2C6F' }} />
+                  <span className="text-sm font-medium" style={{ color: '#5B2C6F' }}>{mainNews.date}</span>
+                  <div className="h-px flex-1" style={{ backgroundColor: '#5B2C6F' }} />
+                </div>
+                <h4 className="font-serif text-xl font-bold group-hover:text-[#5B2C6F] transition-colors" style={{ color: '#121212' }}>
+                  {mainNews.title}
+                </h4>
+                <p className="text-sm text-gray-500 mt-2 line-clamp-2">{mainNews.excerpt}</p>
+              </div>
+            </Link>
+          </div>
+
+          {/* 右侧新闻列表 - 5列 */}
+          <div className="col-span-12 lg:col-span-5 flex flex-col gap-6">
+            {/* 顶部大新闻 */}
+            <Link href={`/qh/news/${topNews.id}`} className="group block">
+              <div className="relative w-full aspect-[16/10] overflow-hidden bg-gray-100">
+                <Image
+                  src={topNews.image ?? '/qh/news-exam.jpg'}
+                  alt={topNews.title}
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+              </div>
+              <div className="mt-3">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="h-px w-8" style={{ backgroundColor: '#5B2C6F' }} />
+                  <span className="text-sm font-medium" style={{ color: '#5B2C6F' }}>{topNews.date}</span>
+                  <div className="h-px flex-1" style={{ backgroundColor: '#5B2C6F' }} />
+                </div>
+                <h4 className="font-serif text-base font-bold group-hover:text-[#5B2C6F] transition-colors line-clamp-2" style={{ color: '#121212' }}>
+                  {topNews.title}
+                </h4>
+              </div>
+            </Link>
+
+            {/* 底部两个小新闻 */}
+            <div className="grid grid-cols-2 gap-4">
+              {sideNews.map((news) => (
+                <Link href={`/qh/news/${news.id}`} key={news.id} className="group block">
+                  <div className="relative w-full aspect-[4/3] overflow-hidden bg-gray-100">
+                    <Image
+                      src={news.image ?? '/qh/campus-landmark.jpg'}
+                      alt={news.title}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                  </div>
+                  <div className="mt-2">
+                    <div className="flex items-center gap-1 mb-1">
+                      <div className="h-px w-4" style={{ backgroundColor: '#5B2C6F' }} />
+                      <span className="text-xs" style={{ color: '#5B2C6F' }}>{news.date}</span>
+                      <div className="h-px flex-1" style={{ backgroundColor: '#5B2C6F' }} />
+                    </div>
+                    <h4 className="text-sm font-medium group-hover:text-[#5B2C6F] transition-colors line-clamp-2" style={{ color: '#121212' }}>
+                      {news.title}
+                    </h4>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* 查看更多 */}
+        <div className="flex justify-center mt-10">
+          <Link 
+            href="/qh/news"
+            className="flex items-center gap-2 px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 hover:shadow-lg"
+            style={{ backgroundColor: '#5B2C6F', color: '#fff' }}
+          >
+            查看全部新闻
+            <ArrowRight size={16} />
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
+}
