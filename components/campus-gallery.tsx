@@ -5,76 +5,12 @@ import Image from "next/image"
 import Link from "next/link"
 import { Play } from "lucide-react"
 import { useScrollReveal } from "@/hooks/use-scroll-reveal"
+import { type RootSiteConfig } from "@/lib/root-site-config"
 
-const categories = ["全部", "校园风光", "文体活动", "学生风采", "教学场景"]
-
-const galleryItems = [
-  {
-    id: 1,
-    category: "校园风光",
-    title: "校园主入口航拍",
-    image: "/school_view/（提取图片）9.24省丹中画册-定稿/第20页-145.PNG",
-    type: "image",
-  },
-  {
-    id: 2,
-    category: "文体活动",
-    title: "明镜映人主题活动",
-    image: "/school_view/（提取图片）9.24省丹中画册-定稿/第25页-196.PNG",
-    type: "video",
-  },
-  {
-    id: 3,
-    category: "学生风采",
-    title: "实验课堂场景",
-    image: "/bd/student-club.jpg",
-    type: "image",
-  },
-  {
-    id: 4,
-    category: "教学场景",
-    title: "现代化学习空间",
-    image: "/school_view/（提取图片）9.24省丹中画册-定稿/第24页-188.PNG",
-    type: "image",
-  },
-  {
-    id: 5,
-    category: "校园风光",
-    title: "校园教学楼",
-    image: "/school_view/（提取图片）9.24省丹中画册-定稿/第20页-143.PNG",
-    type: "image",
-  },
-  {
-    id: 6,
-    category: "文体活动",
-    title: "校园园林景观",
-    image: "/school_view/（提取图片）9.24省丹中画册-定稿/第20页-146.PNG",
-    type: "video",
-  },
-  {
-    id: 7,
-    category: "学生风采",
-    title: "师生团队风采",
-    image: "/bd/student-academy.jpg",
-    type: "image",
-  },
-  {
-    id: 8,
-    category: "教学场景",
-    title: "教师团队合影",
-    image: "/school_view/（提取图片）9.24省丹中画册-定稿/第30页-219.PNG",
-    type: "image",
-  },
-  {
-    id: 9,
-    category: "校园风光",
-    title: "校园建筑视角",
-    image: "/school_view/（提取图片）9.24省丹中画册-定稿/第20页-145.PNG",
-    type: "video",
-  },
-]
-
-export function CampusGallery() {
+type CampusGalleryConfig = RootSiteConfig["gallery"]
+export function CampusGallery({ config }: { config: CampusGalleryConfig }) {
+  const categories = config.categories.length > 0 ? config.categories : ["全部"]
+  const galleryItems = config.items
   const [activeCategory, setActiveCategory] = useState("全部")
   const { ref, isRevealed } = useScrollReveal()
 
@@ -82,6 +18,10 @@ export function CampusGallery() {
     activeCategory === "全部"
       ? galleryItems
       : galleryItems.filter((item) => item.category === activeCategory)
+
+  if (galleryItems.length === 0) {
+    return null
+  }
 
   return (
     <section ref={ref} className="bg-[#FDFBF7] py-20">
@@ -95,10 +35,10 @@ export function CampusGallery() {
           }}
         >
           <span className="mb-2 inline-block font-serif text-sm tracking-widest text-[#D4AF37]">
-            GALLERY
+            {config.eyebrow}
           </span>
           <h2 className="mb-4 font-serif text-3xl font-bold text-[#2A0A0A] md:text-4xl">
-            校园风采
+            {config.title}
           </h2>
           <div className="mx-auto h-1 w-20 bg-gradient-to-r from-[#D4AF37] to-[#8B1A1A]" />
         </div>
@@ -171,7 +111,7 @@ export function CampusGallery() {
         {/* 查看更多 */}
         <div className="mt-10 text-center">
           <Link
-            href="/about/campus"
+            href={config.moreHref}
             className="inline-flex items-center gap-2 rounded-full border-2 border-[#8B1A1A] px-8 py-3 font-medium text-[#8B1A1A] transition-all hover:bg-[#8B1A1A] hover:text-[#F5E6D3]"
           >
             查看更多

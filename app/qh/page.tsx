@@ -13,6 +13,16 @@ import { QhFooter } from '@/components/qh/qh-footer';
 import { QhNewsSearchModal } from '@/components/qh/qh-news-search-modal';
 import { QhFeedbackBox } from '@/components/qh/qh-feedback-box';
 
+export type NewsItem = {
+  id: string;
+  title: string;
+  date: string;
+  category: string;
+  image?: string;
+  excerpt?: string;
+  content?: string;
+};
+
 export default function QhPage() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [feedbackOpen, setFeedbackOpen] = useState(false);

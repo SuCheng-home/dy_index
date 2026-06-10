@@ -2,15 +2,9 @@
 
 import { useEffect, useState, useRef } from "react"
 import { useScrollReveal } from "@/hooks/use-scroll-reveal"
+import { type RootSiteConfig } from "@/lib/root-site-config"
 
-const stats = [
-  { value: 83, suffix: "年", label: "办学历史", description: "薪火相传" },
-  { value: 3200, suffix: "+", label: "在校学生", description: "莘莘学子" },
-  { value: 280, suffix: "+", label: "教职员工", description: "名师荟萃" },
-  { value: 98.5, suffix: "%", label: "本科率", description: "卓越成绩" },
-  { value: 60, suffix: "+", label: "省市荣誉", description: "硕果累累" },
-]
-
+type StatsSectionConfig = RootSiteConfig["stats"]
 function AnimatedNumber({ value, suffix }: { value: number; suffix: string }) {
   const [displayValue, setDisplayValue] = useState(0)
   const ref = useRef<HTMLDivElement>(null)
@@ -55,8 +49,13 @@ function AnimatedNumber({ value, suffix }: { value: number; suffix: string }) {
   )
 }
 
-export function StatsSection() {
+export function StatsSection({ config }: { config: StatsSectionConfig }) {
+  const stats = config.items
   const { ref, isRevealed } = useScrollReveal()
+
+  if (stats.length === 0) {
+    return null
+  }
   
   return (
     <section ref={ref} className="relative overflow-hidden bg-gradient-to-r from-[#8B1A1A] via-[#7A1515] to-[#8B1A1A] py-16">

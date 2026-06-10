@@ -133,6 +133,182 @@
   letter-spacing: 4px;
 }
 
+.film-strip {
+  position: relative;
+}
+
+.film-strip::before,
+.film-strip::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 14px;
+  z-index: 10;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 12px,
+      rgba(255, 252, 242, 0.78) 12px 22px,
+      transparent 22px 38px
+    );
+}
+
+.film-strip::before {
+  top: 7px;
+}
+
+.film-strip::after {
+  bottom: 7px;
+}
+
+@keyframes memory-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes memory-right {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.animate-memory-left {
+  animation: memory-left 58s linear infinite;
+}
+
+.animate-memory-right {
+  animation: memory-right 58s linear infinite;
+}
+
+.film-track:hover {
+  animation-play-state: paused;
+}
+
+.story-film-strip,
+.future-film-panel {
+  position: relative;
+}
+
+.story-film-strip::before,
+.story-film-strip::after,
+.future-film-panel::before,
+.future-film-panel::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 14px;
+  z-index: 10;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 12px,
+      rgba(255, 250, 238, 0.8) 12px 22px,
+      transparent 22px 38px
+    );
+}
+
+.story-film-strip::before,
+.future-film-panel::before {
+  top: 7px;
+}
+
+.story-film-strip::after,
+.future-film-panel::after {
+  bottom: 7px;
+}
+
+.story-film-track:hover {
+  animation-play-state: paused;
+}
+
+.future-film-panel {
+  overflow: hidden;
+  border: 1px solid rgba(111, 87, 66, 0.16);
+  border-radius: 1.55rem;
+  background: rgba(119, 110, 99, 0.5);
+  padding: 18px 9px;
+  box-shadow: 0 18px 44px rgba(84, 62, 28, 0.13);
+}
+
+.future-film-window {
+  position: relative;
+  aspect-ratio: 16 / 7.15;
+  overflow: hidden;
+  border-radius: 1.1rem;
+  background: #6a5843;
+}
+
+@keyframes story-film-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-story-film-left {
+  animation: story-film-left 72s linear infinite;
+}
+
+@keyframes future-slide-one {
+  0%,
+  44% {
+    opacity: 1;
+  }
+  50%,
+  94% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes future-slide-two {
+  0%,
+  44% {
+    opacity: 0;
+  }
+  50%,
+  94% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.animate-future-slide-one {
+  animation: future-slide-one 9s ease-in-out infinite;
+}
+
+.animate-future-slide-two {
+  animation: future-slide-two 9s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .story-film-track,
+  .animate-story-film-left,
+  .animate-future-slide-one,
+  .animate-future-slide-two {
+    animation: none;
+  }
+
+  .animate-future-slide-two {
+    opacity: 0;
+  }
+}
+
 /* 江苏省丹阳高级中学品牌色彩系统 */
 @layer base {
   :root {

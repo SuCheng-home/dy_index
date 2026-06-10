@@ -56,14 +56,7 @@ export default function BdFooter() {
           {/* School info */}
           <div className="flex-shrink-0 w-[300px]">
             <div className="flex items-center gap-3 mb-6">
-              <div
-                className="w-12 h-12 rounded-full border-2 flex items-center justify-center"
-                style={{ borderColor: '#8B1A1A' }}
-              >
-                <span className="text-xs font-bold" style={{ color: '#8B1A1A', fontFamily: 'serif' }}>
-                  {'丹中'}
-                </span>
-              </div>
+              
               <div>
                 <span className="text-lg font-bold block" style={{ color: '#e5e5e5', fontFamily: 'serif' }}>
                   江苏省丹阳高级中学

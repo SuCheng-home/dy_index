@@ -1,164 +1,37 @@
 "use client"
 
-import { useEffect, useState, useRef } from "react"
-import Link from "next/link"
+import { useEffect, useRef, useState, type CSSProperties } from "react"
 import Image from "next/image"
+import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Menu, X, ChevronDown, ChevronRight, Settings } from "lucide-react"
+import { X, Menu } from "lucide-react"
+
 import { Button } from "@/components/ui/button"
+import type { RootNavItem, RootSiteConfig } from "@/lib/root-site-config"
 
-// 导航数据带二级和三级菜单
-const navItems = [
-  {
-    label: "校园信息",
-    href: "/about",
-    image: "/view/view1.jpg",
-    subMenus: [
-      { label: "学校概况", children: ["学校简介", "文化标识", "大事记", "校园平面图"] },
-      { label: "校史沿革", children: ["发展历程", "历任领导", "杰出校友"] },
-      { label: "校园风光", children: ["教学楼群", "图书馆", "体育场馆", "学生宿舍"] },
-      { label: "组织机构", children: ["行政部门", "教学部门", "后勤部门"] },
-      { label: "领导班子", children: ["校领导", "中层干部"] },
-    ],
-  },
-  {
-    label: "党建工作",
-    href: "/party",
-    image: "/view/view2.jpg",
-    subMenus: [
-      { label: "党建动态", children: ["党建新闻", "支部活动", "主题党日"] },
-      { label: "党史学习", children: ["学习资料", "心得体会", "专题讲座"] },
-      { label: "主题教育", children: ["活动方案", "学习成果", "先进典型"] },
-      { label: "党员风采", children: ["优秀党员", "入党积极分子"] },
-    ],
-  },
-  {
-    label: "德育之窗",
-    href: "/moraledu",
-    image: "/view/view3.jpg",
-    subMenus: [
-      { label: "德育动态", children: ["德育新闻", "班级风采", "先进表彰"] },
-      { label: "心理健康", children: ["心理咨询", "心理课程", "心理活动"] },
-      { label: "班主任工作", children: ["工作动态", "经验交流", "培训学习"] },
-      { label: "学生社团", children: ["社团介绍", "社团活动", "社团招新"] },
-      { label: "社会实践", children: ["研学旅行", "志愿服务", "社区活动"] },
-    ],
-  },
-  {
-    label: "教学管理",
-    href: "/teaching",
-    image: "/school_view/（提取图片）9.24省丹中画册-定稿/第20页-145.PNG",
-    subMenus: [
-      { label: "教学动态", children: ["教学新闻", "教学简报", "教学通知"] },
-      { label: "课程建设", children: ["课程方案", "校本课程", "选修课程"] },
-      { label: "教学研究", children: ["教研活动", "课题研究", "论文发表"] },
-      { label: "考试管理", children: ["考试安排", "成绩查询", "分析报告"] },
-    ],
-  },
-  {
-    label: "教师发展",
-    href: "/teachers",
-    image: "/view/view5.jpg",
-    subMenus: [
-      { label: "师资队伍", children: ["名师风采", "骨干教师", "青年教师"] },
-      { label: "名师工作室", children: ["工作室介绍", "研修活动", "成果展示"] },
-      { label: "教师培训", children: ["校本培训", "外出培训", "网络研修"] },
-      { label: "教研成果", children: ["获奖情况", "论文著作", "课题成果"] },
-    ],
-  },
-  {
-    label: "群团工作",
-    href: "/union",
-    image: "/view/view6.jpg",
-    subMenus: [
-      { label: "工会活动", children: ["工会新闻", "教工活动", "关爱教职工"] },
-      { label: "团委工作", children: ["团委动态", "团员培养", "青年志愿者"] },
-      { label: "学生会", children: ["学生会介绍", "学生活动", "学生干部"] },
-      { label: "关工委", children: ["关工委动态", "老教师风采", "关爱活动"] },
-    ],
-  },
-  {
-    label: "校园服务",
-    href: "/service",
-    image: "/view/view7.jpg",
-    subMenus: [
-      { label: "招生信息", children: ["招生简章", "招生政策", "录取查询"] },
-      { label: "后勤服务", children: ["餐饮服务", "住宿管理", "校园安全"] },
-      { label: "图书馆", children: ["馆藏资源", "借阅服务", "阅读推广"] },
-      { label: "信息中心", children: ["网络服务", "设备维护", "信息化建设"] },
-    ],
-  },
-  {
-    label: "国际教育",
-    href: "/international",
-    image: "/school_view/（提取图片）9.24省丹中画册-定稿/第24页-188.PNG",
-    subMenus: [
-      { label: "国际交流", children: ["交流动态", "友好学校", "来访接待"] },
-      { label: "海外研学", children: ["研学项目", "研学日记", "研学成果"] },
-      { label: "合作项目", children: ["项目介绍", "升学指导", "录取喜报"] },
-      { label: "外教风采", children: ["外教团队", "外教课程", "文化活动"] },
-    ],
-  },
-]
-
-const subMenuHrefMap: Record<string, string> = {
-  "校园信息/学校概况": "/about",
-  "校园信息/校史沿革": "/about/history",
-  "校园信息/校园风光": "/about/campus",
-  "校园信息/组织机构": "/about/organization",
-  "校园信息/领导班子": "/about/leadership",
-
-  "党建工作/党建动态": "/party",
-  "党建工作/党史学习": "/party/history",
-  "党建工作/主题教育": "/party/theme",
-  "党建工作/党员风采": "/party/members",
-
-  "德育之窗/德育动态": "/moraledu",
-  "德育之窗/心理健康": "/moraledu/mental",
-  "德育之窗/班主任工作": "/moraledu/teacher",
-  "德育之窗/学生社团": "/moraledu/clubs",
-  "德育之窗/社会实践": "/moraledu/practice",
-
-  "教学管理/教学动态": "/teaching",
-  "教学管理/课程建设": "/teaching/curriculum",
-  "教学管理/教学研究": "/teaching/research",
-  "教学管理/考试管理": "/teaching/exam",
-
-  "教师发展/师资队伍": "/teachers",
-  "教师发展/名师工作室": "/teachers/studio",
-  "教师发展/教师培训": "/teachers/training",
-  "教师发展/教研成果": "/teachers/achievements",
-
-  "群团工作/工会活动": "/union",
-  "群团工作/团委工作": "/union/youth",
-  "群团工作/学生会": "/union/student",
-  "群团工作/关工委": "/union/elderly",
-
-  "校园服务/招生信息": "/service/admission",
-  "校园服务/后勤服务": "/service/logistics",
-  "校园服务/图书馆": "/service/library",
-  "校园服务/信息中心": "/service/info",
-
-  "国际教育/国际交流": "/international",
-  "国际教育/海外研学": "/international/study",
-  "国际教育/合作项目": "/international/projects",
-  "国际教育/外教风采": "/international/teachers",
+function GinkgoLeaf({ className = "", style }: { className?: string; style?: CSSProperties }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} style={style} fill="currentColor" aria-hidden="true">
+      <path d="M12 2C8 2 4 6 4 12c0 4 2 7 4 9l1-1c2 1 3 2 3 2s1-1 3-2l1 1c2-2 4-5 4-9 0-6-4-10-8-10zm0 2c3 0 6 3 6 8 0 3-1.5 5.5-3 7-1-.5-2-1-3-1s-2 .5-3 1c-1.5-1.5-3-4-3-7 0-5 3-8 6-8z" />
+      <path d="M12 6c-2.5 0-4 2-4 5s1.5 5 4 7c2.5-2 4-4 4-7s-1.5-5-4-5z" opacity="0.6" />
+    </svg>
+  )
 }
 
-const getSubMenuHref = (navLabel: string, subLabel: string, navHref: string) =>
-  subMenuHrefMap[`${navLabel}/${subLabel}`] ?? navHref
-
-export function Header({ variant = "default" }: { variant?: "default" | "home" }) {
+export function Header({ variant = "default", config }: { variant?: "default" | "home"; config?: RootSiteConfig }) {
+  const [liveNavItems, setLiveNavItems] = useState<RootNavItem[]>(config?.navigation ?? [])
+  const navItems = liveNavItems
+  const site = config?.site
+  const pathname = usePathname()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
-  const [activeSubMenu, setActiveSubMenu] = useState<number>(0)
   const [isScrolled, setIsScrolled] = useState(false)
-  const pathname = usePathname()
   const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
-  const isNewsDetail = /^\/news\/[^/]+$/.test(pathname)
-  const isOverlay = variant === "home" || (variant === "default" && pathname !== "/" && !isNewsDetail && pathname !== "/admin")
+  const isOverlay = variant === "home"
   const isTop = isOverlay && !isScrolled
+  const currentNavItem = navItems.find((item) => item.label === activeDropdown) ?? null
+  const visibleSubMenus = currentNavItem?.subMenus.slice(0, 12) ?? []
 
   useEffect(() => {
     if (!isOverlay) {
@@ -166,55 +39,96 @@ export function Header({ variant = "default" }: { variant?: "default" | "home" }
       return
     }
 
+    let frame: number | null = null
+    let lastScrolled = window.scrollY > 10
+    const documentScrollOptions = { capture: true, passive: true }
+    const getScrollTop = () => window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0
     const update = () => {
-      setIsScrolled(window.scrollY > 10)
+      const nextScrolled = getScrollTop() > 10
+      if (nextScrolled !== lastScrolled) {
+        lastScrolled = nextScrolled
+        setIsScrolled(nextScrolled)
+      }
+    }
+    const scheduleUpdate = () => {
+      if (frame !== null) window.cancelAnimationFrame(frame)
+      frame = window.requestAnimationFrame(() => {
+        frame = null
+        update()
+      })
     }
 
-    update()
-    window.addEventListener("scroll", update, { passive: true })
-    return () => window.removeEventListener("scroll", update)
-  }, [isOverlay, pathname])
+    setIsScrolled(lastScrolled)
+    const interval = window.setInterval(update, 250)
+    window.addEventListener("scroll", scheduleUpdate, { passive: true })
+    document.addEventListener("scroll", scheduleUpdate, documentScrollOptions)
+    window.addEventListener("wheel", scheduleUpdate, { passive: true })
+    window.addEventListener("touchmove", scheduleUpdate, { passive: true })
+    return () => {
+      if (frame !== null) window.cancelAnimationFrame(frame)
+      window.clearInterval(interval)
+      window.removeEventListener("scroll", scheduleUpdate)
+      document.removeEventListener("scroll", scheduleUpdate, documentScrollOptions)
+      window.removeEventListener("wheel", scheduleUpdate)
+      window.removeEventListener("touchmove", scheduleUpdate)
+    }
+  }, [isOverlay])
+
+  useEffect(() => {
+    setMobileMenuOpen(false)
+    setActiveDropdown(null)
+  }, [pathname])
+
+  useEffect(() => {
+    setLiveNavItems(config?.navigation ?? [])
+  }, [config?.navigation])
+
+  useEffect(() => {
+    let alive = true
+    const domain = window.location.hostname
+    const url = domain ? `/api/public/navigation?domain=${encodeURIComponent(domain)}` : "/api/public/navigation"
+    fetch(url, { cache: "no-store" })
+      .then((response) => response.json())
+      .then((json) => {
+        if (!alive) return
+        const navigation = json?.data?.navigation
+        setLiveNavItems(Array.isArray(navigation) ? navigation : [])
+      })
+      .catch(() => {
+        if (alive) setLiveNavItems([])
+      })
+    return () => {
+      alive = false
+    }
+  }, [])
 
   const handleNavEnter = (label: string) => {
     if (dropdownTimeoutRef.current) clearTimeout(dropdownTimeoutRef.current)
     setActiveDropdown(label)
-    setActiveSubMenu(0)
   }
 
   const handleNavLeave = () => {
     dropdownTimeoutRef.current = setTimeout(() => {
       setActiveDropdown(null)
-      setActiveSubMenu(0)
-    }, 200)
+    }, 160)
   }
 
-  const currentNavItem = navItems.find((item) => item.label === activeDropdown)
+  function handleManageClick() {
+    window.location.href = "/app"
+  }
 
   return (
     <>
-      {/* 背景蒙层 - 当下拉菜单打开时显示，从左到右渐变 + 颗粒效果 */}
       <div
         className="fixed inset-0 z-40 pointer-events-none transition-opacity duration-500"
-        style={{
-          opacity: activeDropdown ? 1 : 0,
-        }}
+        style={{ opacity: activeDropdown ? 1 : 0 }}
       >
-        {/* 主渐变遮罩 - 从左到右 */}
         <div
           className="absolute inset-0"
           style={{
-            background: activeDropdown 
-              ? 'linear-gradient(to right, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0.3) 70%, transparent 100%)' 
-              : 'transparent',
-          }}
-        />
-        {/* 颗粒/噪点效果 */}
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
-            opacity: activeDropdown ? 0.15 : 0,
-            mixBlendMode: 'overlay',
+            background: activeDropdown
+              ? "linear-gradient(to right, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.45) 42%, rgba(0,0,0,0.18) 72%, transparent 100%)"
+              : "transparent",
           }}
         />
       </div>
@@ -224,50 +138,49 @@ export function Header({ variant = "default" }: { variant?: "default" | "home" }
           className={`transition-all duration-500 ${
             isTop && !activeDropdown
               ? "bg-transparent"
-              : "border-b border-[#E8DCC8] bg-white shadow-sm"
+              : "border-b border-[#E8DCC8] bg-white/95 shadow-sm backdrop-blur"
           }`}
         >
-          <div className="mx-auto flex max-w-[1400px] items-center justify-between px-2 xl:px-4 py-3">
-            <Link href="/" className="flex shrink-0 items-center mr-auto lg:mr-8 xl:mr-12">
-              <Image
+          <div className="mx-auto flex max-w-[1500px] items-center justify-between gap-2 px-3 py-3 xl:px-4">
+            <Link href="/" className="flex shrink-0 items-center lg:mr-2 xl:mr-4 2xl:mr-8">
+              <img
                 src="/logo.png"
-                alt="江苏省丹阳高级中学"
-                width={200}
-                height={56}
-                className={`h-10 lg:h-11 xl:h-12 w-auto transition-all duration-300 ${isTop && !activeDropdown ? "brightness-0 invert" : ""}`}
-                priority
+                alt={site?.name ?? "江苏省丹阳高级中学"}
+                width={350}
+                height={75}
+                decoding="async"
+                data-nimg="1"
+                suppressHydrationWarning
+                style={{ color: "transparent" }}
+                className="h-11 w-auto transition-all duration-300 xl:h-12 2xl:h-14"
               />
             </Link>
 
-            {/* 桌面端导航 */}
-            <nav className="hidden items-center gap-1 lg:gap-2 xl:gap-4 lg:flex">
+            <nav className="hidden min-w-0 flex-1 items-center justify-center gap-0 lg:flex xl:gap-1 2xl:gap-2">
               {navItems.map((item) => (
                 <div
                   key={item.label}
-                  className="group relative"
+                  className="group relative shrink-0"
                   onMouseEnter={() => handleNavEnter(item.label)}
                   onMouseLeave={handleNavLeave}
                 >
                   <Link
                     href={item.href}
-                    className={`flex items-center gap-0.5 px-2 py-2 text-[15px] lg:text-[16px] xl:text-[17px] font-semibold tracking-wider transition-all duration-300 whitespace-nowrap relative ${
+                    className={`relative flex items-center whitespace-nowrap px-1.5 py-2 text-[16px] font-semibold tracking-normal transition-all duration-300 xl:px-2 ${
                       isTop && !activeDropdown
-                        ? "text-white/90 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] hover:text-white"
+                        ? "text-white/95 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] hover:text-white"
                         : activeDropdown === item.label
                         ? "text-[#8B1A1A]"
                         : "text-[#333] hover:text-[#8B1A1A]"
                     }`}
-                    style={isTop && !activeDropdown ? { textShadow: "0 2px 8px rgba(0,0,0,0.6), 0 0 2px rgba(0,0,0,0.8)" } : {}}
+                    style={isTop && !activeDropdown ? { textShadow: "0 2px 8px rgba(0,0,0,0.6)" } : undefined}
                   >
                     {item.label}
-                    <ChevronDown className={`h-4 w-4 transition-transform duration-300 ${activeDropdown === item.label ? "rotate-180" : ""}`} />
-                    {/* 底部指示线 */}
                     <span
-                      className="absolute bottom-0 left-2 right-2 h-[2px] transition-all duration-300"
+                      className="absolute bottom-0 left-1.5 right-1.5 h-[2px] bg-[#8B1A1A] transition-transform duration-300 xl:left-2 xl:right-2"
                       style={{
-                        backgroundColor: '#8B1A1A',
-                        transform: activeDropdown === item.label ? 'scaleX(1)' : 'scaleX(0)',
-                        transformOrigin: 'center',
+                        transform: activeDropdown === item.label ? "scaleX(1)" : "scaleX(0)",
+                        transformOrigin: "center",
                       }}
                     />
                   </Link>
@@ -275,22 +188,28 @@ export function Header({ variant = "default" }: { variant?: "default" | "home" }
               ))}
             </nav>
 
-            {/* 右侧操作区 */}
-            <div className="flex items-center gap-2 lg:gap-4 ml-auto lg:ml-0">
-              <a
-                href="https://www.zhxiaoyuan.cn/app/#/main/homePage/danyangHome"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`group flex h-9 items-center justify-center gap-1.5 rounded-full px-3 transition-all ${
+            <div className="ml-auto flex shrink-0 items-center gap-2 lg:ml-2 lg:gap-2 xl:ml-3 2xl:gap-4">
+              <button
+                type="button"
+                onClick={handleManageClick}
+                className={`group relative flex h-11 items-center justify-center gap-1.5 px-0 pb-1 text-sm font-semibold transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37]/70 focus-visible:ring-offset-2 xl:text-[15px] ${
                   isTop && !activeDropdown
-                    ? "text-white hover:bg-white/20 backdrop-blur-sm" 
-                    : "text-[#555] hover:bg-[#8B1A1A]/10 hover:text-[#8B1A1A]"
+                    ? "text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.65)] hover:text-[#F7E8B6] focus-visible:ring-offset-transparent"
+                    : "text-[#8B1A1A] hover:text-[#6B1010] focus-visible:ring-offset-white"
                 }`}
-                aria-label="管理系统"
               >
-                <Settings className="h-4 w-4 transition-transform group-hover:rotate-90" />
-                <span className="hidden text-[13px] font-medium xl:block whitespace-nowrap">管理后台</span>
-              </a>
+                <GinkgoLeaf
+                  className={`h-4 w-4 shrink-0 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:-rotate-12 ${
+                    isTop && !activeDropdown ? "text-[#D4AF37]" : "text-[#8B1A1A]"
+                  }`}
+                />
+                <span className="relative z-10 whitespace-nowrap tracking-normal">智慧丹中入口</span>
+                <span
+                  className={`pointer-events-none absolute bottom-1.5 left-0 right-0 h-[2px] rounded-full transition-colors duration-300 ${
+                    isTop && !activeDropdown ? "bg-[#D4AF37]" : "bg-[#8B1A1A]"
+                  }`}
+                />
+              </button>
               <Button
                 variant="ghost"
                 size="icon"
@@ -299,7 +218,7 @@ export function Header({ variant = "default" }: { variant?: "default" | "home" }
                     ? "text-white hover:bg-white/10"
                     : "text-[#666] hover:bg-[#8B1A1A]/5 hover:text-[#8B1A1A]"
                 }`}
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                onClick={() => setMobileMenuOpen((current) => !current)}
               >
                 {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
               </Button>
@@ -307,146 +226,96 @@ export function Header({ variant = "default" }: { variant?: "default" | "home" }
           </div>
         </div>
 
-        {/* 红色品牌线 */}
         <div
           className="h-[3px] transition-opacity duration-300"
-          style={{
-            backgroundColor: '#8B1A1A',
-            opacity: activeDropdown || isScrolled ? 1 : 0,
-          }}
+          style={{ backgroundColor: "#8B1A1A", opacity: activeDropdown || isScrolled ? 1 : 0 }}
         />
 
-        {/* Mega Dropdown - 桌面端 */}
         <div
-          className="hidden lg:block absolute top-full left-0 right-0 transition-all duration-400 overflow-hidden"
+          className="absolute left-0 right-0 top-full hidden overflow-hidden transition-all duration-400 lg:block"
           style={{
-            maxHeight: activeDropdown ? '420px' : '0px',
+            maxHeight: activeDropdown ? "380px" : "0px",
             opacity: activeDropdown ? 1 : 0,
-            boxShadow: activeDropdown ? '0 12px 40px rgba(0,0,0,0.1)' : 'none',
+            boxShadow: activeDropdown ? "0 12px 40px rgba(0,0,0,0.1)" : "none",
           }}
           onMouseEnter={() => {
             if (dropdownTimeoutRef.current) clearTimeout(dropdownTimeoutRef.current)
           }}
           onMouseLeave={handleNavLeave}
         >
-          <div className="bg-white border-t" style={{ borderColor: '#f0f0f0' }}>
-            <div className="flex" style={{ minHeight: '420px' }}>
-              {/* 左侧：图片区域 - 顶到左侧边缘 */}
-              <div className="w-[45%] flex-shrink-0 relative overflow-hidden">
-                {currentNavItem && (
+          <div className="border-t border-[#E8DCC8] bg-[#FDFBF7]">
+            <div className="mx-auto flex max-w-[1400px]" style={{ minHeight: "380px" }}>
+              <div className="relative w-[36%] max-w-[520px] shrink-0 overflow-hidden">
+                {currentNavItem ? (
                   <Image
-                    src={currentNavItem.image}
+                    src={currentNavItem.image || "https://cdnfile-10043692.file.myqcloud.com/productVersion/common/danyang/省丹中画册/view3.jpg"}
                     alt={currentNavItem.label}
                     fill
                     className="object-cover transition-transform duration-700"
-                    style={{ transform: 'scale(1.02)' }}
+                    style={{ transform: "scale(1.02)" }}
                   />
-                )}
-                {/* 右侧渐变遮罩 - 从左到右，更高级 */}
-                <div
-                  className="absolute inset-0"
-                  style={{ 
-                    background: 'linear-gradient(to right, transparent 40%, rgba(255,255,255,0.5) 70%, rgba(255,255,255,1) 100%)' 
-                  }}
-                />
-                {/* 右侧颗粒效果 - 更明显 */}
-                <div
-                  className="absolute inset-0"
-                  style={{
-                    backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
-                    opacity: 0.12,
-                    mixBlendMode: 'overlay',
-                    maskImage: 'linear-gradient(to right, transparent 30%, black 100%)',
-                    WebkitMaskImage: 'linear-gradient(to right, transparent 30%, black 100%)',
-                  }}
-                />
+                ) : null}
+                <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,255,255,0)_0%,rgba(253,251,247,0.14)_58%,rgba(253,251,247,0.96)_100%)]" />
               </div>
 
-              {/* 中间：二级菜单 */}
-              <div className="w-[260px] flex-shrink-0 border-r py-8 px-4" style={{ borderColor: '#f0f0f0' }}>
-                {currentNavItem?.subMenus.map((sub, i) => (
-                  <Link
-                    key={sub.label}
-                    href={getSubMenuHref(currentNavItem.label, sub.label, currentNavItem.href)}
-                    className="w-full text-left px-6 py-3.5 text-[15px] transition-all duration-300 rounded-sm flex items-center justify-between"
-                    style={{
-                      color: activeSubMenu === i ? '#8B1A1A' : '#444',
-                      backgroundColor: activeSubMenu === i ? 'rgba(139,26,26,0.04)' : 'transparent',
-                      fontWeight: activeSubMenu === i ? 600 : 400,
-                    }}
-                    onMouseEnter={() => setActiveSubMenu(i)}
-                  >
-                    {sub.label}
-                    {sub.children && sub.children.length > 0 && (
-                      <ChevronRight size={14} style={{ color: activeSubMenu === i ? '#8B1A1A' : '#ccc' }} />
-                    )}
-                  </Link>
-                ))}
-              </div>
+              <div className="flex flex-1 items-center px-8 py-9 xl:px-12">
+                <div className="flex h-[266px] w-full flex-col">
+                  <div className="flex h-[92px] shrink-0 items-start justify-between gap-6">
+                    <div className="pt-1">
+                      <p className="text-xs font-semibold tracking-[0.2em] text-[#B8860B]">栏目导航</p>
+                      <h3 className="mt-2 font-serif text-3xl font-bold text-[#3B1D1D]">{currentNavItem?.label}</h3>
+                    </div>
+                  </div>
 
-              {/* 右侧：三级链接 */}
-              <div className="flex-1 py-8 px-8 max-w-[320px]">
-                {currentNavItem?.subMenus[activeSubMenu]?.children && (
-                  <div className="space-y-1">
-                    {currentNavItem.subMenus[activeSubMenu].children.map((child) => (
+                  <div className="grid min-h-[174px] grid-cols-2 content-start border-t border-[#E8DCC8]">
+                    {visibleSubMenus.map((sub, index) => (
                       <Link
-                        key={child}
-                        href={getSubMenuHref(
-                          currentNavItem.label,
-                          currentNavItem.subMenus[activeSubMenu].label,
-                          currentNavItem.href
-                        )}
-                        className="flex items-center gap-2 px-4 py-3 text-sm rounded-sm transition-all duration-300 group/link"
-                        style={{ color: '#555' }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.backgroundColor = 'rgba(139,26,26,0.04)'
-                          e.currentTarget.style.color = '#8B1A1A'
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.backgroundColor = 'transparent'
-                          e.currentTarget.style.color = '#555'
-                        }}
+                        key={sub.label}
+                        href={sub.href || currentNavItem?.href || "/"}
+                        className={`group relative flex min-h-[58px] items-center gap-4 border-b border-[#E8DCC8] px-1 py-3 transition-colors duration-300 hover:bg-white ${
+                          index % 2 === 0 ? "pr-7" : "pl-7"
+                        }`}
                       >
-                        <ChevronRight size={12} style={{ color: '#8B1A1A' }} />
-                        {child}
+                        <span className="w-9 shrink-0 font-serif text-lg font-bold text-[#D4AF37] transition-colors group-hover:text-[#8B1A1A]">
+                          {String(index + 1).padStart(2, "0")}
+                        </span>
+                        <span className="min-w-0 flex-1">
+                          <span className="block text-[16px] font-semibold text-[#332927] transition-colors group-hover:text-[#8B1A1A]">
+                            {sub.label}
+                          </span>
+                          {sub.children.length > 0 ? (
+                            <span className="mt-1 block truncate text-xs text-[#9A8D83]">
+                              {sub.children.slice(0, 3).join(" / ")}
+                            </span>
+                          ) : null}
+                        </span>
+                        <span className="absolute bottom-0 left-0 h-[2px] w-0 bg-[#8B1A1A] transition-all duration-300 group-hover:w-16" />
                       </Link>
                     ))}
                   </div>
-                )}
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* 移动端菜单 */}
         {mobileMenuOpen && (
-          <div className="animate-in slide-in-from-top-2 border-t border-[#E8DCC8] bg-white lg:hidden max-h-[calc(100vh-4rem)] overflow-y-auto">
+          <div className="animate-in slide-in-from-top-2 max-h-[calc(100vh-4rem)] overflow-y-auto border-t border-[#E8DCC8] bg-white lg:hidden">
             <nav className="mx-auto max-w-7xl px-4 py-4">
               {navItems.map((item) => (
                 <div key={item.label} className="border-b border-[#E8DCC8] last:border-b-0">
                   <button
                     className="flex w-full items-center justify-between py-3 text-left font-medium text-[#333]"
-                    onClick={() =>
-                      setActiveDropdown(activeDropdown === item.label ? null : item.label)
-                    }
+                    onClick={() => setActiveDropdown((current) => (current === item.label ? null : item.label))}
                   >
                     {item.label}
-                    <ChevronDown
-                      className={`h-4 w-4 transition-transform duration-300 ${
-                        activeDropdown === item.label ? "rotate-180" : ""
-                      }`}
-                    />
                   </button>
-                  <div
-                    className={`overflow-hidden transition-all duration-300 ${
-                      activeDropdown === item.label ? "max-h-96 pb-3" : "max-h-0"
-                    }`}
-                  >
-                    <div className="pl-4 space-y-1">
+                  <div className={`overflow-hidden transition-all duration-300 ${activeDropdown === item.label ? "max-h-96 pb-3" : "max-h-0"}`}>
+                    <div className="space-y-1 pl-4">
                       {item.subMenus.map((sub) => (
                         <Link
                           key={sub.label}
-                          href={getSubMenuHref(item.label, sub.label, item.href)}
+                          href={sub.href || item.href}
                           className="block py-2 text-sm text-[#666] transition-colors hover:text-[#8B1A1A]"
                           onClick={() => setMobileMenuOpen(false)}
                         >
