@@ -1,7 +1,9 @@
 import { headers } from "next/headers"
 
 import {
+  type HomeMessageSummary,
   type HomeModuleSummary,
+  type PcHomeTemplate,
   createPublicSiteContext,
   getPublicColumnById,
   getPublicHomeTemplate,
@@ -49,8 +51,13 @@ export async function getRequestPublicDomain(domain?: string | null) {
 
 export async function getPublicSiteContext(domain?: string | null): Promise<PublicSiteContext> {
   const resolvedDomain = await getRequestPublicDomain(domain)
-  const setting = await getPublicSiteSetting(resolvedDomain)
-  return createPublicSiteContext(setting)
+  let setting = await getPublicSiteSetting(resolvedDomain)
+
+  if (!setting && resolvedDomain !== SCHOOL_WEB_TWO_CONFIG.domainName) {
+    setting = await getPublicSiteSetting(SCHOOL_WEB_TWO_CONFIG.domainName)
+  }
+
+  return createPublicSiteContext(setting, resolvedDomain)
 }
 
 export async function getRealtimeNavigationColumns(context?: Pick<PublicSiteContext, "webId">) {
@@ -91,10 +98,10 @@ export async function getPublicSiteSnapshot(domain?: string | null) {
   const templateColumns = navigationColumns.length > 0
     ? navigationColumns
     : await mergeColumnDetailLogos(template.columnList)
-  const realtimeTemplate = {
+  const realtimeTemplate = await hydrateHomeTemplateMessages({
     ...template,
     columnList: templateColumns,
-  }
+  })
   const config = buildRootSiteConfigFromRemote(context, realtimeTemplate)
   const navigationTree = buildNavigationTree(realtimeTemplate.columnList)
   return {
@@ -105,6 +112,50 @@ export async function getPublicSiteSnapshot(domain?: string | null) {
     navigationTree,
     navigationSource: navigationColumns.length > 0 ? source : "template",
   }
+}
+
+async function hydrateHomeTemplateMessages(template: PcHomeTemplate) {
+  const homeColumn = template.columnList[0]
+  const homeModules = homeColumn?.moduleList ?? []
+  if (homeModules.length === 0) return template
+
+  const messageLists = await Promise.all(
+    homeModules.map((module) => getHomeModuleMessageSummaries(module.id))
+  )
+  const messageListByModuleId = new Map(
+    homeModules.map((module, index) => [module.id, messageLists[index]])
+  )
+  const hydratedHomeModules = homeModules.map((module) => ({
+    ...module,
+    messageList: messageListByModuleId.get(module.id) ?? module.messageList ?? [],
+  }))
+
+  return {
+    ...template,
+    columnList: template.columnList.map((column, index) => index === 0
+      ? { ...column, moduleList: hydratedHomeModules }
+      : column
+    ),
+    moduleList: template.moduleList.map((group) => ({
+      ...group,
+      moduleListJson: group.moduleListJson.map((module) => ({
+        ...module,
+        messageList: messageListByModuleId.get(module.id) ?? module.messageList ?? [],
+      })),
+    })),
+  }
+}
+
+async function getHomeModuleMessageSummaries(moduleId: number): Promise<HomeMessageSummary[]> {
+  const messages = await getPublicModuleMessages(moduleId, 1, 8).catch(() => null)
+  return (messages?.dataList ?? []).map((message) => ({
+    id: message.id,
+    title: message.title,
+    logoUrl: message.logoUrl,
+    messageType: message.messageType,
+    messageUrl: message.messageUrl,
+    createTime: message.createTime,
+  }))
 }
 
 export async function getPublicColumnPage(columnId: number, domain?: string | null) {

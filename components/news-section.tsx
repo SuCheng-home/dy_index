@@ -20,24 +20,29 @@ export function NewsSection({ config }: { config: NewsSectionConfig }) {
       yearMonth: year && month ? `${year}.${month}` : "",
     }
   })
-  const announcements = config.items.slice(6, 15).map((item) => {
-    const [year, month, day] = (item.date || "").split("-")
-    return {
-      id: item.id,
-      title: item.title,
-      day: day || "",
-      yearMonth: year && month ? `${year}.${month}` : "",
-    }
-  })
+  const announcements = [...config.items]
+    .filter((item) => item.category !== config.newsTitle)
+    .sort((a, b) => String(b.date || "").localeCompare(String(a.date || "")))
+    .slice(0, 9)
+    .map((item) => {
+      const [year, month, day] = (item.date || "").split("-")
+      return {
+        id: item.id,
+        title: item.title,
+        day: day || "",
+        yearMonth: year && month ? `${year}.${month}` : "",
+      }
+    })
   const [activeCategory, setActiveCategory] = useState("全部")
   const { ref: sectionRef, isRevealed } = useScrollReveal()
   const [currentSlide, setCurrentSlide] = useState(0)
 
   const filteredNews =
     activeCategory === "全部"
-      ? newsItems
+      ? newsItems.filter((item) => item.category === config.newsTitle)
       : newsItems.filter((item) => item.category === activeCategory)
   const featuredNews = filteredNews[currentSlide] ?? filteredNews[0]
+  const currentNewsTitle = activeCategory === "全部" ? config.newsTitle : activeCategory
 
   if (config.items.length === 0) {
     return null
@@ -108,7 +113,7 @@ export function NewsSection({ config }: { config: NewsSectionConfig }) {
           }}
         >
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-xl font-bold text-[#2A0A0A]">{config.newsTitle}</h3>
+            <h3 className="text-xl font-bold text-[#2A0A0A]">{currentNewsTitle}</h3>
             <Link
               href={config.moreHref}
               className="flex items-center gap-1 text-sm text-[#8B1A1A] hover:text-[#D4AF37] transition-colors"
@@ -121,25 +126,25 @@ export function NewsSection({ config }: { config: NewsSectionConfig }) {
           <div className="flex gap-6">
             {/* 左侧轮播图 */}
             <div className="w-[55%] flex-shrink-0">
-              <div className="relative aspect-[4/3] rounded-lg overflow-hidden shadow-lg">
-                {featuredNews?.image ? (
-                  <Image
-                    src={featuredNews.image}
-                    alt={featuredNews.title}
-                    fill
-                    className="object-cover"
-                  />
-                ) : (
-                  <div className="flex h-full items-center justify-center bg-[#E8DCC8] px-8 text-center text-lg font-semibold text-[#8B1A1A]">
-                    {featuredNews?.title}
-                  </div>
-                )}
-                {/* 底部标题栏 */}
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#1a365d]/95 to-[#1a365d]/70 px-6 py-4">
-                  <h4 className="text-white font-medium mb-2">
+              <div className="overflow-hidden rounded-lg bg-white shadow-lg">
+                <div className="group relative aspect-[4/3] overflow-hidden bg-white">
+                  {featuredNews?.image ? (
+                    <Image
+                      src={featuredNews.image}
+                      alt={featuredNews.title}
+                      fill
+                      className="object-contain p-3 transition-transform duration-500 ease-out group-hover:scale-105"
+                    />
+                  ) : (
+                    <div className="flex h-full items-center justify-center bg-[#E8DCC8] px-8 text-center text-lg font-semibold text-[#8B1A1A]">
+                      {featuredNews?.title}
+                    </div>
+                  )}
+                </div>
+                <div className="bg-[#1a365d] px-6 py-4">
+                  <h4 className="text-white font-medium mb-2 line-clamp-2">
                     {featuredNews?.title}
                   </h4>
-                  {/* 轮播指示器 */}
                   <div className="flex justify-end gap-2">
                     {filteredNews.slice(0, 5).map((_, index) => (
                       <button

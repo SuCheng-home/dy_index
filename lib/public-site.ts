@@ -201,7 +201,10 @@ export function findModuleById(columns: HomeColumnSummary[], columnId: number, m
 export function buildRootSiteConfigFromRemote(context: PublicSiteContext, template: PcHomeTemplate) {
   const setting = context.setting
   const navigation = buildNavigationTree(template.columnList)
-  const featuredModules = template.moduleList.flatMap((group) => group.moduleListJson)
+  const primaryModules = template.columnList[0]?.moduleList ?? []
+  const featuredModules = primaryModules.length > 0
+    ? primaryModules
+    : template.moduleList.flatMap((group) => group.moduleListJson)
   const newsItems = featuredModules.flatMap((module) =>
     (module.messageList ?? []).map((item) =>
       messageToHomeNewsItem(module.name, {
@@ -226,7 +229,6 @@ export function buildRootSiteConfigFromRemote(context: PublicSiteContext, templa
       })
     )
   )
-  const primaryModules = template.columnList[0]?.moduleList ?? []
   const quickLinks = template.columnList.slice(0, 4).map((column) => ({
     title: column.name,
     links: (column.moduleList ?? []).slice(0, 4).map((module) => ({

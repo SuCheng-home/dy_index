@@ -12,6 +12,8 @@ const WX_LOGIN_SCRIPT = "https://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLo
 const WX_LOGIN_STATE = "WXLOGINNEW"
 const WX_LOGIN_STYLE = "https://cdnfile-10043692.file.myqcloud.com/vuewxcep/common_css/new_wx_login.css"
 
+const ENABLE_QYWX_LOGIN = false
+
 type LoginTab = "wechat" | "account"
 
 type ApiResponse<T> = {
@@ -28,6 +30,7 @@ type WechatPermitData = {
 
 type LoginData = {
   token?: string
+  loginUserId?: string | number
   loginWxToken?: string | null
   loginSchoolIds?: SchoolItem[]
 }
@@ -46,6 +49,32 @@ declare global {
 
 function getLoginSuccessUrl(token: string): string {
   return `https://www.zhxiaoyuan.cn/#/main/homePage/danyangHome?token=${encodeURIComponent(token)}`
+}
+
+function bytesToHex(bytes: Uint8Array) {
+  return Array.from(bytes).map((byte) => byte.toString(16).padStart(2, "0")).join("")
+}
+
+async function encryptPassword(password: string) {
+  const encoder = new TextEncoder()
+  const key = await window.crypto.subtle.importKey(
+    "raw",
+    encoder.encode("2019092415weiyan"),
+    { name: "AES-CBC" },
+    false,
+    ["encrypt"]
+  )
+  const encrypted = await window.crypto.subtle.encrypt(
+    { name: "AES-CBC", iv: encoder.encode("weiyan2019092415") },
+    key,
+    encoder.encode(password.trim())
+  )
+  return bytesToHex(new Uint8Array(encrypted))
+}
+
+function isValidPassword(value: string) {
+  if (value.length < 8 || value.length > 20) return false
+  return [/[0-9]/.test(value), /[A-Za-z]/.test(value), /[^0-9A-Za-z]/.test(value)].filter(Boolean).length >= 2
 }
 
 async function postJson<T>(url: string, body: Record<string, unknown> = {}): Promise<ApiResponse<T>> {
@@ -96,6 +125,10 @@ export default function SmartDanzhongLoginPage() {
   const [bindMobile, setBindMobile] = useState("")
   const [bindCode, setBindCode] = useState("")
   const [codeCountdown, setCodeCountdown] = useState(0)
+  const [firstLoginOpen, setFirstLoginOpen] = useState(false)
+  const [firstLoginUserId, setFirstLoginUserId] = useState("")
+  const [resetPwdForm, setResetPwdForm] = useState({ currentPwd: "", newPwd: "", confirmPwd: "" })
+  const [passwordSuccessOpen, setPasswordSuccessOpen] = useState(false)
 
   const finishLogin = useCallback((data?: LoginData) => {
     if (data?.token) {
@@ -162,6 +195,8 @@ export default function SmartDanzhongLoginPage() {
   }, [handleWechatResponse])
 
   useEffect(() => {
+    if (!ENABLE_QYWX_LOGIN) return
+
     let cancelled = false
 
     async function initProviderLogin() {
@@ -171,7 +206,7 @@ export default function SmartDanzhongLoginPage() {
         if (cancelled) return
         if (providerPermit.code === 200 && providerPermit.data) {
           setQywxLink(
-            `https://open.work.weixin.qq.com/wwopen/sso/3rd_qrConnect?appid=${providerPermit.data.appid}&redirect_uri=${providerPermit.data.redirect_url}&state=WXLOGINCOMMON_${window.location.hostname}${window.location.pathname}&usertype=member`
+            `https://open.work.weixin.qq.com/wwopen/sso/3rd_qrConnect?appid=${providerPermit.data.appid}&redirect_uri=${providerPermit.data.redirect_url}&state=WXLOGINCOMMON_www.zhxiaoyuan.cn/&usertype=member`
           )
         }
       } catch (error) {
@@ -216,18 +251,81 @@ export default function SmartDanzhongLoginPage() {
     }
     setLoading(true)
     try {
+      const encryptedPassword = await encryptPassword(password)
       const response = await fetch("/api/manage/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ account: account.trim(), password }),
+        body: JSON.stringify({ account: account.trim(), encryptedPassword }),
       })
-      const json = await response.json()
+      const json = (await response.json()) as ApiResponse<LoginData>
+      if (json?.code === 1052) {
+        setFirstLoginUserId(String(json.data?.loginUserId ?? ""))
+        setResetPwdForm({ currentPwd: password, newPwd: "", confirmPwd: "" })
+        setFirstLoginOpen(true)
+        setMessage("")
+        return
+      }
       if (!response.ok || json?.result === false || json?.code !== 200) {
         throw new Error(json?.msg || "登录失败")
       }
       if (!finishLogin(json.data)) throw new Error("登录响应缺少 token")
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "登录失败")
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  async function submitFirstLoginPassword() {
+    setMessage("")
+    if (!resetPwdForm.currentPwd.trim()) {
+      setMessage("请输入当前密码")
+      return
+    }
+    if (resetPwdForm.currentPwd !== password) {
+      setMessage("当前密码不正确")
+      return
+    }
+    if (!resetPwdForm.newPwd.trim()) {
+      setMessage("请输入新密码")
+      return
+    }
+    if (resetPwdForm.newPwd === resetPwdForm.currentPwd) {
+      setMessage("新旧密码不能相同")
+      return
+    }
+    if (!isValidPassword(resetPwdForm.newPwd)) {
+      setMessage("新密码长度为8-20个字符，至少含数字/字母/字符2种组合")
+      return
+    }
+    if (resetPwdForm.confirmPwd !== resetPwdForm.newPwd) {
+      setMessage("两次输入密码不一致")
+      return
+    }
+    if (!firstLoginUserId) {
+      setMessage("缺少用户信息，请重新登录")
+      return
+    }
+
+    setLoading(true)
+    try {
+      const [encryptedCurrentPwd, encryptedNewPwd] = await Promise.all([
+        encryptPassword(resetPwdForm.currentPwd),
+        encryptPassword(resetPwdForm.newPwd),
+      ])
+      const json = await postJson<boolean>("/api/manage/auth/modify-password", {
+        userId: firstLoginUserId,
+        encryptedCurrentPwd,
+        encryptedNewPwd,
+      })
+      if (json.code !== 200) throw new Error(json.msg || "修改密码失败")
+      setFirstLoginOpen(false)
+      setPassword("")
+      setResetPwdForm({ currentPwd: "", newPwd: "", confirmPwd: "" })
+      setMessage("")
+      setPasswordSuccessOpen(true)
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "修改密码失败")
     } finally {
       setLoading(false)
     }
@@ -301,7 +399,7 @@ export default function SmartDanzhongLoginPage() {
           <div className="px-8 pt-8">
             <div className="mb-6 flex items-center justify-between gap-4">
               <h1 className="text-2xl font-semibold tracking-normal text-[#3b2723]">欢迎使用智慧丹中平台</h1>
-              {qywxLink ? (
+              {ENABLE_QYWX_LOGIN && qywxLink ? (
                 <a className="flex shrink-0 items-center gap-1 text-sm text-[#2476c8] hover:text-[#155898]" href={qywxLink}>
                   <Building2 className="h-4 w-4" />
                   企业微信
@@ -397,6 +495,61 @@ export default function SmartDanzhongLoginPage() {
                 进入
               </Button>
             </div>
+          </div>
+        </div>
+      ) : null}
+
+      {firstLoginOpen ? (
+        <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/45 px-4">
+          <div className="w-full max-w-[460px] rounded-lg bg-white p-6 shadow-2xl">
+            <h2 className="text-lg font-semibold text-[#3b2723]">首次登录需修改密码</h2>
+            <div className="mt-5 space-y-4">
+              <Input
+                placeholder="当前密码"
+                type="password"
+                value={resetPwdForm.currentPwd}
+                onChange={(event) => setResetPwdForm((current) => ({ ...current, currentPwd: event.target.value }))}
+              />
+              <Input
+                placeholder="长度为8-20个字符，至少含数字/字母/字符2种组合"
+                type="password"
+                value={resetPwdForm.newPwd}
+                onChange={(event) => setResetPwdForm((current) => ({ ...current, newPwd: event.target.value }))}
+              />
+              <Input
+                placeholder="确认密码"
+                type="password"
+                value={resetPwdForm.confirmPwd}
+                onChange={(event) => setResetPwdForm((current) => ({ ...current, confirmPwd: event.target.value }))}
+              />
+            </div>
+            <div className="mt-3 min-h-5 text-sm text-red-600">{message}</div>
+            <div className="mt-6 flex justify-end gap-3">
+              <Button variant="outline" type="button" onClick={() => setFirstLoginOpen(false)} disabled={loading}>
+                取消
+              </Button>
+              <Button className="bg-[#8b1a1a] hover:bg-[#6b1010]" type="button" onClick={submitFirstLoginPassword} disabled={loading}>
+                {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+                确定
+              </Button>
+            </div>
+          </div>
+        </div>
+      ) : null}
+
+      {passwordSuccessOpen ? (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/45 px-4">
+          <div className="w-full max-w-[420px] rounded-lg bg-white p-6 text-center shadow-2xl">
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-[#fff5f0] text-2xl font-bold text-[#8b1a1a]">✓</div>
+            <h2 className="mt-4 text-lg font-semibold text-[#3b2723]">修改成功</h2>
+            <p className="mt-2 text-sm text-[#6b4a2e]">请使用新密码重新登录。</p>
+            <Button
+              className="mt-6 w-full bg-[#8b1a1a] hover:bg-[#6b1010]"
+              type="button"
+              onClick={() => setPasswordSuccessOpen(false)}
+            >
+              我知道了
+            </Button>
           </div>
         </div>
       ) : null}

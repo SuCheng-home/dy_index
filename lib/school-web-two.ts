@@ -305,7 +305,7 @@ type WxcepRequestOptions = {
   contentType?: "json" | "form"
 }
 
-type LoginResponseData = {
+export type LoginResponseData = {
   token: string
   expires?: number
   loginUserId?: number
@@ -355,7 +355,7 @@ function buildSchoolWebUrl(scope: RequestScope, endpoint: string, query?: Record
   return url.toString()
 }
 
-function encryptPassword(password: string): string {
+export function encryptPassword(password: string): string {
   // AES-128-CBC, same key/iv as newPC/src/utils/utils.js encrypt()
   const { createCipheriv } = require("node:crypto") as typeof import("node:crypto")
   const key = Buffer.from("2019092415weiyan", "utf8")
@@ -366,10 +366,10 @@ function encryptPassword(password: string): string {
   return encrypted
 }
 
-export async function teacherLogin(account: string, password: string): Promise<ManageSession> {
+export async function teacherLoginRaw(account: string, password: string, encryptedPassword?: string): Promise<SchoolWebResponse<LoginResponseData>> {
   const body = new URLSearchParams()
   body.append("account", account)
-  body.append("password", encryptPassword(password))
+  body.append("password", encryptedPassword || encryptPassword(password))
 
   const url = `${SCHOOL_WEB_TWO_CONFIG.loginBaseUrl}/login`
   const response = await fetch(url, {
@@ -380,9 +380,20 @@ export async function teacherLogin(account: string, password: string): Promise<M
     body,
     cache: "no-store",
   })
-  const json = (await response.json()) as SchoolWebResponse<LoginResponseData>
+  const text = await response.text()
+  const json = (text ? JSON.parse(text) : {}) as SchoolWebResponse<LoginResponseData>
 
-  if (!response.ok || !isSchoolWebSuccess(json) || !json.data?.token) {
+  if (!response.ok) {
+    throw new Error(json.msg || `登录失败（${response.status}）`)
+  }
+
+  return json
+}
+
+export async function teacherLogin(account: string, password: string): Promise<ManageSession> {
+  const json = await teacherLoginRaw(account, password)
+
+  if (!isSchoolWebSuccess(json) || !json.data?.token) {
     throw new Error(json.msg || "登录失败")
   }
 
@@ -658,19 +669,45 @@ export function normalizeHomeTemplate(raw: Record<string, unknown> | null | unde
   }
 }
 
-export function createPublicSiteContext(setting: SiteSetting): PublicSiteContext {
+export function createDefaultSiteSetting(domainName = SCHOOL_WEB_TWO_CONFIG.domainName): SiteSetting {
   return {
-    domainName: setting.domainName || SCHOOL_WEB_TWO_CONFIG.domainName,
-    webId: Number(setting.id || SCHOOL_WEB_TWO_CONFIG.webId),
-    schoolId: Number(setting.schoolId || SCHOOL_WEB_TWO_CONFIG.schoolId),
-    templateTypePc: String(setting.templateTypePc || SCHOOL_WEB_TWO_CONFIG.templateTypePc),
-    templateTypeMb: String(setting.templateTypeMb || SCHOOL_WEB_TWO_CONFIG.templateTypeMb),
-    setting,
+    id: SCHOOL_WEB_TWO_CONFIG.webId,
+    schoolId: SCHOOL_WEB_TWO_CONFIG.schoolId,
+    webName: "",
+    keyWord: "",
+    description: "",
+    address: "",
+    copyRight: "",
+    domainName,
+    domainNameTw: "",
+    oldDomainName: "",
+    logoUrl: "",
+    recodation: "",
+    postRecodation: "",
+    institution: "",
+    isInstitute: 0,
+    templateTypePc: SCHOOL_WEB_TWO_CONFIG.templateTypePc,
+    templateTypeMb: SCHOOL_WEB_TWO_CONFIG.templateTypeMb,
+  }
+}
+
+export function createPublicSiteContext(
+  setting: SiteSetting | null | undefined,
+  requestDomain?: string,
+): PublicSiteContext {
+  const resolved = setting ?? createDefaultSiteSetting(requestDomain)
+  return {
+    domainName: resolved.domainName || requestDomain || SCHOOL_WEB_TWO_CONFIG.domainName,
+    webId: Number(resolved.id || SCHOOL_WEB_TWO_CONFIG.webId),
+    schoolId: Number(resolved.schoolId || SCHOOL_WEB_TWO_CONFIG.schoolId),
+    templateTypePc: String(resolved.templateTypePc || SCHOOL_WEB_TWO_CONFIG.templateTypePc),
+    templateTypeMb: String(resolved.templateTypeMb || SCHOOL_WEB_TWO_CONFIG.templateTypeMb),
+    setting: resolved,
   }
 }
 
 export async function getPublicSiteSetting(domain = SCHOOL_WEB_TWO_CONFIG.domainName) {
-  const response = await requestSchoolWeb<SiteSetting>({
+  const response = await requestSchoolWeb<SiteSetting | null>({
     scope: "common",
     endpoint: "getSchoolWebSettingByDomainName",
     query: {

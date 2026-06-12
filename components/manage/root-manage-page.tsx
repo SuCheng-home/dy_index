@@ -274,6 +274,14 @@ type DeleteConfirmDialog = {
   onConfirm?: () => Promise<void> | void
 }
 
+type ApiErrorPayload = {
+  code?: number
+  msg?: string
+  data?: {
+    loginUserId?: string | number
+  } | null
+}
+
 const blankHtmlPattern = /^(\s|&nbsp;|<p><br\/?><\/p>|<p><br><\/p>|<br\/?>|<p>\s*<\/p>)+$/i
 const httpUrlPattern = /^https?:\/\/[A-Za-z0-9][^<>"\s]*$/i
 
@@ -287,7 +295,9 @@ async function requestJson<T>(input: RequestInfo, init?: RequestInit): Promise<T
   })
   const json = await response.json()
   if (!response.ok || json?.result === false || json?.code !== 200) {
-    throw new Error(json?.msg || "请求失败")
+    const error = new Error(json?.msg || "请求失败")
+    ;(error as Error & { payload?: unknown }).payload = json
+    throw error
   }
   return json.data as T
 }
@@ -378,6 +388,39 @@ function requireField(condition: boolean, message: string) {
   return true
 }
 
+function getApiErrorPayload(error: unknown): ApiErrorPayload | null {
+  if (!error || typeof error !== "object") return null
+  const payload = (error as Error & { payload?: unknown }).payload
+  return payload && typeof payload === "object" ? payload as ApiErrorPayload : null
+}
+
+function isValidPasswordCombination(value: string) {
+  if (value.length < 8 || value.length > 20) return false
+  const kinds = [/[0-9]/.test(value), /[A-Za-z]/.test(value), /[^0-9A-Za-z]/.test(value)].filter(Boolean).length
+  return kinds >= 2
+}
+
+function bytesToHex(bytes: Uint8Array) {
+  return Array.from(bytes).map((byte) => byte.toString(16).padStart(2, "0")).join("")
+}
+
+async function encryptPasswordForLogin(password: string) {
+  const encoder = new TextEncoder()
+  const key = await window.crypto.subtle.importKey(
+    "raw",
+    encoder.encode("2019092415weiyan"),
+    { name: "AES-CBC" },
+    false,
+    ["encrypt"]
+  )
+  const encrypted = await window.crypto.subtle.encrypt(
+    { name: "AES-CBC", iv: encoder.encode("weiyan2019092415") },
+    key,
+    encoder.encode(password.trim())
+  )
+  return bytesToHex(new Uint8Array(encrypted))
+}
+
 function currentMonthValue() {
   return new Date().toISOString().slice(0, 7)
 }
@@ -454,6 +497,9 @@ export function RootManagePage() {
   const [mbTemplateText, setMbTemplateText] = useState("")
   const [pcOneTemplateText, setPcOneTemplateText] = useState("")
   const [loginForm, setLoginForm] = useState({ account: "", password: "" })
+  const [firstLoginDialogOpen, setFirstLoginDialogOpen] = useState(false)
+  const [firstLoginUserId, setFirstLoginUserId] = useState("")
+  const [passwordForm, setPasswordForm] = useState({ currentPwd: "", newPwd: "", confirmPwd: "" })
   const [selectedColumnId, setSelectedColumnId] = useState<number>(0)
   const [selectedModuleId, setSelectedModuleId] = useState<number>(0)
   const [messagePage, setMessagePage] = useState<PaginatedResult<SchoolWebMessage> | null>(null)
@@ -624,15 +670,63 @@ export function RootManagePage() {
     event.preventDefault()
     setSubmitting(true)
     try {
+      const encryptedPassword = await encryptPasswordForLogin(loginForm.password)
       await requestJson<ManageSession>("/api/manage/auth/login", {
         method: "POST",
-        body: JSON.stringify(loginForm),
+        body: JSON.stringify({
+          account: loginForm.account,
+          encryptedPassword,
+        }),
       })
       await refreshBootstrap()
       setActiveSection("stats")
       setMessage("")
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "登录失败")
+      const payload = getApiErrorPayload(error)
+      if (payload?.code === 1052) {
+        setFirstLoginUserId(String(payload.data?.loginUserId ?? ""))
+        setPasswordForm({ currentPwd: loginForm.password, newPwd: "", confirmPwd: "" })
+        setLoginDialogOpen(false)
+        setFirstLoginDialogOpen(true)
+        setMessage("")
+      } else {
+        setMessage(error instanceof Error ? error.message : "登录失败")
+      }
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
+  async function handleModifyFirstLoginPassword(event: React.FormEvent) {
+    event.preventDefault()
+    if (!requireField(passwordForm.currentPwd.trim().length > 0, "请输入当前密码!")) return
+    if (!requireField(passwordForm.currentPwd === loginForm.password, "当前密码不正确!")) return
+    if (!requireField(passwordForm.newPwd.trim().length > 0, "请输入新密码!")) return
+    if (!requireField(passwordForm.newPwd !== passwordForm.currentPwd, "新旧密码不能相同!")) return
+    if (!requireField(isValidPasswordCombination(passwordForm.newPwd), "新密码长度为8-20个字符，至少含数字/字母/字符2种组合!")) return
+    if (!requireField(passwordForm.confirmPwd === passwordForm.newPwd, "两次输入密码不一致!")) return
+    if (!requireField(firstLoginUserId.trim().length > 0, "缺少用户信息，请重新登录!")) return
+
+    setSubmitting(true)
+    try {
+      const [encryptedCurrentPwd, encryptedNewPwd] = await Promise.all([
+        encryptPasswordForLogin(passwordForm.currentPwd),
+        encryptPasswordForLogin(passwordForm.newPwd),
+      ])
+      await requestJson<boolean>("/api/manage/auth/modify-password", {
+        method: "POST",
+        body: JSON.stringify({
+          userId: firstLoginUserId,
+          encryptedCurrentPwd,
+          encryptedNewPwd,
+        }),
+      })
+      setFirstLoginDialogOpen(false)
+      setLoginForm((current) => ({ ...current, password: "" }))
+      setPasswordForm({ currentPwd: "", newPwd: "", confirmPwd: "" })
+      setMessage("修改成功，请重新输入密码登录。")
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "修改密码失败")
     } finally {
       setSubmitting(false)
     }
@@ -2025,6 +2119,48 @@ export function RootManagePage() {
               <Button type="submit" disabled={submitting}>
                 {submitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
                 登录
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={firstLoginDialogOpen} onOpenChange={setFirstLoginDialogOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>首次登录需修改密码</DialogTitle>
+            <DialogDescription>修改成功后，请使用新密码重新登录。</DialogDescription>
+          </DialogHeader>
+          <form className="grid gap-4" onSubmit={handleModifyFirstLoginPassword}>
+            <Field label="当前密码">
+              <Input
+                type="password"
+                value={passwordForm.currentPwd}
+                onChange={(event) => setPasswordForm((current) => ({ ...current, currentPwd: event.target.value }))}
+                placeholder="当前密码"
+              />
+            </Field>
+            <Field label="新密码">
+              <Input
+                type="password"
+                value={passwordForm.newPwd}
+                onChange={(event) => setPasswordForm((current) => ({ ...current, newPwd: event.target.value }))}
+                placeholder="长度为8-20个字符，至少含数字/字母/字符2种组合"
+              />
+            </Field>
+            <Field label="确认密码">
+              <Input
+                type="password"
+                value={passwordForm.confirmPwd}
+                onChange={(event) => setPasswordForm((current) => ({ ...current, confirmPwd: event.target.value }))}
+                placeholder="确认密码"
+              />
+            </Field>
+            <DialogFooter>
+              <Button variant="outline" type="button" onClick={() => setFirstLoginDialogOpen(false)} disabled={submitting}>取消</Button>
+              <Button type="submit" disabled={submitting}>
+                {submitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
+                确定
               </Button>
             </DialogFooter>
           </form>
