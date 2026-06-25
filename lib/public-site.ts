@@ -101,6 +101,7 @@ const emptyRootSiteConfig: RootSiteConfig = {
     categories: ["全部"],
     newsTitle: "新闻动态",
     announcementTitle: "通知公告",
+    announcementHref: "/news",
     moreHref: "/news",
     items: [],
   },
@@ -198,13 +199,31 @@ export function findModuleById(columns: HomeColumnSummary[], columnId: number, m
   return module ? { column, module } : null
 }
 
+function findColumnByModuleId(columns: HomeColumnSummary[], moduleId: number) {
+  for (const column of columns) {
+    const module = (column.moduleList ?? []).find((item) => item.id === moduleId)
+    if (module) return { column, module }
+  }
+  return null
+}
+
+function findPublicAffairsModule(template: PcHomeTemplate) {
+  const allModules = [
+    ...template.moduleList.flatMap((group) => group.moduleListJson),
+    ...template.columnList.flatMap((column) => column.moduleList ?? []),
+  ]
+  return allModules.find((module) => module.name === "校务公开") ?? null
+}
+
 export function buildRootSiteConfigFromRemote(context: PublicSiteContext, template: PcHomeTemplate) {
   const setting = context.setting
   const navigation = buildNavigationTree(template.columnList)
   const primaryModules = template.columnList[0]?.moduleList ?? []
-  const featuredModules = primaryModules.length > 0
-    ? primaryModules
-    : template.moduleList.flatMap((group) => group.moduleListJson)
+  const publicAffairsModule = findPublicAffairsModule(template)
+  const featuredModules = [
+    ...primaryModules,
+    ...(publicAffairsModule && !primaryModules.some((module) => module.id === publicAffairsModule.id) ? [publicAffairsModule] : []),
+  ]
   const newsItems = featuredModules.flatMap((module) =>
     (module.messageList ?? []).map((item) =>
       messageToHomeNewsItem(module.name, {
@@ -239,6 +258,10 @@ export function buildRootSiteConfigFromRemote(context: PublicSiteContext, templa
 
   const siteName = setting.webName || ""
   const copyrightName = setting.copyRight || setting.webName || ""
+  const publicAffairsMatch = publicAffairsModule ? findColumnByModuleId(template.columnList, publicAffairsModule.id) : null
+  const publicAffairsHref = publicAffairsMatch && publicAffairsModule
+    ? toModuleHref(publicAffairsMatch.column.id, publicAffairsModule.id)
+    : ""
 
   return {
     ...emptyRootSiteConfig,
@@ -270,7 +293,8 @@ export function buildRootSiteConfigFromRemote(context: PublicSiteContext, templa
       ...emptyRootSiteConfig.news,
       categories: ["全部", ...primaryModules.map((item) => item.name)],
       newsTitle: primaryModules[0]?.name ?? "新闻动态",
-      announcementTitle: primaryModules[1]?.name ?? "通知公告",
+      announcementTitle: "校务公开",
+      announcementHref: publicAffairsHref,
       moreHref: primaryModules[0] ? toModuleHref(template.columnList[0].id, primaryModules[0].id) : "/news",
       items: newsItems,
     },

@@ -166,7 +166,7 @@ export function Header({ variant = "default", config }: { variant?: "default" | 
                 >
                   <Link
                     href={item.href}
-                    className={`relative flex items-center whitespace-nowrap px-1.5 py-2 text-[16px] font-semibold tracking-normal transition-all duration-300 xl:px-2 ${
+                    className={`relative flex items-center whitespace-nowrap px-1.5 py-2 text-[20px] font-semibold tracking-normal transition-all duration-300 xl:px-2 ${
                       isTop && !activeDropdown
                         ? "text-white/95 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] hover:text-white"
                         : activeDropdown === item.label

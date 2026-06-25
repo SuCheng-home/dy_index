@@ -32,6 +32,7 @@ export default async function SiteModulePage({
   }))
   const columnNavImage = page.navigationTree.find((item) => item.id === page.columnSummary?.id)?.image || ""
   const columnBannerImage = normalizePublicImageUrl(page.columnSummary.logoUrl) || columnNavImage || page.config.hero.images[0]?.src
+  const shouldShowReadCount = page.messages.dataList.some((item) => Number(item.readCount) > 0)
 
   return (
     <>
@@ -95,10 +96,12 @@ export default async function SiteModulePage({
                         <Calendar className="h-3.5 w-3.5" />
                         {item.createTime.slice(0, 10)}
                       </span>
-                      <span className="flex items-center gap-1">
-                        <Eye className="h-3.5 w-3.5" />
-                        {item.readCount ?? 0}
-                      </span>
+                      {shouldShowReadCount ? (
+                        <span className="flex items-center gap-1">
+                          <Eye className="h-3.5 w-3.5" />
+                          {Number(item.readCount) || 0}
+                        </span>
+                      ) : null}
                     </div>
                   </div>
                 </Link>

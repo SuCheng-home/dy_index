@@ -12,6 +12,8 @@ import {
   getPublicModuleMessages,
   getPublicNavigationColumns,
   getPublicPrevNextMessage,
+  getPublicSchoolAlbums,
+  getPublicAlbumPhotos,
   getPublicSiteSetting,
   SCHOOL_WEB_TWO_CONFIG,
   type HomeColumnSummary,
@@ -24,6 +26,7 @@ import {
   buildRootSiteConfigFromRemote,
   findColumnById,
   findModuleById,
+  normalizePublicImageUrl,
 } from "@/lib/public-site"
 
 const LOCAL_HOSTS = new Set(["localhost", "127.0.0.1", "::1", "0.0.0.0"])
@@ -104,38 +107,96 @@ export async function getPublicSiteSnapshot(domain?: string | null) {
   })
   const config = buildRootSiteConfigFromRemote(context, realtimeTemplate)
   const navigationTree = buildNavigationTree(realtimeTemplate.columnList)
+  const gallery = await getCampusGalleryConfig(context)
   return {
     setting: context.setting,
     context,
     template: realtimeTemplate,
-    config,
+    config: {
+      ...config,
+      gallery: gallery ?? config.gallery,
+    },
     navigationTree,
     navigationSource: navigationColumns.length > 0 ? source : "template",
+  }
+}
+
+async function getCampusGalleryConfig(context: PublicSiteContext) {
+  const albums = await getPublicSchoolAlbums(context.schoolId).catch(() => [])
+  const visibleAlbums = albums
+    .filter((album) => album.albumType === 2 && album.isDelete !== 2)
+    .sort((a, b) => Number(b.photoCount ?? 0) - Number(a.photoCount ?? 0) || b.id - a.id)
+    .slice(0, 5)
+
+  if (visibleAlbums.length === 0) return null
+
+  const photoGroups = await Promise.all(
+    visibleAlbums.map((album) => getPublicAlbumPhotos(album.id, context.schoolId, 1, 5).catch(() => null))
+  )
+
+  const items = visibleAlbums.flatMap((album, albumIndex) => {
+    const photos = photoGroups[albumIndex]?.dataList ?? []
+    const candidates = photos.length > 0
+      ? photos
+      : album.cover
+        ? [album.cover]
+        : []
+
+    return candidates.slice(0, 5).map((photo, photoIndex) => ({
+      id: Number(`${album.id}${String(photo.id || photoIndex).padStart(6, "0")}`),
+      category: album.name,
+      title: photo.remark || "校园照片",
+      image: normalizePublicImageUrl(photo.maxPid || photo.minPic || album.cover?.maxPid || ""),
+      type: "image" as const,
+      albumId: album.id,
+      albumName: album.name,
+      description: photo.remark || "",
+      photoCount: album.photoCount,
+      date: album.createTime.slice(0, 10),
+    }))
+  }).filter((item) => item.image)
+
+  if (items.length === 0) return null
+
+  return {
+    eyebrow: "GALLERY",
+    title: "校园风采",
+    categories: ["全部", ...visibleAlbums.map((album) => album.name)],
+    moreHref: "#campus-gallery",
+    items,
   }
 }
 
 async function hydrateHomeTemplateMessages(template: PcHomeTemplate) {
   const homeColumn = template.columnList[0]
   const homeModules = homeColumn?.moduleList ?? []
-  if (homeModules.length === 0) return template
+  const publicAffairsModule = [
+    ...template.columnList.flatMap((column) => column.moduleList ?? []),
+    ...template.moduleList.flatMap((group) => group.moduleListJson),
+  ].find((module) => module.name === "校务公开")
+  const modulesToHydrate = [
+    ...homeModules,
+    ...(publicAffairsModule && !homeModules.some((module) => module.id === publicAffairsModule.id) ? [publicAffairsModule] : []),
+  ]
+
+  if (modulesToHydrate.length === 0) return template
 
   const messageLists = await Promise.all(
-    homeModules.map((module) => getHomeModuleMessageSummaries(module.id))
+    modulesToHydrate.map((module) => getHomeModuleMessageSummaries(module.id))
   )
   const messageListByModuleId = new Map(
-    homeModules.map((module, index) => [module.id, messageLists[index]])
+    modulesToHydrate.map((module, index) => [module.id, messageLists[index]])
   )
-  const hydratedHomeModules = homeModules.map((module) => ({
-    ...module,
-    messageList: messageListByModuleId.get(module.id) ?? module.messageList ?? [],
-  }))
 
   return {
     ...template,
-    columnList: template.columnList.map((column, index) => index === 0
-      ? { ...column, moduleList: hydratedHomeModules }
-      : column
-    ),
+    columnList: template.columnList.map((column) => ({
+      ...column,
+      moduleList: column.moduleList.map((module) => ({
+        ...module,
+        messageList: messageListByModuleId.get(module.id) ?? module.messageList ?? [],
+      })),
+    })),
     moduleList: template.moduleList.map((group) => ({
       ...group,
       moduleListJson: group.moduleListJson.map((module) => ({

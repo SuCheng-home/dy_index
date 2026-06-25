@@ -168,6 +168,30 @@ export type AccessTrendItem = {
   [key: string]: unknown
 }
 
+export type SchoolAlbumPhoto = {
+  id: number
+  maxPid: string
+  minPic?: string
+  photoName?: string
+  remark?: string | null
+  createTime?: string
+}
+
+export type SchoolAlbum = {
+  id: number
+  schoolId: number
+  albumState: number
+  albumType: number
+  name: string
+  infomation: string
+  cover: SchoolAlbumPhoto | null
+  createTime: string
+  createUser: string
+  photoCount?: number
+  isDelete?: number
+  isPublic?: number
+}
+
 export type Pagination = {
   firstPage: number
   lastPage: number
@@ -835,6 +859,32 @@ export async function getPublicModuleMessages(moduleId: number, pageNo = 1, page
   }
 }
 
+export async function getPublicSchoolAlbums(schoolId = SCHOOL_WEB_TWO_CONFIG.schoolId) {
+  const response = await requestWxcep<SchoolAlbum[]>({
+    endpoint: "common/album/getSchoolAlbumList",
+    query: { schoolId },
+  })
+  const data = unwrapSchoolWebResponse(response)
+  return Array.isArray(data) ? data.map(hydrateSchoolAlbum) : []
+}
+
+export async function getPublicAlbumPhotos(albumId: number, schoolId = SCHOOL_WEB_TWO_CONFIG.schoolId, pageNo = 1, pageSize = 8) {
+  const response = await requestWxcep<PaginatedResult<SchoolAlbumPhoto>>({
+    endpoint: "common/album/getPhotoListByAlbumId",
+    query: {
+      albumId,
+      schoolId,
+      pageNo,
+      pageSize,
+    },
+  })
+  const result = unwrapSchoolWebResponse(response)
+  return {
+    ...result,
+    dataList: Array.isArray(result.dataList) ? result.dataList.map(hydrateSchoolAlbumPhoto) : [],
+  }
+}
+
 export async function getPublicMessageById(messageId: number) {
   const response = await requestSchoolWeb<SchoolWebMessage>({
     scope: "common",
@@ -961,8 +1011,36 @@ export function hydrateMessage(message: Partial<SchoolWebMessage>) {
     createUserId: message.createUserId,
     createUserName: message.createUserName,
     updateTime: message.updateTime ?? null,
-    readCount: typeof message.readCount === "number" ? message.readCount : 0,
+    readCount: Number(message.readCount ?? 0) || 0,
   } satisfies SchoolWebMessage
+}
+
+export function hydrateSchoolAlbumPhoto(photo: Partial<SchoolAlbumPhoto>) {
+  return {
+    id: Number(photo.id ?? 0),
+    maxPid: String(photo.maxPid ?? photo.minPic ?? ""),
+    minPic: String(photo.minPic ?? photo.maxPid ?? ""),
+    photoName: photo.photoName ? String(photo.photoName) : undefined,
+    remark: photo.remark ?? null,
+    createTime: photo.createTime,
+  } satisfies SchoolAlbumPhoto
+}
+
+export function hydrateSchoolAlbum(album: Partial<SchoolAlbum>) {
+  return {
+    id: Number(album.id ?? 0),
+    schoolId: Number(album.schoolId ?? SCHOOL_WEB_TWO_CONFIG.schoolId),
+    albumState: Number(album.albumState ?? 0),
+    albumType: Number(album.albumType ?? 2),
+    name: String(album.name ?? ""),
+    infomation: String(album.infomation ?? ""),
+    cover: album.cover ? hydrateSchoolAlbumPhoto(album.cover) : null,
+    createTime: String(album.createTime ?? ""),
+    createUser: String(album.createUser ?? ""),
+    photoCount: Number(album.photoCount ?? 0),
+    isDelete: Number(album.isDelete ?? 1),
+    isPublic: Number(album.isPublic ?? 1),
+  } satisfies SchoolAlbum
 }
 
 export function hydrateSuspendMessage(message: Partial<SuspendMessage>) {

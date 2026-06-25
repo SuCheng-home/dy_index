@@ -1,32 +1,39 @@
 "use client"
 
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import Image from "next/image"
-import Link from "next/link"
-import { Play } from "lucide-react"
 import { useScrollReveal } from "@/hooks/use-scroll-reveal"
 import { type RootSiteConfig } from "@/lib/root-site-config"
 
 type CampusGalleryConfig = RootSiteConfig["gallery"]
+
 export function CampusGallery({ config }: { config: CampusGalleryConfig }) {
   const categories = config.categories.length > 0 ? config.categories : ["全部"]
   const galleryItems = config.items
   const [activeCategory, setActiveCategory] = useState("全部")
   const { ref, isRevealed } = useScrollReveal()
 
-  const filteredItems =
-    activeCategory === "全部"
-      ? galleryItems
-      : galleryItems.filter((item) => item.category === activeCategory)
+  const filteredItems = useMemo(() => {
+    if (activeCategory !== "全部") {
+      return galleryItems.filter((item) => item.category === activeCategory).slice(0, 5)
+    }
+
+    const firstItemByCategory = new Map<string, typeof galleryItems[number]>()
+    for (const item of galleryItems) {
+      if (!firstItemByCategory.has(item.category)) {
+        firstItemByCategory.set(item.category, item)
+      }
+    }
+    return Array.from(firstItemByCategory.values()).slice(0, 5)
+  }, [activeCategory, galleryItems])
 
   if (galleryItems.length === 0) {
     return null
   }
 
   return (
-    <section ref={ref} className="bg-[#FDFBF7] py-20">
+    <section id="campus-gallery" ref={ref} className="bg-[#FDFBF7] py-20">
       <div className="mx-auto max-w-7xl px-4">
-        {/* 标题 */}
         <div
           className="mb-12 text-center transition-all duration-1000"
           style={{
@@ -43,7 +50,6 @@ export function CampusGallery({ config }: { config: CampusGalleryConfig }) {
           <div className="mx-auto h-1 w-20 bg-gradient-to-r from-[#D4AF37] to-[#8B1A1A]" />
         </div>
 
-        {/* 分类筛选 */}
         <div
           className="mb-8 flex flex-wrap justify-center gap-2 transition-all duration-1000"
           style={{
@@ -67,55 +73,36 @@ export function CampusGallery({ config }: { config: CampusGalleryConfig }) {
           ))}
         </div>
 
-        {/* 图片网格 */}
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 lg:grid-cols-4 lg:grid-rows-2">
           {filteredItems.map((item, index) => (
             <div
               key={item.id}
-              className="group relative aspect-[16/10] overflow-hidden rounded-lg shadow-md transition-all duration-700"
+              className={`group relative min-h-[220px] overflow-hidden rounded-2xl bg-[#EFE6D8] shadow-md transition-all duration-700 hover:-translate-y-1 hover:shadow-xl ${
+                index === 0 ? "lg:col-span-2 lg:row-span-2 lg:min-h-[456px]" : ""
+              }`}
               style={{
                 opacity: isRevealed ? 1 : 0,
                 transform: isRevealed ? "translateY(0)" : "translateY(40px)",
-                transitionDelay: `${0.2 + index * 0.08}s`,
+                transitionDelay: `${0.2 + Math.min(index, 8) * 0.06}s`,
               }}
             >
               <Image
                 src={item.image}
                 alt={item.title}
                 fill
-                className="object-cover transition-transform duration-500 group-hover:scale-110"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                className="object-cover transition-transform duration-700 group-hover:scale-105"
               />
-              {/* 遮罩 */}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#2A0A0A]/80 via-[#2A0A0A]/20 to-transparent opacity-60 transition-opacity group-hover:opacity-90" />
-              
-              {/* 视频图标 */}
-              {item.type === "video" && (
-                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-                  <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[#D4AF37]/90 shadow-lg transition-transform group-hover:scale-110">
-                    <Play className="ml-1 h-6 w-6 fill-[#2A0A0A] text-[#2A0A0A]" />
-                  </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-[#2A0A0A]/70 via-[#2A0A0A]/10 to-transparent opacity-60 transition-opacity group-hover:opacity-80" />
+              {item.description ? (
+                <div className="absolute bottom-0 left-0 right-0 p-5">
+                  <p className="line-clamp-2 text-sm leading-6 text-[#F5E6D3]/90">
+                    {item.description}
+                  </p>
                 </div>
-              )}
-
-              {/* 标题 */}
-              <div className="absolute bottom-0 left-0 right-0 p-4">
-                <span className="mb-1 inline-block rounded bg-[#D4AF37] px-2 py-0.5 text-xs font-medium text-[#2A0A0A]">
-                  {item.category}
-                </span>
-                <h3 className="font-medium text-[#F5E6D3]">{item.title}</h3>
-              </div>
+              ) : null}
             </div>
           ))}
-        </div>
-
-        {/* 查看更多 */}
-        <div className="mt-10 text-center">
-          <Link
-            href={config.moreHref}
-            className="inline-flex items-center gap-2 rounded-full border-2 border-[#8B1A1A] px-8 py-3 font-medium text-[#8B1A1A] transition-all hover:bg-[#8B1A1A] hover:text-[#F5E6D3]"
-          >
-            查看更多
-          </Link>
         </div>
       </div>
     </section>

@@ -43,6 +43,7 @@ export type RootSiteConfig = {
     categories: string[]
     newsTitle: string
     announcementTitle: string
+    announcementHref: string
     moreHref: string
     items: RootNewsArticle[]
   }
@@ -70,7 +71,18 @@ export type RootSiteConfig = {
     title: string
     categories: string[]
     moreHref: string
-    items: { id: number; category: string; title: string; image: string; type: "image" | "video" }[]
+    items: {
+      id: number
+      category: string
+      title: string
+      image: string
+      type: "image" | "video"
+      albumId?: number
+      albumName?: string
+      description?: string
+      photoCount?: number
+      date?: string
+    }[]
   }
   principal: {
     title: string

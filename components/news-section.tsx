@@ -21,7 +21,7 @@ export function NewsSection({ config }: { config: NewsSectionConfig }) {
     }
   })
   const announcements = [...config.items]
-    .filter((item) => item.category !== config.newsTitle)
+    .filter((item) => item.category === config.announcementTitle)
     .sort((a, b) => String(b.date || "").localeCompare(String(a.date || "")))
     .slice(0, 9)
     .map((item) => {
@@ -193,54 +193,57 @@ export function NewsSection({ config }: { config: NewsSectionConfig }) {
           </div>
         </div>
 
-        {/* 校务公告区域 */}
-        <div
-          className="transition-all duration-1000"
-          style={{
-            opacity: isRevealed ? 1 : 0,
-            transform: isRevealed ? "translateY(0)" : "translateY(40px)",
-            transitionDelay: "0.4s",
-          }}
-        >
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="text-xl font-bold text-[#2A0A0A]">{config.announcementTitle}</h3>
-            <Link
-              href={config.moreHref}
-              className="flex items-center gap-1 text-sm text-[#8B1A1A] hover:text-[#D4AF37] transition-colors"
-            >
-              查看更多
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
+        {announcements.length > 0 ? (
+          <div
+            className="transition-all duration-1000"
+            style={{
+              opacity: isRevealed ? 1 : 0,
+              transform: isRevealed ? "translateY(0)" : "translateY(40px)",
+              transitionDelay: "0.4s",
+            }}
+          >
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-xl font-bold text-[#2A0A0A]">{config.announcementTitle}</h3>
+              {config.announcementHref ? (
+                <Link
+                  href={config.announcementHref}
+                  className="flex items-center gap-1 text-sm text-[#8B1A1A] hover:text-[#D4AF37] transition-colors"
+                >
+                  查看更多
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              ) : null}
+            </div>
 
-          <div className="grid grid-cols-3 gap-6">
-            {announcements.map((item, index) => (
-              <Link
-                key={item.id}
-                href={toMessageHref(item.id)}
-                className="group flex items-center gap-4 p-4 rounded-lg bg-[#FDFBF7] hover:bg-[#8B1A1A]/5 transition-all border border-[#E8DCC8]"
-                style={{
-                  opacity: isRevealed ? 1 : 0,
-                  transform: isRevealed ? "translateY(0)" : "translateY(20px)",
-                  transitionDelay: `${0.5 + index * 0.1}s`,
-                  transitionDuration: "0.7s",
-                }}
-              >
-                {/* 日期 */}
-                <div className="flex-shrink-0 text-center border-r border-[#E8DCC8] pr-4">
-                  <span className="block text-2xl font-bold text-[#1a365d]">{item.day}</span>
-                  <span className="block text-xs text-[#999]">{item.yearMonth}</span>
-                </div>
-                {/* 标题 */}
-                <div className="flex-1">
-                  <h4 className="text-sm text-[#333] group-hover:text-[#8B1A1A] transition-colors line-clamp-2">
-                    {item.title}
-                  </h4>
-                </div>
-              </Link>
-            ))}
+            <div className="grid grid-cols-3 gap-6">
+              {announcements.map((item, index) => (
+                <Link
+                  key={item.id}
+                  href={toMessageHref(item.id)}
+                  className="group flex items-center gap-4 p-4 rounded-lg bg-[#FDFBF7] hover:bg-[#8B1A1A]/5 transition-all border border-[#E8DCC8]"
+                  style={{
+                    opacity: isRevealed ? 1 : 0,
+                    transform: isRevealed ? "translateY(0)" : "translateY(20px)",
+                    transitionDelay: `${0.5 + index * 0.1}s`,
+                    transitionDuration: "0.7s",
+                  }}
+                >
+                  {/* 日期 */}
+                  <div className="flex-shrink-0 text-center border-r border-[#E8DCC8] pr-4">
+                    <span className="block text-2xl font-bold text-[#1a365d]">{item.day}</span>
+                    <span className="block text-xs text-[#999]">{item.yearMonth}</span>
+                  </div>
+                  {/* 标题 */}
+                  <div className="flex-1">
+                    <h4 className="text-sm text-[#333] group-hover:text-[#8B1A1A] transition-colors line-clamp-2">
+                      {item.title}
+                    </h4>
+                  </div>
+                </Link>
+              ))}
+            </div>
           </div>
-        </div>
+        ) : null}
       </div>
     </section>
   )

@@ -20,6 +20,10 @@ const nextConfig = {
       },
       {
         protocol: "https",
+        hostname: "cos.zhxiaoyuan.cn",
+      },
+      {
+        protocol: "https",
         hostname: "wework.qpic.cn",
       },
       {
