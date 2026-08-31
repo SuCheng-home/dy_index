@@ -231,11 +231,29 @@ export async function getPublicColumnPage(columnId: number, domain?: string | nu
   }
 }
 
-export async function getPublicModulePage(columnId: number, moduleId: number, pageNo = 1, pageSize = 20, domain?: string | null) {
+export async function getAllModuleMessages(moduleId: number) {
+  const pageSize = 100
+  const first = await getPublicModuleMessages(moduleId, 1, pageSize)
+  const totalPages = Math.min(first.pagination?.pages ?? 1, 30)
+  if (totalPages <= 1) return first
+
+  const rest = await Promise.all(
+    Array.from({ length: totalPages - 1 }, (_, index) =>
+      getPublicModuleMessages(moduleId, index + 2, pageSize).catch(() => null),
+    ),
+  )
+
+  return {
+    ...first,
+    dataList: [first.dataList, ...rest.map((result) => result?.dataList ?? [])].flat(),
+  }
+}
+
+export async function getPublicModulePage(columnId: number, moduleId: number, domain?: string | null) {
   const snapshot = await getPublicSiteSnapshot(domain)
   const moduleMatch = findModuleById(snapshot.template.columnList, columnId, moduleId)
   const moduleDetail = await getPublicModuleById(moduleId)
-  const messages = await getPublicModuleMessages(moduleId, pageNo, pageSize)
+  const messages = await getAllModuleMessages(moduleId)
 
   return {
     ...snapshot,

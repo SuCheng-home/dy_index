@@ -13,10 +13,10 @@ export function FeaturesSection({ config }: { config: FeaturesSectionConfig }) {
   }
   
   return (
-    <section ref={ref} className="relative overflow-hidden bg-[#2A0A0A] py-20">
+    <section ref={ref} className="relative overflow-hidden bg-[#2A0A0A] py-12 sm:py-16 lg:py-20">
       <div className="relative z-10 mx-auto max-w-7xl px-4">
         <div
-          className="mb-16 text-center transition-all duration-1000"
+          className="mb-9 text-center transition-all duration-1000 sm:mb-12 lg:mb-16"
           style={{
             opacity: isRevealed ? 1 : 0,
             transform: isRevealed ? "translateY(0)" : "translateY(30px)",
@@ -31,11 +31,11 @@ export function FeaturesSection({ config }: { config: FeaturesSectionConfig }) {
           <div className="mx-auto h-1 w-20 bg-gradient-to-r from-[#D4AF37] to-[#8B1A1A]" />
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
           {features.map((feature, index) => (
             <div
               key={feature.title}
-              className="group relative rounded-lg bg-gradient-to-b from-[#3A1A1A] to-[#2A0A0A] p-6 transition-all duration-700"
+              className="group relative rounded-lg bg-gradient-to-b from-[#3A1A1A] to-[#2A0A0A] p-5 transition-all duration-700 sm:p-6"
               style={{
                 opacity: isRevealed ? 1 : 0,
                 transform: isRevealed ? "translateY(0)" : "translateY(40px)",

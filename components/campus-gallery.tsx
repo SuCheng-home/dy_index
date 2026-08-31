@@ -32,10 +32,10 @@ export function CampusGallery({ config }: { config: CampusGalleryConfig }) {
   }
 
   return (
-    <section id="campus-gallery" ref={ref} className="bg-[#FDFBF7] py-20">
+    <section id="campus-gallery" ref={ref} className="bg-[#FDFBF7] py-12 sm:py-16 lg:py-20">
       <div className="mx-auto max-w-7xl px-4">
         <div
-          className="mb-12 text-center transition-all duration-1000"
+          className="mb-8 text-center transition-all duration-1000 sm:mb-10 lg:mb-12"
           style={{
             opacity: isRevealed ? 1 : 0,
             transform: isRevealed ? "translateY(0)" : "translateY(30px)",
@@ -62,7 +62,7 @@ export function CampusGallery({ config }: { config: CampusGalleryConfig }) {
             <button
               key={category}
               onClick={() => setActiveCategory(category)}
-              className={`rounded-full px-5 py-2 text-sm font-medium transition-all ${
+              className={`min-h-11 rounded-full px-5 py-2 text-sm font-medium transition-all ${
                 activeCategory === category
                   ? "bg-[#8B1A1A] text-[#F5E6D3] shadow-md"
                   : "bg-[#F5F0E8] text-[#666] hover:bg-[#8B1A1A]/10 hover:text-[#8B1A1A]"
@@ -73,11 +73,11 @@ export function CampusGallery({ config }: { config: CampusGalleryConfig }) {
           ))}
         </div>
 
-        <div className="grid gap-4 lg:grid-cols-4 lg:grid-rows-2">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:grid-rows-2">
           {filteredItems.map((item, index) => (
             <div
               key={item.id}
-              className={`group relative min-h-[220px] overflow-hidden rounded-2xl bg-[#EFE6D8] shadow-md transition-all duration-700 hover:-translate-y-1 hover:shadow-xl ${
+              className={`group relative min-h-[200px] overflow-hidden rounded-lg bg-[#EFE6D8] shadow-md transition-all duration-700 hover:-translate-y-1 hover:shadow-xl sm:min-h-[220px] ${
                 index === 0 ? "lg:col-span-2 lg:row-span-2 lg:min-h-[456px]" : ""
               }`}
               style={{
@@ -91,6 +91,8 @@ export function CampusGallery({ config }: { config: CampusGalleryConfig }) {
                 alt={item.title}
                 fill
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                loading="lazy"
+                decoding="async"
                 className="object-cover transition-transform duration-700 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#2A0A0A]/70 via-[#2A0A0A]/10 to-transparent opacity-60 transition-opacity group-hover:opacity-80" />

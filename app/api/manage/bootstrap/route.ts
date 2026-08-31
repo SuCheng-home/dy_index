@@ -8,7 +8,7 @@ import {
   listColumns,
 } from "@/lib/school-web-two-admin"
 import { ok, requireManageSession, withManageHandler } from "@/lib/manage-route"
-import { resolveManageWebId, setManageSession } from "@/lib/manage-session"
+import { publicManageSession, resolveManageWebId, setManageSession } from "@/lib/manage-session"
 import { SCHOOL_WEB_TWO_CONFIG, type SiteSetting } from "@/lib/school-web-two"
 
 export async function GET() {
@@ -39,7 +39,7 @@ export async function GET() {
     ])
 
     return ok({
-      session: activeSession,
+      session: publicManageSession(activeSession),
       siteList,
       activeWebId,
       siteSetting,

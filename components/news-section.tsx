@@ -51,7 +51,7 @@ export function NewsSection({ config }: { config: NewsSectionConfig }) {
   return (
     <section
       ref={sectionRef}
-      className="relative overflow-hidden bg-gradient-to-b from-[#F5F0E8] to-[#FDFBF7] py-20"
+      className="relative overflow-hidden bg-gradient-to-b from-[#F5F0E8] to-[#FDFBF7] py-12 sm:py-16 lg:py-20"
     >
       {/* 建筑剪影背景 */}
       <div
@@ -67,7 +67,7 @@ export function NewsSection({ config }: { config: NewsSectionConfig }) {
       <div className="relative z-10 mx-auto max-w-7xl px-4">
         {/* 标题 */}
         <div
-          className="mb-12 text-center transition-all duration-1000"
+          className="mb-8 text-center transition-all duration-1000 sm:mb-10 lg:mb-12"
           style={{
             opacity: isRevealed ? 1 : 0,
             transform: isRevealed ? "translateY(0)" : "translateY(30px)",
@@ -91,8 +91,11 @@ export function NewsSection({ config }: { config: NewsSectionConfig }) {
           {categories.map((category) => (
             <button
               key={category}
-              onClick={() => setActiveCategory(category)}
-              className={`rounded-full px-4 py-1.5 text-sm font-medium transition-all ${
+              onClick={() => {
+                setActiveCategory(category)
+                setCurrentSlide(0)
+              }}
+              className={`min-h-11 rounded-full px-4 py-2 text-sm font-medium transition-all ${
                 activeCategory === category
                   ? "bg-[#8B1A1A] text-[#F5E6D3] shadow-md"
                   : "bg-[#FDFBF7] text-[#666] hover:bg-[#8B1A1A]/10 hover:text-[#8B1A1A]"
@@ -123,11 +126,14 @@ export function NewsSection({ config }: { config: NewsSectionConfig }) {
             </Link>
           </div>
 
-          <div className="flex gap-6">
+          <div className="flex min-w-0 flex-col gap-6 lg:flex-row">
             {/* 左侧轮播图 */}
-            <div className="w-[55%] flex-shrink-0">
+            <div className="w-full flex-shrink-0 lg:w-[55%]">
               <div className="overflow-hidden rounded-lg bg-white shadow-lg">
-                <div className="group relative aspect-[4/3] overflow-hidden bg-white">
+                <Link
+                  href={featuredNews ? toMessageHref(featuredNews.id) : config.moreHref}
+                  className="group relative block aspect-[4/3] overflow-hidden bg-white"
+                >
                   {featuredNews?.image ? (
                     <Image
                       src={featuredNews.image}
@@ -140,19 +146,23 @@ export function NewsSection({ config }: { config: NewsSectionConfig }) {
                       {featuredNews?.title}
                     </div>
                   )}
-                </div>
+                </Link>
                 <div className="bg-[#1a365d] px-6 py-4">
-                  <h4 className="text-white font-medium mb-2 line-clamp-2">
+                  <Link
+                    href={featuredNews ? toMessageHref(featuredNews.id) : config.moreHref}
+                    className="mb-2 block font-medium text-white line-clamp-2 transition-colors hover:text-[#D4AF37]"
+                  >
                     {featuredNews?.title}
-                  </h4>
+                  </Link>
                   <div className="flex justify-end gap-2">
                     {filteredNews.slice(0, 5).map((_, index) => (
                       <button
                         key={index}
                         onClick={() => setCurrentSlide(index)}
-                        className={`w-2 h-2 rounded-full transition-all ${
-                          currentSlide === index ? "bg-white w-4" : "bg-white/50"
+                        className={`h-8 min-w-8 rounded-full transition-all before:mx-auto before:block before:h-2 before:rounded-full ${
+                          currentSlide === index ? "before:w-4 before:bg-white" : "before:w-2 before:bg-white/50"
                         }`}
+                        aria-label={`显示第 ${index + 1} 条新闻`}
                       />
                     ))}
                   </div>
@@ -161,13 +171,13 @@ export function NewsSection({ config }: { config: NewsSectionConfig }) {
             </div>
 
             {/* 右侧新闻列表 */}
-            <div className="flex-1">
+            <div className="min-w-0 flex-1">
               <div className="space-y-0 divide-y divide-[#E8DCC8]">
                 {filteredNews.slice(0, 5).map((news, index) => (
                   <Link
                     key={news.id}
                     href={toMessageHref(news.id)}
-                    className="group flex items-start gap-4 py-4 hover:bg-[#8B1A1A]/5 px-2 -mx-2 transition-colors"
+                    className="group -mx-2 flex min-w-0 items-start gap-3 px-2 py-4 transition-colors hover:bg-[#8B1A1A]/5 sm:gap-4"
                     style={{
                       opacity: isRevealed ? 1 : 0,
                       transform: isRevealed ? "translateX(0)" : "translateX(20px)",
@@ -176,12 +186,12 @@ export function NewsSection({ config }: { config: NewsSectionConfig }) {
                     }}
                   >
                     {/* 日期 */}
-                    <div className="flex-shrink-0 text-center w-16 border-r border-[#E8DCC8] pr-4">
+                    <div className="w-14 flex-shrink-0 border-r border-[#E8DCC8] pr-3 text-center sm:w-16 sm:pr-4">
                       <span className="block text-2xl font-bold text-[#1a365d]">{news.day}</span>
                       <span className="block text-xs text-[#999]">{news.yearMonth}</span>
                     </div>
                     {/* 标题 */}
-                    <div className="flex-1 pt-1">
+                    <div className="min-w-0 flex-1 pt-1">
                       <h4 className="text-sm text-[#333] group-hover:text-[#8B1A1A] transition-colors line-clamp-2">
                         {news.title}
                       </h4>
@@ -215,12 +225,12 @@ export function NewsSection({ config }: { config: NewsSectionConfig }) {
               ) : null}
             </div>
 
-            <div className="grid grid-cols-3 gap-6">
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
               {announcements.map((item, index) => (
                 <Link
                   key={item.id}
                   href={toMessageHref(item.id)}
-                  className="group flex items-center gap-4 p-4 rounded-lg bg-[#FDFBF7] hover:bg-[#8B1A1A]/5 transition-all border border-[#E8DCC8]"
+                  className="group flex min-w-0 items-center gap-3 rounded-lg border border-[#E8DCC8] bg-[#FDFBF7] p-4 transition-all hover:bg-[#8B1A1A]/5 sm:gap-4"
                   style={{
                     opacity: isRevealed ? 1 : 0,
                     transform: isRevealed ? "translateY(0)" : "translateY(20px)",
@@ -234,7 +244,7 @@ export function NewsSection({ config }: { config: NewsSectionConfig }) {
                     <span className="block text-xs text-[#999]">{item.yearMonth}</span>
                   </div>
                   {/* 标题 */}
-                  <div className="flex-1">
+                  <div className="min-w-0 flex-1">
                     <h4 className="text-sm text-[#333] group-hover:text-[#8B1A1A] transition-colors line-clamp-2">
                       {item.title}
                     </h4>

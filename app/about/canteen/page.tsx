@@ -89,24 +89,24 @@ export default function CanteenMenuPage() {
         bannerImage="/school_view/（提取图片）9.24省丹中画册-定稿/第20页-145.PNG"
       >
         <article className="prose prose-lg max-w-none">
-          <div className="mb-8 flex justify-center">
-            <div className="flex items-center gap-4 bg-gradient-to-r from-[#8B1A1A] to-[#6B1010] rounded-xl p-3 shadow-lg text-white">
+          <div className="mb-6 flex justify-center sm:mb-8">
+            <div className="flex w-full max-w-md items-center justify-between gap-2 rounded-lg bg-gradient-to-r from-[#8B1A1A] to-[#6B1010] p-2 text-white shadow-lg sm:gap-4 sm:p-3">
               <button 
                 onClick={handlePrevWeek}
                 disabled={currentWeekIndex === weeksData.length - 1}
-                className="p-2 hover:bg-white/20 rounded-full transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full transition-colors hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-30"
                 title="上一周"
               >
                 <ChevronLeft className="h-6 w-6" />
               </button>
-              <div className="flex flex-col items-center min-w-[200px]">
-                <span className="font-bold text-lg">{currentData.weekName}</span>
+              <div className="flex min-w-0 flex-1 flex-col items-center text-center">
+                <span className="font-bold sm:text-lg">{currentData.weekName}</span>
                 <span className="text-sm text-white/80">{currentData.dateRange}</span>
               </div>
               <button 
                 onClick={handleNextWeek}
                 disabled={currentWeekIndex === 0}
-                className="p-2 hover:bg-white/20 rounded-full transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full transition-colors hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-30"
                 title="下一周"
               >
                 <ChevronRight className="h-6 w-6" />
@@ -114,11 +114,11 @@ export default function CanteenMenuPage() {
             </div>
           </div>
 
-          <div className="overflow-x-auto rounded-xl shadow-md border border-[#E8DCC8]">
+          <div className="relative overflow-x-auto overscroll-x-contain rounded-lg border border-[#E8DCC8] shadow-md sm:rounded-xl">
             <table className="w-full text-center text-sm text-[#444] min-w-[1000px] m-0 border-collapse">
               <thead className="bg-[#F8F4ED] text-[#8B1A1A]">
                 <tr>
-                  <th className="px-4 py-3 font-bold border border-[#E8DCC8] whitespace-nowrap w-[60px]" colSpan={2}>日期</th>
+                  <th className="sticky left-0 z-10 w-[60px] whitespace-nowrap border border-[#E8DCC8] bg-[#F8F4ED] px-4 py-3 font-bold" colSpan={2}>日期</th>
                   {currentData.dates.map((date, idx) => (
                     <th key={idx} className="px-2 py-3 font-bold border border-[#E8DCC8] w-[15%]">
                       {date}

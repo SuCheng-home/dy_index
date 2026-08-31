@@ -1,9 +1,10 @@
 "use client"
 
-import type { CSSProperties } from "react"
+import { useState, type CSSProperties } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { ChevronDown } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { BreadcrumbNav } from "@/components/breadcrumb-nav"
 
@@ -38,39 +39,48 @@ export function SubPageLayout({
   const pathname = usePathname()
   const hasPathMatch = sidebarItems?.some((item) => item.href === pathname) ?? false
   const currentPath = activePath ?? (hasPathMatch ? pathname : sidebarItems?.[0]?.href ?? pathname)
+  const [mobileNavOpen, setMobileNavOpen] = useState(false)
+  const currentSidebarItem = sidebarItems?.find((item) => item.href === currentPath) ?? sidebarItems?.[0]
 
   return (
     <div className="min-h-screen bg-[#FDFBF7]">
       {/* 页面横幅 */}
-      <div className="relative h-[46vh] min-h-[360px] max-h-[500px] w-full overflow-hidden bg-[#FDFBF7]">
+      <div className="relative h-[240px] w-full overflow-hidden bg-[#FDFBF7] sm:h-[280px] lg:h-[46vh] lg:min-h-[360px] lg:max-h-[500px]">
         <Image src={bannerImage} alt="" fill priority className="object-cover object-center" />
         <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-black/50 to-transparent" />
       </div>
 
       {/* 面包屑导航 */}
       <div className="border-b border-[#E8DCC8] bg-white">
-        <div className="mx-auto max-w-7xl px-4 py-4">
+        <div className="mx-auto max-w-7xl overflow-x-auto px-4 py-3 sm:py-4">
           <BreadcrumbNav items={breadcrumbs} />
         </div>
       </div>
 
       {/* 主内容区 */}
-      <div className="mx-auto max-w-7xl px-4 py-10">
-        <div className="flex flex-col gap-10 lg:flex-row">
+      <div className="mx-auto max-w-7xl px-3 py-6 sm:px-4 sm:py-8 lg:py-10">
+        <div className="flex flex-col gap-5 lg:flex-row lg:gap-10">
           {/* 侧边栏 */}
           {sidebarItems && sidebarItems.length > 0 && (
-            <aside className="w-full lg:w-64 flex-shrink-0">
-              <div className="sticky top-24 rounded-xl bg-white p-6 shadow-md">
-                <h3 className="mb-4 border-b-2 border-[#8B1A1A] pb-3 font-bold text-[#333]">
-                  栏目导航
-                </h3>
-                <nav className="space-y-1">
+            <aside className="w-full flex-shrink-0 lg:w-64">
+              <div className="sticky top-24 overflow-hidden rounded-lg bg-white shadow-md lg:rounded-xl lg:p-6">
+                <button
+                  type="button"
+                  className="flex min-h-12 w-full items-center justify-between px-4 py-3 text-left font-bold text-[#333] lg:hidden"
+                  onClick={() => setMobileNavOpen((current) => !current)}
+                  aria-expanded={mobileNavOpen}
+                >
+                  <span className="min-w-0 truncate">{currentSidebarItem?.label ?? title}</span>
+                  <ChevronDown className={cn("h-5 w-5 shrink-0 text-[#8B1A1A] transition-transform", mobileNavOpen && "rotate-180")} />
+                </button>
+                <h3 className="mb-4 hidden border-b-2 border-[#8B1A1A] pb-3 font-bold text-[#333] lg:block">栏目导航</h3>
+                <nav className={cn("space-y-1 border-t border-[#E8DCC8] p-2 lg:block lg:border-0 lg:p-0", mobileNavOpen ? "block" : "hidden")}>
                   {sidebarItems.map((item) => (
                     <Link
                       key={item.href}
                       href={item.href}
                       className={cn(
-                        "group flex items-center gap-2 rounded-lg px-4 py-3 text-sm transition-all duration-300",
+                        "group flex min-h-11 items-center gap-2 rounded-lg px-4 py-3 text-sm transition-all duration-300",
                         currentPath === item.href
                           ? "bg-[#8B1A1A] text-white shadow-md"
                           : "text-[#666] hover:bg-[#8B1A1A]/5 hover:text-[#8B1A1A]"
@@ -84,7 +94,7 @@ export function SubPageLayout({
                             : "text-[#8B1A1A] group-hover:-translate-y-0.5 group-hover:-rotate-12"
                         )}
                       />
-                      {item.label}
+                      <span className="min-w-0 break-words">{item.label}</span>
                     </Link>
                   ))}
                 </nav>
@@ -95,7 +105,7 @@ export function SubPageLayout({
           {/* 内容区 */}
           <main
             className={cn(
-              "animate-in fade-in slide-in-from-bottom-4 duration-500 flex-1 rounded-xl bg-white p-8 shadow-md",
+              "min-w-0 flex-1 animate-in fade-in slide-in-from-bottom-4 break-words rounded-lg bg-white p-4 shadow-md duration-500 sm:p-6 lg:rounded-xl lg:p-8",
               !sidebarItems && "max-w-4xl mx-auto"
             )}
           >

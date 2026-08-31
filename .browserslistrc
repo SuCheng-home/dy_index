@@ -1,0 +1,7 @@
+# 360 极速浏览器 13.5 使用较旧 Chromium 内核。以 Chrome 78 作为保守目标，
+# 避开旧内核无法解析的可选链、class static block 等语法。
+Chrome >= 78
+Edge >= 79
+Firefox >= 78
+Safari >= 13
+iOS >= 13

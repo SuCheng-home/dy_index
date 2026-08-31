@@ -62,7 +62,7 @@ export default function TeachingPage() {
       >
         <div className="space-y-10">
           {/* 快捷入口 - 纯文字卡片 */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid gap-4 sm:grid-cols-2">
             {quickLinks.map((link) => (
               <Link
                 key={link.title}
@@ -92,7 +92,7 @@ export default function TeachingPage() {
                   className="object-cover"
                 />
               </div>
-              <div className="flex flex-col justify-center p-8 md:w-1/2">
+              <div className="flex flex-col justify-center p-5 sm:p-8 md:w-1/2">
                 <h3 className="mb-4 font-serif text-2xl font-bold text-[#8B1A1A]">
                   以学生为中心 构建高效课堂
                 </h3>

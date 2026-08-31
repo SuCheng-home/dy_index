@@ -9,6 +9,8 @@ import { X, Menu } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import type { RootNavItem, RootSiteConfig } from "@/lib/root-site-config"
 
+const DEFAULT_NAV_IMAGE = "/optimized/home/gallery/gallery-main-entrance.jpg"
+
 function GinkgoLeaf({ className = "", style }: { className?: string; style?: CSSProperties }) {
   return (
     <svg viewBox="0 0 24 24" className={className} style={style} fill="currentColor" aria-hidden="true">
@@ -80,6 +82,25 @@ export function Header({ variant = "default", config }: { variant?: "default" | 
   }, [pathname])
 
   useEffect(() => {
+    if (!mobileMenuOpen) return
+
+    const previousOverflow = document.body.style.overflow
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setMobileMenuOpen(false)
+        setActiveDropdown(null)
+      }
+    }
+
+    document.body.style.overflow = "hidden"
+    window.addEventListener("keydown", handleKeyDown)
+    return () => {
+      document.body.style.overflow = previousOverflow
+      window.removeEventListener("keydown", handleKeyDown)
+    }
+  }, [mobileMenuOpen])
+
+  useEffect(() => {
     setLiveNavItems(config?.navigation ?? [])
   }, [config?.navigation])
 
@@ -120,7 +141,7 @@ export function Header({ variant = "default", config }: { variant?: "default" | 
   return (
     <>
       <div
-        className="fixed inset-0 z-40 pointer-events-none transition-opacity duration-500"
+        className="pointer-events-none fixed inset-0 z-40 hidden transition-opacity duration-500 xl:block"
         style={{ opacity: activeDropdown ? 1 : 0 }}
       >
         <div
@@ -141,8 +162,8 @@ export function Header({ variant = "default", config }: { variant?: "default" | 
               : "border-b border-[#E8DCC8] bg-white/95 shadow-sm backdrop-blur"
           }`}
         >
-          <div className="mx-auto flex max-w-[1500px] items-center justify-between gap-2 px-3 py-3 xl:px-4">
-            <Link href="/" className="flex shrink-0 items-center lg:mr-2 xl:mr-4 2xl:mr-8">
+          <div className="mx-auto flex max-w-[1500px] items-center justify-between gap-1.5 px-3 py-2.5 sm:gap-2 sm:py-3 xl:px-4">
+            <Link href="/" className="flex min-w-0 flex-1 items-center xl:mr-4 xl:flex-none 2xl:mr-8">
               <img
                 src="/logo.png"
                 alt={site?.name ?? "江苏省丹阳高级中学"}
@@ -152,11 +173,11 @@ export function Header({ variant = "default", config }: { variant?: "default" | 
                 data-nimg="1"
                 suppressHydrationWarning
                 style={{ color: "transparent" }}
-                className="h-11 w-auto transition-all duration-300 xl:h-12 2xl:h-14"
+                className="h-auto max-h-[60px] w-full max-w-[258px] object-contain object-left transition-all duration-300 min-[390px]:max-w-[293px] sm:max-h-[66px] sm:max-w-[390px] xl:h-[72px] xl:w-auto xl:max-w-none 2xl:h-[84px]"
               />
             </Link>
 
-            <nav className="hidden min-w-0 flex-1 items-center justify-center gap-0 lg:flex xl:gap-1 2xl:gap-2">
+            <nav className="hidden min-w-0 flex-1 items-center justify-center gap-1 xl:flex 2xl:gap-2">
               {navItems.map((item) => (
                 <div
                   key={item.label}
@@ -188,11 +209,11 @@ export function Header({ variant = "default", config }: { variant?: "default" | 
               ))}
             </nav>
 
-            <div className="ml-auto flex shrink-0 items-center gap-2 lg:ml-2 lg:gap-2 xl:ml-3 2xl:gap-4">
+            <div className="ml-auto flex shrink-0 items-center gap-1 sm:gap-2 xl:ml-3 2xl:gap-4">
               <button
                 type="button"
                 onClick={handleManageClick}
-                className={`group relative flex h-11 items-center justify-center gap-1.5 px-0 pb-1 text-sm font-semibold transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37]/70 focus-visible:ring-offset-2 xl:text-[15px] ${
+                className={`group relative flex h-11 items-center justify-center gap-1 px-0 pb-1 text-xs font-semibold transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37]/70 focus-visible:ring-offset-2 sm:gap-1.5 sm:text-sm xl:text-[15px] ${
                   isTop && !activeDropdown
                     ? "text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.65)] hover:text-[#F7E8B6] focus-visible:ring-offset-transparent"
                     : "text-[#8B1A1A] hover:text-[#6B1010] focus-visible:ring-offset-white"
@@ -203,7 +224,10 @@ export function Header({ variant = "default", config }: { variant?: "default" | 
                     isTop && !activeDropdown ? "text-[#D4AF37]" : "text-[#8B1A1A]"
                   }`}
                 />
-                <span className="relative z-10 whitespace-nowrap tracking-normal">智慧丹中入口</span>
+                <span className="relative z-10 whitespace-nowrap tracking-normal">
+                  <span className="sm:hidden">智慧丹中</span>
+                  <span className="hidden sm:inline">智慧丹中入口</span>
+                </span>
                 <span
                   className={`pointer-events-none absolute bottom-1.5 left-0 right-0 h-[2px] rounded-full transition-colors duration-300 ${
                     isTop && !activeDropdown ? "bg-[#D4AF37]" : "bg-[#8B1A1A]"
@@ -211,14 +235,18 @@ export function Header({ variant = "default", config }: { variant?: "default" | 
                 />
               </button>
               <Button
+                type="button"
                 variant="ghost"
                 size="icon"
-                className={`lg:hidden ${
+                className={`h-11 w-11 shrink-0 xl:hidden ${
                   isTop && !activeDropdown
                     ? "text-white hover:bg-white/10"
                     : "text-[#666] hover:bg-[#8B1A1A]/5 hover:text-[#8B1A1A]"
                 }`}
                 onClick={() => setMobileMenuOpen((current) => !current)}
+                aria-label={mobileMenuOpen ? "关闭导航菜单" : "打开导航菜单"}
+                aria-expanded={mobileMenuOpen}
+                aria-controls="mobile-site-navigation"
               >
                 {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
               </Button>
@@ -232,7 +260,7 @@ export function Header({ variant = "default", config }: { variant?: "default" | 
         />
 
         <div
-          className="absolute left-0 right-0 top-full hidden overflow-hidden transition-all duration-400 lg:block"
+          className="absolute left-0 right-0 top-full hidden overflow-hidden transition-all duration-400 xl:block"
           style={{
             maxHeight: activeDropdown ? "380px" : "0px",
             opacity: activeDropdown ? 1 : 0,
@@ -248,7 +276,7 @@ export function Header({ variant = "default", config }: { variant?: "default" | 
               <div className="relative w-[36%] max-w-[520px] shrink-0 overflow-hidden">
                 {currentNavItem ? (
                   <Image
-                    src={currentNavItem.image || "https://cdnfile-10043692.file.myqcloud.com/productVersion/common/danyang/省丹中画册/view3.jpg"}
+                    src={currentNavItem.image || DEFAULT_NAV_IMAGE}
                     alt={currentNavItem.label}
                     fill
                     className="object-cover transition-transform duration-700"
@@ -300,13 +328,15 @@ export function Header({ variant = "default", config }: { variant?: "default" | 
         </div>
 
         {mobileMenuOpen && (
-          <div className="animate-in slide-in-from-top-2 max-h-[calc(100vh-4rem)] overflow-y-auto border-t border-[#E8DCC8] bg-white lg:hidden">
-            <nav className="mx-auto max-w-7xl px-4 py-4">
+          <div id="mobile-site-navigation" className="animate-in slide-in-from-top-2 max-h-[calc(100dvh-4rem)] overflow-y-auto overscroll-contain border-t border-[#E8DCC8] bg-white xl:hidden">
+            <nav className="mx-auto max-w-7xl px-4 py-3" aria-label="移动端主导航">
               {navItems.map((item) => (
                 <div key={item.label} className="border-b border-[#E8DCC8] last:border-b-0">
                   <button
-                    className="flex w-full items-center justify-between py-3 text-left font-medium text-[#333]"
+                    type="button"
+                    className="flex min-h-11 w-full items-center justify-between py-3 text-left font-medium text-[#333]"
                     onClick={() => setActiveDropdown((current) => (current === item.label ? null : item.label))}
+                    aria-expanded={activeDropdown === item.label}
                   >
                     {item.label}
                   </button>

@@ -1,4 +1,5 @@
 import type { RootSiteConfig } from "@/lib/root-site-config"
+import { normalizeSchoolAddress } from "@/lib/site-constants"
 import {
   type HomeColumnSummary,
   type HomeModuleSummary,
@@ -11,13 +12,56 @@ import {
   toModuleHref,
 } from "@/lib/school-web-two"
 
-const HOME_HERO_IMAGE_SRC = "https://cdnfile-10043692.file.myqcloud.com/productVersion/common/danyang/省丹中画册/view1.jpg"
-const PRINCIPAL_AVATAR_SRC = "https://cdnfile-10043692.file.myqcloud.com/productVersion/common/danyang/省丹中画册/%E7%AC%AC32%E9%A1%B5-233.PNG"
+// 图片缓存版本号：在服务端运行时生成（每个进程一个时间戳），
+// 因此每次部署、next start / next dev 重启都会自动生成新值，刷新同名 CDN 图片的缓存。
+// 不走构建时内联（DefinePlugin），因此不会被 .next 构建缓存锁定。
+// 也可通过环境变量 NEXT_PUBLIC_IMAGE_CACHE_VERSION 固定指定。
+const IMAGE_CACHE_VERSION = process.env.NEXT_PUBLIC_IMAGE_CACHE_VERSION || String(Date.now())
+
+export function withImageCacheBust(url: string | null | undefined) {
+  const value = String(url ?? "").trim()
+  if (!value) return ""
+  if (!/^https?:\/\//i.test(value)) return value
+  if (!/myqcloud\.com/i.test(value)) return value
+  if (/[?&]v=/.test(value)) return value
+  return `${value}${value.includes("?") ? "&" : "?"}v=${IMAGE_CACHE_VERSION}`
+}
+
+const HOME_HERO_IMAGE_SRC = withImageCacheBust("https://cdnfile-10043692.file.myqcloud.com/productVersion/common/danyang/省丹中画册/view1.jpg")
+const PRINCIPAL_AVATAR_SRC = withImageCacheBust("https://cdnfile-10043692.file.myqcloud.com/productVersion/common/danyang/省丹中画册/%E7%AC%AC32%E9%A1%B5-233.PNG")
 
 export function normalizePublicImageUrl(url: string | null | undefined) {
   const value = String(url ?? "").trim()
   if (!value) return ""
-  return value.replace(/^http:\/\/([^/]*picsh\.myqcloud\.com)/i, "https://$1")
+  const httpsUrl = value.replace(/^http:\/\/([^/]*picsh\.myqcloud\.com)/i, "https://$1")
+  return withImageCacheBust(httpsUrl)
+}
+
+function supportsPublicImageThumbnail(url: string) {
+  try {
+    const parsed = new URL(url)
+    return parsed.protocol === "https:" && (
+      parsed.hostname === "cos.zhxiaoyuan.cn" ||
+      parsed.hostname === "wx.qlogo.cn" ||
+      parsed.hostname === "wework.qpic.cn" ||
+      parsed.hostname.endsWith(".myqcloud.com")
+    )
+  } catch {
+    return false
+  }
+}
+
+export function normalizePublicNavigationImageUrl(url: string | null | undefined) {
+  const normalized = normalizePublicImageUrl(url)
+  if (!normalized || !supportsPublicImageThumbnail(normalized)) return normalized
+
+  const params = new URLSearchParams({
+    url: normalized,
+    width: "640",
+    height: "380",
+    quality: "78",
+  })
+  return `/api/public/image-thumbnail?${params.toString()}`
 }
 
 const visualSectionConfig: Pick<RootSiteConfig, "book" | "features" | "stats" | "gallery" | "principal"> = {
@@ -166,7 +210,7 @@ export function buildNavigationTree(columns: HomeColumnSummary[]): NavigationTre
     id: column.id,
     label: column.name,
     href: columnSummaryToHref(column),
-    image: normalizePublicImageUrl(column.logoUrl),
+    image: normalizePublicNavigationImageUrl(column.logoUrl),
     type: column.type,
     children: (column.moduleList ?? []).map((module) => moduleSummaryToNavItem(column.id, module)),
   }))
@@ -300,17 +344,16 @@ export function buildRootSiteConfigFromRemote(context: PublicSiteContext, templa
     },
     footer: {
       ...emptyRootSiteConfig.footer,
-      address: extractText(setting.address),
+      address: normalizeSchoolAddress(extractText(setting.address)),
       phone: extractPhone(setting.address),
       email: extractEmail(setting.address),
       quickLinks,
       copyright: copyrightName ? `© ${new Date().getFullYear()} ${copyrightName} 版权所有` : "",
-      icp: setting.recodation || "",
-      police: setting.postRecodation || "",
+      icp: "苏ICP备15026634号-4",
+      police: "",
       bottomLinks: [
         { label: "网站首页", href: "/" },
         { label: "新闻中心", href: template.columnList[0] ? toColumnHref(template.columnList[0].id) : "/" },
-        { label: "后台管理", href: "/manage" },
       ],
     },
   }

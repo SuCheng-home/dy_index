@@ -127,6 +127,33 @@
   }
 }
 
+.school-web-richtext {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.school-web-richtext img,
+.school-web-richtext video,
+.school-web-richtext iframe {
+  max-width: 100% !important;
+  height: auto;
+}
+
+.school-web-richtext table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (hover: none) {
+  .group .group-hover\:opacity-100 {
+    opacity: 1;
+  }
+}
+
 .vertical-text {
   writing-mode: vertical-rl;
   text-orientation: upright;
@@ -230,6 +257,13 @@
   animation-play-state: paused;
 }
 
+.home-animation-paused .film-track,
+.home-animation-paused .story-film-track,
+.home-animation-paused .animate-future-slide-one,
+.home-animation-paused .animate-future-slide-two {
+  animation-play-state: paused !important;
+}
+
 .future-film-panel {
   overflow: hidden;
   border: 1px solid rgba(111, 87, 66, 0.16);
@@ -245,6 +279,18 @@
   overflow: hidden;
   border-radius: 1.1rem;
   background: #6a5843;
+}
+
+@media (max-width: 639px) {
+  .future-film-panel {
+    border-radius: 0.75rem;
+    padding: 12px 6px;
+  }
+
+  .future-film-window {
+    aspect-ratio: 4 / 3;
+    border-radius: 0.5rem;
+  }
 }
 
 @keyframes story-film-left {
@@ -288,15 +334,53 @@
   }
 }
 
+/* 点击层与淡入淡出同步切换，保证点击时命中的是当前可见的图片 */
+@keyframes future-pointer-one {
+  0%,
+  46% {
+    pointer-events: auto;
+  }
+  48%,
+  96% {
+    pointer-events: none;
+  }
+  98%,
+  100% {
+    pointer-events: auto;
+  }
+}
+
+@keyframes future-pointer-two {
+  0%,
+  46% {
+    pointer-events: none;
+  }
+  48%,
+  96% {
+    pointer-events: auto;
+  }
+  98%,
+  100% {
+    pointer-events: none;
+  }
+}
+
 .animate-future-slide-one {
-  animation: future-slide-one 9s ease-in-out infinite;
+  animation:
+    future-slide-one 9s ease-in-out infinite,
+    future-pointer-one 9s linear infinite;
 }
 
 .animate-future-slide-two {
-  animation: future-slide-two 9s ease-in-out infinite;
+  animation:
+    future-slide-two 9s ease-in-out infinite,
+    future-pointer-two 9s linear infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .film-track,
+  .animate-memory-left,
+  .animate-memory-right,
   .story-film-track,
   .animate-story-film-left,
   .animate-future-slide-one,
@@ -306,6 +390,7 @@
 
   .animate-future-slide-two {
     opacity: 0;
+    pointer-events: none;
   }
 }
 

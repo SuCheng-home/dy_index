@@ -51,27 +51,6 @@ function getLoginSuccessUrl(token: string): string {
   return `https://www.zhxiaoyuan.cn/#/main/homePage/danyangHome?token=${encodeURIComponent(token)}`
 }
 
-function bytesToHex(bytes: Uint8Array) {
-  return Array.from(bytes).map((byte) => byte.toString(16).padStart(2, "0")).join("")
-}
-
-async function encryptPassword(password: string) {
-  const encoder = new TextEncoder()
-  const key = await window.crypto.subtle.importKey(
-    "raw",
-    encoder.encode("2019092415weiyan"),
-    { name: "AES-CBC" },
-    false,
-    ["encrypt"]
-  )
-  const encrypted = await window.crypto.subtle.encrypt(
-    { name: "AES-CBC", iv: encoder.encode("weiyan2019092415") },
-    key,
-    encoder.encode(password.trim())
-  )
-  return bytesToHex(new Uint8Array(encrypted))
-}
-
 function isValidPassword(value: string) {
   if (value.length < 8 || value.length > 20) return false
   return [/[0-9]/.test(value), /[A-Za-z]/.test(value), /[^0-9A-Za-z]/.test(value)].filter(Boolean).length >= 2
@@ -251,11 +230,10 @@ export default function SmartDanzhongLoginPage() {
     }
     setLoading(true)
     try {
-      const encryptedPassword = await encryptPassword(password)
       const response = await fetch("/api/manage/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ account: account.trim(), encryptedPassword }),
+        body: JSON.stringify({ account: account.trim(), password }),
       })
       const json = (await response.json()) as ApiResponse<LoginData>
       if (json?.code === 1052) {
@@ -309,14 +287,10 @@ export default function SmartDanzhongLoginPage() {
 
     setLoading(true)
     try {
-      const [encryptedCurrentPwd, encryptedNewPwd] = await Promise.all([
-        encryptPassword(resetPwdForm.currentPwd),
-        encryptPassword(resetPwdForm.newPwd),
-      ])
       const json = await postJson<boolean>("/api/manage/auth/modify-password", {
         userId: firstLoginUserId,
-        encryptedCurrentPwd,
-        encryptedNewPwd,
+        currentPwd: resetPwdForm.currentPwd,
+        newPwd: resetPwdForm.newPwd,
       })
       if (json.code !== 200) throw new Error(json.msg || "修改密码失败")
       setFirstLoginOpen(false)

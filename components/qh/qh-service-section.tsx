@@ -13,6 +13,7 @@ import {
   GraduationCap,
 } from 'lucide-react';
 import Link from 'next/link';
+import { SCHOOL_ADDRESS } from '@/lib/site-constants';
 
 interface QhServiceSectionProps {
   onFeedbackClick?: () => void;
@@ -134,7 +135,7 @@ export function QhServiceSection({ onFeedbackClick }: QhServiceSectionProps) {
             </div>
             <div>
               <h4 className="font-medium mb-1" style={{ color: '#121212' }}>学校地址</h4>
-              <p className="text-sm" style={{ color: '#666' }}>江苏省丹阳市新民西路138号</p>
+              <p className="text-sm break-words leading-relaxed" style={{ color: '#666' }}>{SCHOOL_ADDRESS}</p>
             </div>
           </div>
 

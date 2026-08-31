@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Search, Mail, Menu, X, Phone, ArrowUp, QrCode } from 'lucide-react';
+import { SCHOOL_ADDRESS } from '@/lib/site-constants';
 
 interface QhAsideProps {
   onSearchClick?: () => void;
@@ -203,7 +204,7 @@ export function QhAside({ onSearchClick, onFeedbackClick }: QhAsideProps) {
             <div className="mt-8 p-4 rounded-xl" style={{ backgroundColor: 'rgba(91, 44, 111, 0.04)' }}>
               <h4 className="font-medium mb-3" style={{ color: '#5B2C6F' }}>联系我们</h4>
               <div className="flex flex-col gap-2 text-sm" style={{ color: '#666' }}>
-                <p>地址：江苏省丹阳市新民西路138号</p>
+                <p className="break-words leading-relaxed">地址：{SCHOOL_ADDRESS}</p>
                 <p>电话：0511-86522062</p>
                 <p>邮编：212300</p>
               </div>

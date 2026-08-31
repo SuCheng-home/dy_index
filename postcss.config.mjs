@@ -1,8 +1,6 @@
 /** @type {import('postcss-load-config').Config} */
-const config = {
-  plugins: {
-    '@tailwindcss/postcss': {},
-  },
-}
+import legacyChromium from './postcss-legacy-chromium.mjs'
 
-export default config
+export default {
+  plugins: ['@tailwindcss/postcss', legacyChromium()],
+}

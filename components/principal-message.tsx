@@ -15,11 +15,11 @@ export function PrincipalMessage({ config }: { config: PrincipalMessageConfig })
   }
   
   return (
-    <section ref={ref} className="bg-gradient-to-b from-[#FDFBF7] to-[#F5F0E8] py-20">
+    <section ref={ref} className="bg-gradient-to-b from-[#FDFBF7] to-[#F5F0E8] py-12 sm:py-16 lg:py-20">
       <div className="mx-auto max-w-7xl px-4">
         <div className="mx-auto max-w-4xl">
           <div
-            className="relative rounded-2xl bg-[#FDFBF7] p-8 shadow-xl md:p-12 transition-all duration-1000"
+            className="relative rounded-lg bg-[#FDFBF7] p-5 shadow-xl transition-all duration-1000 sm:p-8 md:p-12"
             style={{
               opacity: isRevealed ? 1 : 0,
               transform: isRevealed ? "translateY(0)" : "translateY(40px)",
@@ -28,13 +28,13 @@ export function PrincipalMessage({ config }: { config: PrincipalMessageConfig })
             {/* 装饰引号 */}
             <Quote className="absolute -left-3 -top-3 h-16 w-16 text-[#D4AF37]/20 md:-left-6 md:-top-6 md:h-24 md:w-24" />
             
-            <div className="flex flex-col items-center gap-8 md:flex-row md:items-start">
+            <div className="flex flex-col items-center gap-6 sm:gap-8 md:flex-row md:items-start">
               {/* 校长照片 */}
               {config.image || config.name || config.role ? (
                 <div className="flex-shrink-0">
                   <div className="relative">
                     {config.image ? (
-                      <div className="h-40 w-40 overflow-hidden rounded-3xl border-4 border-[#D4AF37] bg-white shadow-lg">
+                      <div className="h-32 w-32 overflow-hidden rounded-lg border-4 border-[#D4AF37] bg-white shadow-lg sm:h-40 sm:w-40 sm:rounded-3xl">
                         <Image
                           src={config.image}
                           alt={config.name || config.title || "图片"}
@@ -54,7 +54,7 @@ export function PrincipalMessage({ config }: { config: PrincipalMessageConfig })
               ) : null}
 
               {/* 致辞内容 */}
-              <div className="flex-1 space-y-4">
+              <div className="min-w-0 flex-1 space-y-4">
                 {config.title ? (
                   <h3 className="font-serif text-2xl font-bold text-[#2A0A0A] md:text-3xl">
                     {config.title}

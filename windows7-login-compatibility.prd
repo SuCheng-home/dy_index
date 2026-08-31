@@ -1,0 +1,91 @@
+# Windows 7 登录兼容性优化
+
+## 基本信息
+
+- 需求日期：2026-08-04
+- 影响范围：`/app` 账号登录、后台登录、首次登录修改密码
+- 总体状态：已完成
+
+## 问题描述
+
+部分 Windows 7 用户使用的旧版浏览器、兼容模式浏览器或非安全上下文不提供 `window.crypto.subtle`。现有登录页直接调用 `SubtleCrypto.importKey` 和 `SubtleCrypto.encrypt`，导致登录请求发出前出现以下异常：
+
+- `window.crypto.subtle is undefined`
+- `Cannot read properties of undefined (reading 'importKey')`
+
+## 功能与状态
+
+| 功能 | 实现内容 | 状态 |
+| --- | --- | --- |
+| `/app` 账号密码登录 | 客户端提交密码到同源登录接口，由服务端完成 AES-128-CBC 加密 | 已完成 |
+| 后台弹窗账号密码登录 | 客户端提交密码到同源登录接口，由服务端完成 AES-128-CBC 加密 | 已完成 |
+| `/app` 首次登录修改密码 | 当前密码和新密码由服务端加密后调用上游接口 | 已完成 |
+| 后台首次登录修改密码 | 当前密码和新密码由服务端加密后调用上游接口 | 已完成 |
+| 旧调用方兼容 | 服务端继续接受已有的加密密码字段 | 已完成 |
+| 模拟数据 | 未使用；登录及改密继续调用真实接口 | 不适用 |
+
+## 技术约束
+
+- 密码只提交到本站同源接口，生产环境必须使用 HTTPS。
+- 服务端沿用既有 `encryptPassword` 实现及上游约定的 AES key、IV 和十六进制输出格式。
+- 不再要求客户端支持 Web Crypto API、`SubtleCrypto` 或 `TextEncoder`。
+- 本优化不承诺支持 Internet Explorer；页面其余能力按项目 `.browserslistrc` 兼容到 Chromium 78（覆盖 360 极速浏览器 13.5 的旧内核）。
+
+## 360 极速浏览器 13.5 页面兼容性
+
+| 功能 | 实现内容 | 状态 |
+| --- | --- | --- |
+| 客户端 JavaScript 解析兼容 | 新增项目级 `.browserslistrc`，将 Next/SWC/Turbopack 的生产构建目标设为 Chrome 78 及以上，转换可选链、空值合并等旧内核无法解析的语法 | 已完成 |
+| 旧 Chromium 运行时 API | 通过 `<head>` 中的原生 `<script src="/legacy-browser-polyfills.js">` 同步执行无依赖 ES5 polyfill，补齐 `Array.prototype.at`、`String.prototype.at`、`Object.hasOwn` 和 `replaceChildren`（Chromium 86+） | 已完成 |
+| 旧 Chromium CSS 降级 | Tailwind v4 面向 Chromium 111+ 输出产物，新增 `postcss-legacy-chromium.mjs`（接入 `postcss.config.mjs`，跑在 `@tailwindcss/postcss` 之后）：① 展开 `@layer`（Chromium 99+，占产物 91%，旧内核整块丢弃即几乎无样式）；② 为逻辑属性（Chromium 87+：`padding-inline` / `margin-block` / `inset` / `inline-size` 等）在原声明前补物理长写；③ 为独立变换属性（Chromium 104+：`translate` / `rotate` / `scale`）生成 `@supports not (translate: 0px)` 包裹的 `transform` 兜底规则 | 已完成 |
+| 双核浏览器内核选择 | 根布局 `<head>` 输出 `<meta name="renderer" content="webkit">` 与 `<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">`，并由 `next.config.mjs` 对全部路由下发 `X-UA-Compatible` 响应头，使 360/QQ/搜狗默认走极速（Chromium）内核 | 已完成 |
+| IE 内核兜底提示 | `/legacy-ie-notice.js`（body 末尾原生 script，纯 ES5）检测 `MSIE`/`Trident`/`documentMode`，隐藏原内容并展示切换极速模式的指引，避免白屏 | 已完成 |
+| 客户端脚本失效兜底 | 首页及子页区块入场动画 SSR 输出内联 `opacity:0`，客户端脚本未执行时会整页空白；`legacy-browser-polyfills.js` 在 `load` 后 2 秒检测 `<html data-hydrated>` 缺失时注入 `opacity:1 !important` 覆盖样式，hydration 迟到时自动移除该样式 | 已完成 |
+| 360 极速浏览器 13.5 内容渲染 | 通过生产构建生成兼容 chunk 与降级 CSS；不修改公开 API、路由或登录逻辑 | 已完成（需部署新构建后验证） |
+| 360 兼容模式（IE 内核） | Next.js 16、React 19 及现有现代 Web API 不支持该内核；不做渲染适配，仅做内核切换引导与提示兜底 | 不支持（已引导切核） |
+| 模拟数据 | 未使用；接口失败时继续展示真实错误或既有空态 | 不适用 |
+
+### 降级后的支持范围
+
+| 内核 | 典型客户端 | 结论 |
+| --- | --- | --- |
+| Chromium 111+ | Chrome / Edge / 新版 360 极速 | 完整效果，Tailwind v4 原生支持 |
+| Chromium 105~110 | 较新的 360 极速 / 安全浏览器 | 基本一致，`color-mix()` 走 `@supports` 外的平色兜底 |
+| Chromium 88~104 | 360 极速 13.x / 安全 13.x | 布局与间距正常（降级生效）；`:has()`、`@container` 失效，部分悬停动效降级 |
+| Chromium 78~87 | 更旧的 360 双核内核 | 内容可读、主体布局可用；`:is()`/`:where()`（<88）、flex `gap`（<84）、`aspect-ratio`（<88）失效，后台 shadcn 变体样式会有偏差 |
+| IE 内核（兼容模式） | 360 手动切兼容模式 | 不支持，展示切回极速模式的提示页 |
+
+已知不做降级的特性：`:is()`/`:where()`（重写会产生组合爆炸，且主要集中在后台 shadcn 变体与 preflight reset）、flex `gap`、`:has()`、`@container`。
+
+## 验收标准
+
+- 浏览器缺少 `window.crypto.subtle` 时，账号登录可以正常发出请求，不再出现 `importKey` 异常。
+- 首次登录修改密码不依赖浏览器 Web Crypto API。
+- 支持 Web Crypto API 的现代浏览器登录行为保持不变。
+- 真实接口失败时展示真实错误信息，不使用模拟数据兜底。
+- 生产构建产物不包含旧内核无法解析的可选链、空值合并赋值或 class static block。
+- `/legacy-browser-polyfills.js` 以原生同步 `<script>` 形式位于 `<head>`，不依赖 Next 客户端 runtime 即可执行。
+- 360 系浏览器在极速内核下打开本站；被判定为 IE 兼容内核时展示切换指引而非空白页。
+- 客户端脚本未能执行时，页面正文内容仍然可见（入场动画降级为直接显示）。
+- 生产 CSS 产物不包含 `@layer`；逻辑属性均有前置的物理长写声明。
+- 降级产物在现代浏览器上视觉与层叠结果与降级前一致（`transform` 兜底块被 `@supports` 排除）。
+
+## 验证记录
+
+| 检查项 | 结果 | 状态 |
+| --- | --- | --- |
+| `npm run build` | Next.js 16.2.0 生产构建成功，88 个页面完成生成 | 已通过 |
+| `npx tsc --noEmit` | 类型检查无错误 | 已通过 |
+| 生产 chunk 语法扫描 | 未发现可选链、空值合并赋值、逻辑赋值或 class static block | 已通过 |
+| 旧浏览器 polyfill 自检 | `Array.prototype.at`、`String.prototype.at`、`Object.hasOwn` 均通过缺失环境测试 | 已通过 |
+| 生产 HTML 加载检查 | 原判定有误：App Router 下 `beforeInteractive` 仅向 `self.__next_s` 注册，需由 Next 客户端 runtime 消费，旧内核 runtime 解析失败时 polyfill 不会执行；已改为 `<head>` 内原生同步 script，构建产物中确认 `<script src="/legacy-browser-polyfills.js">` 位于 `</head>` 之前 | 已修正 |
+| 内核控制标签检查 | 构建产物与运行时响应均包含 `meta name=renderer`、`meta X-UA-Compatible` 及 `X-UA-Compatible` 响应头 | 已通过 |
+| 兜底选择器匹配扫描 | 扫描 17 个预渲染页面共 36 种内联隐藏样式，全部命中兜底选择器，`opacity:0.85` 等小数值无误伤 | 已通过 |
+| legacy 脚本分支自测 | 未 hydration 注入兜底样式、已 hydration 不注入、迟到 hydration 自动移除、IE UA 显示提示、现代 UA 不触发，共 10 项断言通过 | 已通过 |
+| 现代浏览器实机回归 | 生产服务下首页内容与滚动区块正常显示，`data-hydrated=1`，兜底样式数量为 0，无 JS 报错与 hydration 警告 | 已通过 |
+| CSS 降级插件构建结果 | 构建日志输出「@layer 展开 4 块 / 移除声明 1 条，逻辑属性降级 119 条，变换属性兜底 57 条」；CSS 体积 209 KB → 236 KB（+12.5%） | 已通过 |
+| 降级产物校验 | 产物中 `@layer` 计数为 0；`.px-4` / `.mx-auto` / `.inset-0` 均先输出物理长写；`.hover\:scale-105` 兜底已把 `105%` 换算为 `1.05`（`scale()` 在 Chromium 104 前不接受百分比）；`--legacy-*` 默认值块位于文件首部 | 已通过 |
+| 降级后现代浏览器回归 | 首页首屏/中部/底部无布局错乱与无样式区块；`CSS.supports('translate: 0px')` 为 true、`--legacy-tx` 为空、`-translate-x-1/2` 元素 `transform: none` 且 `translate: -50%`，证实兜底块未生效；无 JS 报错 | 已通过 |
+| 360 极速浏览器 13.5 实机 | 需要在部署新构建并清理旧 HTML/CDN 缓存后验证 | 待验证 |
+| 360 兼容模式实机 | 需要在部署后验证是否被 `meta name=renderer` 切回极速内核，以及手动强制兼容模式时是否显示提示页 | 待验证 |
+| ESLint | 项目未安装 `eslint` 可执行文件，`npm run lint` 无法运行 | 阻塞（缺少依赖） |

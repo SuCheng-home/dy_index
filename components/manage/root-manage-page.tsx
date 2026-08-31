@@ -400,27 +400,6 @@ function isValidPasswordCombination(value: string) {
   return kinds >= 2
 }
 
-function bytesToHex(bytes: Uint8Array) {
-  return Array.from(bytes).map((byte) => byte.toString(16).padStart(2, "0")).join("")
-}
-
-async function encryptPasswordForLogin(password: string) {
-  const encoder = new TextEncoder()
-  const key = await window.crypto.subtle.importKey(
-    "raw",
-    encoder.encode("2019092415weiyan"),
-    { name: "AES-CBC" },
-    false,
-    ["encrypt"]
-  )
-  const encrypted = await window.crypto.subtle.encrypt(
-    { name: "AES-CBC", iv: encoder.encode("weiyan2019092415") },
-    key,
-    encoder.encode(password.trim())
-  )
-  return bytesToHex(new Uint8Array(encrypted))
-}
-
 function currentMonthValue() {
   return new Date().toISOString().slice(0, 7)
 }
@@ -670,12 +649,11 @@ export function RootManagePage() {
     event.preventDefault()
     setSubmitting(true)
     try {
-      const encryptedPassword = await encryptPasswordForLogin(loginForm.password)
       await requestJson<ManageSession>("/api/manage/auth/login", {
         method: "POST",
         body: JSON.stringify({
           account: loginForm.account,
-          encryptedPassword,
+          password: loginForm.password,
         }),
       })
       await refreshBootstrap()
@@ -709,16 +687,12 @@ export function RootManagePage() {
 
     setSubmitting(true)
     try {
-      const [encryptedCurrentPwd, encryptedNewPwd] = await Promise.all([
-        encryptPasswordForLogin(passwordForm.currentPwd),
-        encryptPasswordForLogin(passwordForm.newPwd),
-      ])
       await requestJson<boolean>("/api/manage/auth/modify-password", {
         method: "POST",
         body: JSON.stringify({
           userId: firstLoginUserId,
-          encryptedCurrentPwd,
-          encryptedNewPwd,
+          currentPwd: passwordForm.currentPwd,
+          newPwd: passwordForm.newPwd,
         }),
       })
       setFirstLoginDialogOpen(false)

@@ -1,15 +1,10 @@
 import { NextResponse } from "next/server"
 
+import { ManageRouteError } from "@/lib/manage-error"
 import { getManageSession } from "@/lib/manage-session"
+import { assertSameOriginRequest } from "@/lib/request-guard"
 
-export class ManageRouteError extends Error {
-  status: number
-
-  constructor(message: string, status = 400) {
-    super(message)
-    this.status = status
-  }
-}
+export { ManageRouteError }
 
 export async function requireManageSession() {
   const session = await getManageSession()
@@ -64,8 +59,11 @@ export function fail(error: unknown) {
   )
 }
 
-export async function withManageHandler(handler: () => Promise<NextResponse>) {
+export async function withManageHandler(handler: () => Promise<NextResponse>, options?: { csrf?: boolean }) {
   try {
+    if (options?.csrf !== false) {
+      await assertSameOriginRequest()
+    }
     return await handler()
   } catch (error) {
     return fail(error)

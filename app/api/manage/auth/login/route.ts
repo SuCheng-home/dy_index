@@ -1,14 +1,22 @@
 import { NextResponse } from "next/server"
 
-import { setManageSession } from "@/lib/manage-session"
+import { setManageSession, setPasswordTicket } from "@/lib/manage-session"
 import { ok, parseJsonBody, withManageHandler } from "@/lib/manage-route"
+import { enforceRateLimit } from "@/lib/request-guard"
 import { SCHOOL_WEB_TWO_CONFIG, buildManageSessionFromLoginData, isSchoolWebSuccess, teacherLoginRaw, type SiteSetting } from "@/lib/school-web-two"
 import { getManageSiteSettingBySchool } from "@/lib/school-web-two-admin"
 
 export async function POST(request: Request) {
   return withManageHandler(async () => {
+    await enforceRateLimit("manage-login", 10, 60_000)
     const body = await parseJsonBody<{ account?: string; password?: string; encryptedPassword?: string }>(request)
     const loginResult = await teacherLoginRaw(body.account ?? "", body.password ?? "", body.encryptedPassword)
+
+    if (loginResult.code === 1052) {
+      const userId = loginResult.data?.loginUserId ?? loginResult.data?.userPageModel?.id
+      if (userId) await setPasswordTicket(userId)
+      return NextResponse.json(loginResult)
+    }
 
     if (!isSchoolWebSuccess(loginResult)) {
       return NextResponse.json(loginResult)

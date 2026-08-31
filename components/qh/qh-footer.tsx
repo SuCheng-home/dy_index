@@ -2,6 +2,7 @@
 
 import { MapPin, Phone, Mail } from 'lucide-react';
 import Link from 'next/link';
+import { SCHOOL_ADDRESS } from '@/lib/site-constants';
 
 export function QhFooter() {
   const navItems = [
@@ -73,7 +74,7 @@ export function QhFooter() {
             <div className="flex flex-col gap-3 text-sm" style={{ color: 'rgba(255, 255, 255, 0.7)' }}>
               <div className="flex items-start gap-2">
                 <MapPin size={16} className="flex-shrink-0 mt-0.5" />
-                <p>江苏省丹阳市新民西路138号</p>
+                <p className="break-words leading-relaxed">{SCHOOL_ADDRESS}</p>
               </div>
               <div className="flex items-center gap-2">
                 <Phone size={16} />

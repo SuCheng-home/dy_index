@@ -6,7 +6,7 @@ function numberFromEnv(value: string | undefined, fallback: number) {
 export const SCHOOL_WEB_TWO_CONFIG = {
   loginBaseUrl: process.env.SCHOOL_WEB_TWO_LOGIN_BASE_URL ?? "https://www.zhxiaoyuan.cn/ucenter-web",
   webBaseUrl: process.env.SCHOOL_WEB_TWO_WEB_BASE_URL ?? "https://www.zhxiaoyuan.cn/wxcepClient1",
-  domainName: process.env.SCHOOL_WEB_TWO_PUBLIC_DOMAIN ?? process.env.NEXT_PUBLIC_SCHOOL_WEB_TWO_PUBLIC_DOMAIN ?? "sdz.zhxiaoyuan.cn",
+  domainName: process.env.SCHOOL_WEB_TWO_PUBLIC_DOMAIN ?? process.env.NEXT_PUBLIC_SCHOOL_WEB_TWO_PUBLIC_DOMAIN ?? "bxky.zhxiaoyuan.cn",
   webId: numberFromEnv(process.env.SCHOOL_WEB_TWO_DEFAULT_WEB_ID, 57),
   schoolId: numberFromEnv(process.env.SCHOOL_WEB_TWO_DEFAULT_SCHOOL_ID, 7439),
   templateTypePc: process.env.SCHOOL_WEB_TWO_TEMPLATE_TYPE_PC ?? "100001",

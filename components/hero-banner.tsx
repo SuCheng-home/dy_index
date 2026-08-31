@@ -13,7 +13,8 @@ const homeHeroFallbackImage = {
 }
 
 export function HeroBanner({ config }: { config: HeroBannerConfig }) {
-  const bannerImages = [homeHeroFallbackImage]
+  // 优先使用服务端下发的图片（已携带缓存版本号 ?v=），仅在缺失时回退到本地默认图。
+  const bannerImages = config.images.length > 0 ? config.images : [homeHeroFallbackImage]
   const hasMultipleImages = bannerImages.length > 1
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isHovered, setIsHovered] = useState(false)
@@ -75,7 +76,7 @@ export function HeroBanner({ config }: { config: HeroBannerConfig }) {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="relative h-screen w-full group/banner">
+      <div className="group/banner relative h-[72svh] min-h-[480px] max-h-[680px] w-full lg:h-screen lg:max-h-none">
         {bannerImages.map((item, index) => (
           <Image
             key={`${item.src}-${index}`}
@@ -95,14 +96,14 @@ export function HeroBanner({ config }: { config: HeroBannerConfig }) {
             {/* 左右切换按钮 */}
             <button
               onClick={prevSlide}
-              className="absolute left-4 lg:left-8 top-1/2 -translate-y-1/2 h-10 w-10 lg:h-12 lg:w-12 rounded-full bg-black/20 hover:bg-black/50 text-white flex items-center justify-center backdrop-blur-sm transition-all duration-300 z-20"
+              className="absolute left-3 top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-black/20 text-white backdrop-blur-sm transition-all duration-300 hover:bg-black/50 lg:left-8 lg:h-12 lg:w-12"
               aria-label="上一张图片"
             >
               <ChevronLeft className="h-6 w-6 lg:h-8 lg:w-8" />
             </button>
             <button
               onClick={nextSlide}
-              className="absolute right-4 lg:right-8 top-1/2 -translate-y-1/2 h-10 w-10 lg:h-12 lg:w-12 rounded-full bg-black/20 hover:bg-black/50 text-white flex items-center justify-center backdrop-blur-sm transition-all duration-300 z-20"
+              className="absolute right-3 top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-black/20 text-white backdrop-blur-sm transition-all duration-300 hover:bg-black/50 lg:right-8 lg:h-12 lg:w-12"
               aria-label="下一张图片"
             >
               <ChevronRight className="h-6 w-6 lg:h-8 lg:w-8" />
@@ -111,15 +112,15 @@ export function HeroBanner({ config }: { config: HeroBannerConfig }) {
         )}
         
         {hasMultipleImages && (
-          <div className="absolute bottom-12 left-1/2 flex -translate-x-1/2 gap-3 z-20">
+          <div className="absolute bottom-6 left-1/2 z-20 flex -translate-x-1/2 gap-3 sm:bottom-8 lg:bottom-12">
             {bannerImages.map((_, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentIndex(index)}
-                className={`h-2.5 rounded-full transition-all duration-300 ${
+                className={`min-h-11 min-w-11 rounded-full transition-all duration-300 before:block before:h-2.5 before:rounded-full ${
                   index === currentIndex
-                    ? "w-8 bg-white"
-                    : "w-2.5 bg-white/50 hover:bg-white/80"
+                    ? "before:mx-1.5 before:bg-white"
+                    : "before:mx-[17px] before:bg-white/50 hover:before:bg-white/80"
                 }`}
                 aria-label={`切换到第 ${index + 1} 张图片`}
               />

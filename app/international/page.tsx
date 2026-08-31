@@ -261,7 +261,7 @@ export default function InternationalPage() {
     <div className="min-h-screen bg-[#FDFBF7] text-[#333]">
       <Header />
       <main>
-        <section className="relative min-h-[520px] overflow-hidden bg-[#8B1A1A] pt-20 text-white lg:min-h-[620px]">
+        <section className="relative min-h-[440px] overflow-hidden bg-[#8B1A1A] pt-16 text-white sm:min-h-[500px] sm:pt-20 lg:min-h-[620px]">
           <Image
             src={`${brochureBase}/第24页-188.PNG`}
             alt="国际教育栏目横幅"
@@ -271,16 +271,16 @@ export default function InternationalPage() {
             className="object-cover"
           />
           <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(75,8,8,0.9)_0%,rgba(112,18,18,0.66)_42%,rgba(112,18,18,0.18)_100%)]" />
-          <div className="relative mx-auto flex min-h-[500px] max-w-[1240px] flex-col justify-end px-5 pb-10 pt-28 sm:px-8 lg:min-h-[600px] lg:pb-14">
+          <div className="relative mx-auto flex min-h-[420px] max-w-[1240px] flex-col justify-end px-4 pb-8 pt-24 sm:min-h-[480px] sm:px-8 sm:pb-10 sm:pt-28 lg:min-h-[600px] lg:pb-14">
             <div className="max-w-3xl">
-              <p className="mb-5 inline-flex items-center gap-2 border-l-4 border-[#D8B15D] bg-white/10 px-4 py-2 text-sm font-semibold uppercase tracking-[0.22em] backdrop-blur-md">
+              <p className="mb-4 inline-flex items-center gap-2 border-l-4 border-[#D8B15D] bg-white/10 px-3 py-2 text-xs font-semibold uppercase tracking-[0.14em] backdrop-blur-md sm:mb-5 sm:px-4 sm:text-sm sm:tracking-[0.22em]">
                 <Globe2 className="h-4 w-4" />
                 {labels.bannerSubtitle}
               </p>
-              <h1 className="font-serif text-5xl font-bold leading-tight sm:text-6xl lg:text-7xl">
+              <h1 className="font-serif text-4xl font-bold leading-tight sm:text-6xl lg:text-7xl">
                 {labels.bannerTitle}
               </h1>
-              <p className="mt-6 max-w-2xl text-base leading-8 text-white/86 sm:text-lg">
+              <p className="mt-4 max-w-2xl text-sm leading-7 text-white/86 sm:mt-6 sm:text-lg sm:leading-8">
                 以扎实学术根基连接世界课堂，让学生在真实交流、项目学习和国际升学规划中看见更开阔的未来。
               </p>
             </div>
@@ -288,7 +288,7 @@ export default function InternationalPage() {
         </section>
 
         <section className="sticky top-[72px] z-30 border-y border-[#E0D4BF] bg-[#FDFBF7]/95 backdrop-blur-xl">
-          <div className="mx-auto flex max-w-[1240px] items-center gap-3 overflow-x-auto px-4 py-3 sm:px-8">
+          <div className="mx-auto flex max-w-[1240px] items-center gap-3 overflow-x-auto overscroll-x-contain px-4 py-3 sm:px-8">
             <nav className="flex min-w-max flex-1 items-center gap-2">
               {sections.map((section) => (
                 <button
@@ -357,7 +357,7 @@ export default function InternationalPage() {
                 <Link
                   key={item.title}
                   href="/news"
-                  className="group grid gap-4 rounded-lg border border-[#E4D8C2] bg-white p-4 shadow-[0_12px_30px_rgba(80,40,30,0.06)] transition-all hover:border-[#8B1A1A]/25 hover:shadow-[0_16px_36px_rgba(139,26,26,0.12)] sm:grid-cols-[148px_1fr]"
+                  className="group grid gap-4 rounded-lg border border-[#E4D8C2] bg-white p-4 shadow-[0_12px_30px_rgba(80,40,30,0.06)] transition-all hover:border-[#8B1A1A]/25 hover:shadow-[0_16px_36px_rgba(139,26,26,0.12)] md:grid-cols-[148px_1fr]"
                 >
                   <div className="relative aspect-[4/3] overflow-hidden rounded-md">
                     <Image
