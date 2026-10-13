@@ -50,7 +50,7 @@ export default function PartyPage() {
         subtitle="Party Building"
         breadcrumbs={[{ label: "党建工作" }]}
         sidebarItems={sidebarItems}
-        bannerImage="/school_view/（提取图片）9.24省丹中画册-定稿/第25页-196.PNG"
+        bannerImage="/school_view_opt/第25页-196.jpg"
       >
         <div className="space-y-8">
           {/* 头部引言 */}

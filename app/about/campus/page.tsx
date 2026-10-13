@@ -20,14 +20,14 @@ const sidebarItems = [
 const categories = ["全部", "教学楼", "运动场馆", "图书馆", "宿舍餐厅", "校园环境"]
 
 const galleryImages = [
-  { id: 1, category: "教学楼", title: "大成楼", image: "/school_view/（提取图片）9.24省丹中画册-定稿/第20页-143.PNG" },
-  { id: 2, category: "运动场馆", title: "体育馆", image: "/school_view/（提取图片）9.24省丹中画册-定稿/第29页-214.PNG" },
-  { id: 3, category: "图书馆", title: "致远图书馆", image: "/school_view/（提取图片）9.24省丹中画册-定稿/第20页-145.PNG" },
-  { id: 4, category: "校园环境", title: "樱花大道", image: "/school_view/（提取图片）9.24省丹中画册-定稿/第20页-146.PNG" },
-  { id: 5, category: "教学楼", title: "科技楼", image: "/school_view/（提取图片）9.24省丹中画册-定稿/第24页-188.PNG" },
-  { id: 6, category: "宿舍餐厅", title: "学生公寓", image: "/school_view/（提取图片）9.24省丹中画册-定稿/第25页-190.PNG" },
-  { id: 7, category: "运动场馆", title: "田径场", image: "/school_view/（提取图片）9.24省丹中画册-定稿/第30页-219.PNG" },
-  { id: 8, category: "校园环境", title: "孔子像", image: "/school_view/（提取图片）9.24省丹中画册-定稿/第25页-196.PNG" },
+  { id: 1, category: "教学楼", title: "大成楼", image: "/school_view_opt/第20页-143.jpg" },
+  { id: 2, category: "运动场馆", title: "体育馆", image: "/school_view_opt/第29页-214.jpg" },
+  { id: 3, category: "图书馆", title: "致远图书馆", image: "/school_view_opt/第20页-145.jpg" },
+  { id: 4, category: "校园环境", title: "樱花大道", image: "/school_view_opt/第20页-146.jpg" },
+  { id: 5, category: "教学楼", title: "科技楼", image: "/school_view_opt/第24页-188.jpg" },
+  { id: 6, category: "宿舍餐厅", title: "学生公寓", image: "/school_view_opt/第25页-190.jpg" },
+  { id: 7, category: "运动场馆", title: "田径场", image: "/school_view_opt/第30页-219.jpg" },
+  { id: 8, category: "校园环境", title: "孔子像", image: "/school_view_opt/第25页-196.jpg" },
 ]
 
 export default function CampusPage() {
@@ -64,7 +64,7 @@ export default function CampusPage() {
           { label: "校园风光" },
         ]}
         sidebarItems={sidebarItems}
-        bannerImage="/school_view/（提取图片）9.24省丹中画册-定稿/第24页-188.PNG"
+        bannerImage="/school_view_opt/第24页-188.jpg"
       >
         {/* 分类筛选 */}
         <div className="mb-8 flex flex-wrap gap-2">

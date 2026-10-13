@@ -50,7 +50,7 @@ export default function UnionStudentPage() {
         subtitle="Student Union"
         breadcrumbs={[{ label: "统群工作", href: "/union" }, { label: "学生会" }]}
         sidebarItems={sidebarItems}
-        bannerImage="/school_view/（提取图片）9.24省丹中画册-定稿/第25页-196.PNG"
+        bannerImage="/school_view_opt/第25页-196.jpg"
       >
         <div className="space-y-8">
           <p className="text-lg leading-relaxed text-[#555]">

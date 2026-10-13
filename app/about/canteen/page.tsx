@@ -86,7 +86,7 @@ export default function CanteenMenuPage() {
         subtitle="Canteen Menu"
         breadcrumbs={[{ label: "校园信息", href: "/about" }, { label: "食堂菜谱" }]}
         sidebarItems={sidebarItems}
-        bannerImage="/school_view/（提取图片）9.24省丹中画册-定稿/第20页-145.PNG"
+        bannerImage="/school_view_opt/第20页-145.jpg"
       >
         <article className="prose prose-lg max-w-none">
           <div className="mb-6 flex justify-center sm:mb-8">

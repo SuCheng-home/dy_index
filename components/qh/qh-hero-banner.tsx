@@ -6,7 +6,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const slides = [
   '/view/view1.jpg',
-  '/school_view/（提取图片）9.24省丹中画册-定稿/第6页-12.PNG',
+  '/school_view_opt/第6页-12.jpg',
   '/view/view5.jpg',
   '/view/view6.jpg',
   '/view/view7.jpg',

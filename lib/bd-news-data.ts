@@ -20,7 +20,7 @@ export const BD_NEWS_ARTICLES: BdNewsArticle[] = [
     date: "2026-03-18",
     category: "校园新闻",
     views: 1256,
-    image: "/school_view/（提取图片）9.24省丹中画册-定稿/第20页-145.PNG",
+    image: "/school_view_opt/第20页-145.jpg",
     summary: "国际信息学奥林匹克竞赛组委会主席一行到访我校，充分肯定我校信息学竞赛教学成果。",
     content: [
       "3月18日，国际信息学奥林匹克竞赛（IOI）组委会主席一行莅临我校参观指导，就信息学竞赛教学、人才培养等方面进行了深入交流。",
@@ -35,7 +35,7 @@ export const BD_NEWS_ARTICLES: BdNewsArticle[] = [
     date: "2026-03-16",
     category: "校园新闻",
     views: 982,
-    image: "/school_view/（提取图片）9.24省丹中画册-定稿/第24页-188.PNG",
+    image: "/school_view_opt/第24页-188.jpg",
     summary: "学校举办第三届数学文化节，覆盖建模、竞赛和数学史展览等环节。",
     content: [
       "为激发学生数学学习兴趣，感受数学之美，3月16日，江苏省丹阳高级中学成功举办第三届数学文化节。",
@@ -50,7 +50,7 @@ export const BD_NEWS_ARTICLES: BdNewsArticle[] = [
     date: "2026-03-05",
     category: "学校要闻",
     views: 1543,
-    image: "/school_view/（提取图片）9.24省丹中画册-定稿/第25页-196.PNG",
+    image: "/school_view_opt/第25页-196.jpg",
     summary: "教育集团召开寒假战略研讨会，系统部署新学期重点工作。",
     content: [
       "春归万物生，策马启新程。为深入贯彻全国教育大会精神，丹阳高中教育集团召开寒假战略研讨会。",
@@ -65,7 +65,7 @@ export const BD_NEWS_ARTICLES: BdNewsArticle[] = [
     date: "2026-03-05",
     category: "学校要闻",
     views: 1102,
-    image: "/school_view/（提取图片）9.24省丹中画册-定稿/第20页-143.PNG",
+    image: "/school_view_opt/第20页-143.jpg",
     summary: "第九届教代会召开，围绕学校发展与教职工权益保障形成多项共识。",
     content: [
       "2026年2月27日，江苏省丹阳高级中学第九届教职工代表大会第三次会议在学校致慧礼堂举行。",
@@ -80,7 +80,7 @@ export const BD_NEWS_ARTICLES: BdNewsArticle[] = [
     date: "2026-04-16",
     category: "通知公告",
     views: 435,
-    image: "/school_view/（提取图片）9.24省丹中画册-定稿/第20页-146.PNG",
+    image: "/school_view_opt/第20页-146.jpg",
     summary: "公布学校对外投诉受理渠道，进一步畅通家校沟通机制。",
     content: [
       "为进一步畅通沟通渠道，学校现将对外投诉电话予以公示，欢迎社会各界监督。",
@@ -95,7 +95,7 @@ export const BD_NEWS_ARTICLES: BdNewsArticle[] = [
     date: "2025-12-25",
     category: "通知公告",
     views: 388,
-    image: "/school_view/（提取图片）9.24省丹中画册-定稿/第25页-190.PNG",
+    image: "/school_view_opt/第25页-190.jpg",
     summary: "发布校服送检验收结果并明确售后服务承诺事项。",
     content: [
       "根据相关规范要求，学校完成了2025年校服双送检工作，并通过验收。",
@@ -110,7 +110,7 @@ export const BD_NEWS_ARTICLES: BdNewsArticle[] = [
     date: "2026-03-21",
     category: "通知公告",
     views: 502,
-    image: "/school_view/（提取图片）9.24省丹中画册-定稿/第30页-219.PNG",
+    image: "/school_view_opt/第30页-219.jpg",
     summary: "集中说明毕业证明、档案转递、成绩单申请等办理流程。",
     content: [
       "为方便毕业生办理相关事务，学校对常见事项进行了统一说明。",
@@ -125,7 +125,7 @@ export const BD_NEWS_ARTICLES: BdNewsArticle[] = [
     date: "2026-01-12",
     category: "教学通知",
     views: 673,
-    image: "/school_view/（提取图片）9.24省丹中画册-定稿/第29页-214.PNG",
+    image: "/school_view_opt/第29页-214.jpg",
     summary: "发布高中部课程评价体系，明确过程性与终结性评价比例。",
     content: [
       "为进一步推进教学评价改革，高中部发布新版课程评价方式与标准。",
@@ -140,7 +140,7 @@ export const BD_NEWS_ARTICLES: BdNewsArticle[] = [
     date: "2026-03-02",
     category: "教学动态",
     views: 932,
-    image: "/school_view/（提取图片）9.24省丹中画册-定稿/第24页-188.PNG",
+    image: "/school_view_opt/第24页-188.jpg",
     summary: "学校组织竞赛教练团队复盘阶段成果，部署新一轮拔尖创新人才培养计划。",
     content: [
       "学校召开学科竞赛总结交流会，系统梳理本学期竞赛组织与课程支持情况。",
@@ -155,7 +155,7 @@ export const BD_NEWS_ARTICLES: BdNewsArticle[] = [
     date: "2026-02-28",
     category: "教师发展",
     views: 808,
-    image: "/school_view/（提取图片）9.24省丹中画册-定稿/第20页-143.PNG",
+    image: "/school_view_opt/第20页-143.jpg",
     summary: "青年教师展示周聚焦课堂提问设计、学习任务评价与学情反馈。",
     content: [
       "为促进青年教师专业成长，学校开展课堂展示周活动。",
@@ -170,7 +170,7 @@ export const BD_NEWS_ARTICLES: BdNewsArticle[] = [
     date: "2026-02-25",
     category: "德育动态",
     views: 764,
-    image: "/school_view/（提取图片）9.24省丹中画册-定稿/第20页-145.PNG",
+    image: "/school_view_opt/第20页-145.jpg",
     summary: "会议围绕班级治理、心理健康、家校沟通和学生社团建设进行部署。",
     content: [
       "学校召开春季学期学生发展工作推进会，明确各年级德育重点任务。",
@@ -185,7 +185,7 @@ export const BD_NEWS_ARTICLES: BdNewsArticle[] = [
     date: "2026-02-22",
     category: "校园新闻",
     views: 1003,
-    image: "/school_view/（提取图片）9.24省丹中画册-定稿/第20页-146.PNG",
+    image: "/school_view_opt/第20页-146.jpg",
     summary: "学校联合高校启动生涯课程项目，帮助学生构建学术与职业发展路径。",
     content: [
       "学校与高校合作启动生涯发展课程项目，面向高一年级开设系列课程。",
@@ -200,7 +200,7 @@ export const BD_NEWS_ARTICLES: BdNewsArticle[] = [
     date: "2026-03-15",
     category: "校务通知",
     views: 621,
-    image: "/school_view/（提取图片）9.24省丹中画册-定稿/第25页-196.PNG",
+    image: "/school_view_opt/第25页-196.jpg",
     summary: "根据季节变化，对春季学期作息时间进行统一调整。",
     content: [
       "自3月18日起，学校执行春季学期新作息时间。",
@@ -215,7 +215,7 @@ export const BD_NEWS_ARTICLES: BdNewsArticle[] = [
     date: "2026-03-12",
     category: "招生公告",
     views: 902,
-    image: "/school_view/（提取图片）9.24省丹中画册-定稿/第30页-219.PNG",
+    image: "/school_view_opt/第30页-219.jpg",
     summary: "发布校园开放日流程、预约方式及入校注意事项。",
     content: [
       "学校将于4月上旬举办校园开放日活动，欢迎家长和学生预约参加。",
@@ -230,7 +230,7 @@ export const BD_NEWS_ARTICLES: BdNewsArticle[] = [
     date: "2026-03-09",
     category: "服务通知",
     views: 544,
-    image: "/school_view/（提取图片）9.24省丹中画册-定稿/第29页-214.PNG",
+    image: "/school_view_opt/第29页-214.jpg",
     summary: "图书馆电子资源入口升级，新增校外访问认证方式。",
     content: [
       "学校图书馆完成电子资源平台升级，优化检索和借阅体验。",
@@ -245,7 +245,7 @@ export const BD_NEWS_ARTICLES: BdNewsArticle[] = [
     date: "2026-03-05",
     category: "安全通知",
     views: 478,
-    image: "/school_view/（提取图片）9.24省丹中画册-定稿/第20页-143.PNG",
+    image: "/school_view_opt/第20页-143.jpg",
     summary: "为保障校园通行安全，进一步规范教职工和访客车辆停放秩序。",
     content: [
       "学校将于近期开展校园车辆停放秩序专项治理。",
@@ -260,7 +260,7 @@ export const BD_NEWS_ARTICLES: BdNewsArticle[] = [
     date: "2026-03-01",
     category: "毕业通知",
     views: 699,
-    image: "/school_view/（提取图片）9.24省丹中画册-定稿/第24页-188.PNG",
+    image: "/school_view_opt/第24页-188.jpg",
     summary: "公布高三年级毕业证明、档案材料和离校手续办理时间表。",
     content: [
       "为保障毕业工作平稳有序开展，学校发布毕业材料办理安排。",

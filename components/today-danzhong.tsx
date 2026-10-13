@@ -35,7 +35,7 @@ const todayNews = [
     title: "高三年级二模考试成绩分析会顺利召开",
     summary: "各学科备课组长深入分析了二模数据，制定了后期复习策略和提升方案。",
     time: "10:00",
-    image: "/school_view/（提取图片）9.24省丹中画册-定稿/第24页-188.PNG",
+    image: "/school_view_opt/第24页-188.jpg",
     isTop: false,
   },
   {
@@ -65,7 +65,7 @@ const todayNews = [
     title: "志愿服务进社区 青春力量暖人心",
     summary: "我校青年志愿者走进丹凤社区，开展义务辅导、环境清洁等志愿服务活动。",
     time: "15:30",
-    image: "/school_view/（提取图片）9.24省丹中画册-定稿/第24页-188.PNG",
+    image: "/school_view_opt/第24页-188.jpg",
     isTop: false,
   },
   {

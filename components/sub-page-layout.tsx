@@ -33,7 +33,7 @@ export function SubPageLayout({
   breadcrumbs,
   sidebarItems,
   children,
-  bannerImage = "/school_view/（提取图片）9.24省丹中画册-定稿/第25页-196.PNG",
+  bannerImage = "/school_view_opt/第25页-196.jpg",
   activePath,
 }: SubPageLayoutProps) {
   const pathname = usePathname()

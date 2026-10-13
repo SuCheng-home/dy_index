@@ -19,7 +19,7 @@ export const NEWS_DATA: NewsArticle[] = [
     summary: "会议总结了上学期工作成果，部署了新学期重点任务，强调了师德师风建设的重要性。全体教职工参加了本次大会。",
     date: "2026-04-08",
     views: 1256,
-    image: "/school_view/（提取图片）9.24省丹中画册-定稿/第20页-145.PNG",
+    image: "/school_view_opt/第20页-145.jpg",
     isTop: true,
   },
   {
@@ -29,7 +29,7 @@ export const NEWS_DATA: NewsArticle[] = [
     summary: "各学科备课组长深入分析了二模数据，制定了后期复习策略和提升方案，为高考冲刺做好充分准备。",
     date: "2026-04-07",
     views: 892,
-    image: "/school_view/（提取图片）9.24省丹中画册-定稿/第25页-196.PNG",
+    image: "/school_view_opt/第25页-196.jpg",
     isTop: true,
   },
   {
@@ -39,7 +39,7 @@ export const NEWS_DATA: NewsArticle[] = [
     summary: "我校代表队荣获一等奖2项、二等奖5项，充分展现了丹中学子的创新精神和实践能力。",
     date: "2026-04-06",
     views: 2341,
-    image: "/school_view/（提取图片）9.24省丹中画册-定稿/第25页-190.PNG",
+    image: "/school_view_opt/第25页-190.jpg",
     isTop: false,
   },
   {
@@ -49,7 +49,7 @@ export const NEWS_DATA: NewsArticle[] = [
     summary: "专家组对课题研究方向给予高度肯定，并提出了宝贵的指导意见，为课题研究指明了方向。",
     date: "2026-04-05",
     views: 567,
-    image: "/school_view/（提取图片）9.24省丹中画册-定稿/第24页-188.PNG",
+    image: "/school_view_opt/第24页-188.jpg",
     isTop: false,
   },
   {
@@ -59,7 +59,7 @@ export const NEWS_DATA: NewsArticle[] = [
     summary: "我校青年志愿者走进丹凤社区，开展义务辅导、环境清洁等志愿服务活动，弘扬志愿精神。",
     date: "2026-04-04",
     views: 456,
-    image: "/school_view/（提取图片）9.24省丹中画册-定稿/第20页-143.PNG",
+    image: "/school_view_opt/第20页-143.jpg",
     isTop: false,
   },
   {
@@ -69,7 +69,7 @@ export const NEWS_DATA: NewsArticle[] = [
     summary: "我校在减负增效方面的创新做法获得广泛关注和肯定，为全省教育改革提供了有益借鉴。",
     date: "2026-04-03",
     views: 1893,
-    image: "/school_view/（提取图片）9.24省丹中画册-定稿/第20页-146.PNG",
+    image: "/school_view_opt/第20页-146.jpg",
     isTop: false,
   },
   {
@@ -79,7 +79,7 @@ export const NEWS_DATA: NewsArticle[] = [
     summary: "全校三个年级近两千名学生参加运动会，开幕式展演围绕“青春与担当”主题展开。",
     date: "2026-04-02",
     views: 1046,
-    image: "/school_view/（提取图片）9.24省丹中画册-定稿/第29页-214.PNG",
+    image: "/school_view_opt/第29页-214.jpg",
     isTop: false,
   },
   {
@@ -89,7 +89,7 @@ export const NEWS_DATA: NewsArticle[] = [
     summary: "语文、物理与信息技术联合开设公开课，展示项目化学习在课堂中的落地成果。",
     date: "2026-04-01",
     views: 976,
-    image: "/school_view/（提取图片）9.24省丹中画册-定稿/第30页-219.PNG",
+    image: "/school_view_opt/第30页-219.jpg",
     isTop: false,
   },
   {
@@ -99,7 +99,7 @@ export const NEWS_DATA: NewsArticle[] = [
     summary: "学校启动心理健康月系列活动，强化学生情绪管理与学业压力调适支持。",
     date: "2026-03-31",
     views: 1182,
-    image: "/school_view/（提取图片）9.24省丹中画册-定稿/第20页-145.PNG",
+    image: "/school_view_opt/第20页-145.jpg",
     isTop: false,
   },
   {
@@ -109,7 +109,7 @@ export const NEWS_DATA: NewsArticle[] = [
     summary: "在市级教学成果评选中，我校“学科融合课堂实践”与“分层作业体系”项目获一等奖。",
     date: "2026-03-30",
     views: 735,
-    image: "/school_view/（提取图片）9.24省丹中画册-定稿/第24页-188.PNG",
+    image: "/school_view_opt/第24页-188.jpg",
     isTop: false,
   },
   {
@@ -119,7 +119,7 @@ export const NEWS_DATA: NewsArticle[] = [
     summary: "报道聚焦我校“体教融合”课程体系及校园社团联赛机制，反响良好。",
     date: "2026-03-29",
     views: 1420,
-    image: "/school_view/（提取图片）9.24省丹中画册-定稿/第20页-143.PNG",
+    image: "/school_view_opt/第20页-143.jpg",
     isTop: false,
   },
   {
@@ -129,7 +129,7 @@ export const NEWS_DATA: NewsArticle[] = [
     summary: "45位青年教师围绕课堂设计、评价改进和学情分析进行阶段成果分享。",
     date: "2026-03-28",
     views: 861,
-    image: "/school_view/（提取图片）9.24省丹中画册-定稿/第20页-146.PNG",
+    image: "/school_view_opt/第20页-146.jpg",
     isTop: false,
   },
   {
@@ -139,7 +139,7 @@ export const NEWS_DATA: NewsArticle[] = [
     summary: "学科周围绕“问题驱动学习”组织了实验挑战、阅读共创和展示答辩。",
     date: "2026-03-27",
     views: 908,
-    image: "/school_view/（提取图片）9.24省丹中画册-定稿/第25页-196.PNG",
+    image: "/school_view_opt/第25页-196.jpg",
     isTop: false,
   },
   {
@@ -149,7 +149,7 @@ export const NEWS_DATA: NewsArticle[] = [
     summary: "论坛围绕亲子沟通、学习习惯建设、青春期教育等主题开展专题交流。",
     date: "2026-03-26",
     views: 997,
-    image: "/school_view/（提取图片）9.24省丹中画册-定稿/第25页-190.PNG",
+    image: "/school_view_opt/第25页-190.jpg",
     isTop: false,
   },
   {
@@ -159,7 +159,7 @@ export const NEWS_DATA: NewsArticle[] = [
     summary: "报告总结了AI辅助备课、作业批改与学情预警在高中教学中的应用经验。",
     date: "2026-03-25",
     views: 689,
-    image: "/school_view/（提取图片）9.24省丹中画册-定稿/第30页-219.PNG",
+    image: "/school_view_opt/第30页-219.jpg",
     isTop: false,
   },
   {
@@ -169,7 +169,7 @@ export const NEWS_DATA: NewsArticle[] = [
     summary: "双方将共享阅读资源，联合开展导读讲座、主题书展与阅读挑战活动。",
     date: "2026-03-24",
     views: 772,
-    image: "/school_view/（提取图片）9.24省丹中画册-定稿/第20页-145.PNG",
+    image: "/school_view_opt/第20页-145.jpg",
     isTop: false,
   },
 ]

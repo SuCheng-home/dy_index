@@ -10,7 +10,7 @@ const slides = [
     title: '江苏省丹阳高级中学',
   },
   {
-    image: '/school_view/（提取图片）9.24省丹中画册-定稿/第6页-12.PNG',
+    image: '/school_view_opt/第6页-12.jpg',
     title: '深化课程改革 推动教育高质量发展',
   },
   {

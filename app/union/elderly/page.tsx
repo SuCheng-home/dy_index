@@ -22,7 +22,7 @@ const news = [
     id: 621,
     title: "关工委开展“银龄讲堂”主题教育活动",
     date: "2026-04-04",
-    image: "/school_view/（提取图片）9.24省丹中画册-定稿/第20页-145.PNG",
+    image: "/school_view_opt/第20页-145.jpg",
     summary: "退休老教师走进课堂，结合自身经历讲述求学奋斗与家国情怀，激励学生立志成才。",
   },
   {
@@ -36,7 +36,7 @@ const news = [
     id: 623,
     title: "关工委走进社区开展家校协同宣讲",
     date: "2026-03-23",
-    image: "/school_view/（提取图片）9.24省丹中画册-定稿/第20页-145.PNG",
+    image: "/school_view_opt/第20页-145.jpg",
     summary: "围绕未成年人保护与家庭教育主题开展公益讲座，推动家校社协同育人机制落地。",
   },
 ]
@@ -50,7 +50,7 @@ export default function UnionElderlyPage() {
         subtitle="Committee on Caring for the Next Generation"
         breadcrumbs={[{ label: "统群工作", href: "/union" }, { label: "关工委" }]}
         sidebarItems={sidebarItems}
-        bannerImage="/school_view/（提取图片）9.24省丹中画册-定稿/第24页-188.PNG"
+        bannerImage="/school_view_opt/第24页-188.jpg"
       >
         <div className="space-y-8">
           <p className="text-lg leading-relaxed text-[#555]">

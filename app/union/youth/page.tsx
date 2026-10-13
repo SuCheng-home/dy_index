@@ -29,7 +29,7 @@ const news = [
     id: 602,
     title: "校园文化艺术节团委专场展演举行",
     date: "2026-03-31",
-    image: "/school_view/（提取图片）9.24省丹中画册-定稿/第20页-145.PNG",
+    image: "/school_view_opt/第20页-145.jpg",
     summary: "合唱、舞蹈与原创短剧同台献艺，展现团员青年的创造力与团队精神。",
   },
   {
@@ -50,7 +50,7 @@ export default function UnionYouthPage() {
         subtitle="Youth League Work"
         breadcrumbs={[{ label: "统群工作", href: "/union" }, { label: "团委工作" }]}
         sidebarItems={sidebarItems}
-        bannerImage="/school_view/（提取图片）9.24省丹中画册-定稿/第20页-143.PNG"
+        bannerImage="/school_view_opt/第20页-143.jpg"
       >
         <div className="space-y-8">
           <p className="text-lg leading-relaxed text-[#555]">

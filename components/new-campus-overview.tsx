@@ -13,7 +13,7 @@ type FilmPhoto = {
   original?: string
 }
 
-const todayOriginalBase = "/school_view/（提取图片）9.24省丹中画册-定稿"
+const todayOriginalBase = "/school_view_opt"
 
 const todayPhotos: FilmPhoto[] = [
   { src: "/optimized/home/today/today-dacheng-hall.jpg", alt: "大成殿", caption: "大成殿" },
@@ -30,14 +30,14 @@ const futureImages = [
   {
     src: "/optimized/home/future/future-aerial-1600.jpg",
     mobileSrc: "/optimized/home/future/future-aerial-960.jpg",
-    original: `${todayOriginalBase}/第21页-149.PNG`,
+    original: `${todayOriginalBase}/第21页-149.jpg`,
     alt: "丹中新校区鸟瞰总平面",
     caption: "新校区鸟瞰",
   },
   {
     src: "/optimized/home/future/future-axis-1600.jpg",
     mobileSrc: "/optimized/home/future/future-axis-960.jpg",
-    original: `${todayOriginalBase}/第21页-150.PNG`,
+    original: `${todayOriginalBase}/第21页-150.jpg`,
     alt: "丹中新校区校园中轴鸟瞰",
     caption: "新校区中轴",
   },

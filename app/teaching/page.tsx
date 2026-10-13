@@ -58,7 +58,7 @@ export default function TeachingPage() {
         subtitle="Teaching Management"
         breadcrumbs={[{ label: "教学管理" }]}
         sidebarItems={sidebarItems}
-        bannerImage="/school_view/（提取图片）9.24省丹中画册-定稿/第20页-145.PNG"
+        bannerImage="/school_view_opt/第20页-145.jpg"
       >
         <div className="space-y-10">
           {/* 快捷入口 - 纯文字卡片 */}
@@ -86,7 +86,7 @@ export default function TeachingPage() {
             <div className="flex flex-col md:flex-row">
               <div className="relative h-64 md:h-auto md:w-1/2">
                 <Image
-                  src="/school_view/（提取图片）9.24省丹中画册-定稿/第20页-145.PNG"
+                  src="/school_view_opt/第20页-145.jpg"
                   alt="课堂教学"
                   fill
                   className="object-cover"

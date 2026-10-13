@@ -81,7 +81,7 @@ export default function MoralEduPage() {
         subtitle="Moral Education"
         breadcrumbs={[{ label: "德育之窗" }]}
         sidebarItems={sidebarItems}
-        bannerImage="/school_view/（提取图片）9.24省丹中画册-定稿/第25页-196.PNG"
+        bannerImage="/school_view_opt/第25页-196.jpg"
       >
         <div className="space-y-10">
           {/* 德育栏目导航 */}

@@ -27,7 +27,7 @@ type InternationalSection = {
   }[]
 }
 
-const brochureBase = "/school_view/（提取图片）9.24省丹中画册-定稿"
+const brochureBase = "/school_view_opt"
 
 const sections: InternationalSection[] = [
   {
@@ -38,7 +38,7 @@ const sections: InternationalSection[] = [
     title: "面向有国际升学规划的学生开放成长通道",
     summary:
       "国际教育项目围绕语言能力、学术基础、综合素养和升学规划建立一体化培养体系，帮助学生更早理解海外学习路径，稳步完成从高中课堂到国际大学申请的衔接。",
-    image: `${brochureBase}/第24页-188.PNG`,
+    image: `${brochureBase}/第24页-188.jpg`,
     icon: Newspaper,
     highlights: ["入学评估", "语言支持", "升学规划"],
     englishHighlights: ["Assessment", "Language Support", "Pathway Planning"],
@@ -48,14 +48,14 @@ const sections: InternationalSection[] = [
         date: "2026-04-18",
         summary:
           "学校面向初三学生和家长介绍国际教育项目课程结构、培养路径和升学支持，现场设置课程咨询与一对一答疑。",
-        image: `${brochureBase}/第24页-188.PNG`,
+        image: `${brochureBase}/第24页-188.jpg`,
       },
       {
         title: "国际课程体验日开放报名",
         date: "2026-04-11",
         summary:
           "体验日将开放英语学术写作、跨文化表达和项目制学习课堂，让学生提前感受国际教育项目的学习节奏。",
-        image: `${brochureBase}/第25页-196.PNG`,
+        image: `${brochureBase}/第25页-196.jpg`,
       },
     ],
   },
@@ -67,7 +67,7 @@ const sections: InternationalSection[] = [
     title: "以丹中底蕴承载国际视野",
     summary:
       "项目坚持学校大成教育传统，将扎实的国家课程基础与国际理解教育结合，关注学生的学术表达、独立研究、公共沟通和社会责任。",
-    image: `${brochureBase}/第20页-145.PNG`,
+    image: `${brochureBase}/第20页-145.jpg`,
     icon: Globe2,
     highlights: ["国家课程基础", "双语学习场景", "跨文化素养"],
     englishHighlights: ["National Curriculum", "Bilingual Learning", "Global Literacy"],
@@ -77,14 +77,14 @@ const sections: InternationalSection[] = [
         date: "2026-04-09",
         summary:
           "课程图谱覆盖学术英语、全球议题探究、实验科学拓展和升学作品集指导，进一步提升项目培养的连贯性。",
-        image: `${brochureBase}/第20页-145.PNG`,
+        image: `${brochureBase}/第20页-145.jpg`,
       },
       {
         title: "学生跨文化表达工作坊顺利开展",
         date: "2026-03-30",
         summary:
           "工作坊通过演讲、辩论和小组展示训练学生的观点组织能力，帮助学生在真实交流中建立自信。",
-        image: `${brochureBase}/第30页-219.PNG`,
+        image: `${brochureBase}/第30页-219.jpg`,
       },
     ],
   },
@@ -96,7 +96,7 @@ const sections: InternationalSection[] = [
     title: "在真实交流中理解不同文化与世界",
     summary:
       "学校持续推进友好学校互访、线上联合课堂和国际主题活动，让学生在对话、协作和展示中拓展视野，建立尊重差异的全球意识。",
-    image: `${brochureBase}/第38页-376.PNG`,
+    image: `${brochureBase}/第38页-376.jpg`,
     icon: Users,
     highlights: ["友好学校", "师生互访", "联合课堂"],
     englishHighlights: ["Partner Schools", "Mutual Visits", "Joint Classes"],
@@ -106,14 +106,14 @@ const sections: InternationalSection[] = [
         date: "2026-04-16",
         summary:
           "中外学生围绕校园节能、城市交通和公共空间进行资料调研，并以英文完成小组成果展示。",
-        image: `${brochureBase}/第38页-376.PNG`,
+        image: `${brochureBase}/第38页-376.jpg`,
       },
       {
         title: "国际文化周策划会启动",
         date: "2026-04-02",
         summary:
           "学生团队将围绕语言、艺术、科学和公益四个主题策划活动，推动国际理解教育融入校园生活。",
-        image: `${brochureBase}/第41页-424.PNG`,
+        image: `${brochureBase}/第41页-424.jpg`,
       },
     ],
   },
@@ -125,7 +125,7 @@ const sections: InternationalSection[] = [
     title: "从校园走向世界课堂",
     summary:
       "海外研学项目重视行前研究、现场体验和返校复盘，引导学生把旅行转化为可表达、可沉淀、可延展的学习成果。",
-    image: `${brochureBase}/第25页-196.PNG`,
+    image: `${brochureBase}/第25页-196.jpg`,
     icon: Map,
     highlights: ["行前研究", "海外课堂", "成果汇报"],
     englishHighlights: ["Pre-trip Research", "Overseas Classes", "Presentations"],
@@ -135,14 +135,14 @@ const sections: InternationalSection[] = [
         date: "2026-04-13",
         summary:
           "项目路线覆盖大学课堂体验、博物馆学习和城市文化调研，学生将以小组课题形式完成研学任务。",
-        image: `${brochureBase}/第25页-196.PNG`,
+        image: `${brochureBase}/第25页-196.jpg`,
       },
       {
         title: "研学成果分享会展示学生研究报告",
         date: "2026-03-22",
         summary:
           "学生从公共艺术、科学教育和城市治理等角度分享研学观察，呈现了跨学科思考和英文表达成果。",
-        image: `${brochureBase}/第30页-218.PNG`,
+        image: `${brochureBase}/第30页-218.jpg`,
       },
     ],
   },
@@ -154,7 +154,7 @@ const sections: InternationalSection[] = [
     title: "以合作项目拓宽学生未来选择",
     summary:
       "学校与海外教育机构开展课程共建、学术竞赛指导和升学资源对接，为不同发展方向的学生提供更有弹性的成长路径。",
-    image: `${brochureBase}/第30页-219.PNG`,
+    image: `${brochureBase}/第30页-219.jpg`,
     icon: Languages,
     highlights: ["课程共建", "学术拓展", "升学指导"],
     englishHighlights: ["Co-built Courses", "Academic Extension", "Counseling"],
@@ -164,14 +164,14 @@ const sections: InternationalSection[] = [
         date: "2026-04-07",
         summary:
           "学生围绕人工智能伦理、环境科学和全球经济议题展示研究成果，教师团队从研究方法和表达逻辑进行点评。",
-        image: `${brochureBase}/第30页-219.PNG`,
+        image: `${brochureBase}/第30页-219.jpg`,
       },
       {
         title: "升学指导工作坊聚焦申请材料准备",
         date: "2026-03-19",
         summary:
           "工作坊帮助学生梳理个人经历、学术兴趣和活动成果，为后续文书写作和面试准备打好基础。",
-        image: `${brochureBase}/第36页-320.PNG`,
+        image: `${brochureBase}/第36页-320.jpg`,
       },
     ],
   },
@@ -183,7 +183,7 @@ const sections: InternationalSection[] = [
     title: "外教课堂让语言学习进入真实语境",
     summary:
       "外教团队参与口语表达、文化主题课程和项目展示辅导，帮助学生在交流中提升语言准确度、表达自信和文化理解力。",
-    image: `${brochureBase}/第41页-424.PNG`,
+    image: `${brochureBase}/第41页-424.jpg`,
     icon: Users,
     highlights: ["口语课堂", "文化课程", "展示辅导"],
     englishHighlights: ["Speaking Classes", "Culture Courses", "Presentation Coaching"],
@@ -193,14 +193,14 @@ const sections: InternationalSection[] = [
         date: "2026-04-05",
         summary:
           "课堂通过资料阅读、情境讨论和小组展示，引导学生比较不同文化中的节日传统与价值表达。",
-        image: `${brochureBase}/第41页-424.PNG`,
+        image: `${brochureBase}/第41页-424.jpg`,
       },
       {
         title: "英语角活动聚焦公共演讲表达",
         date: "2026-03-27",
         summary:
           "外教带领学生练习观点陈述、即兴回应和舞台表达，帮助学生在轻松互动中提升英语输出能力。",
-        image: `${brochureBase}/第38页-377.PNG`,
+        image: `${brochureBase}/第38页-377.jpg`,
       },
     ],
   },
@@ -263,7 +263,7 @@ export default function InternationalPage() {
       <main>
         <section className="relative min-h-[440px] overflow-hidden bg-[#8B1A1A] pt-16 text-white sm:min-h-[500px] sm:pt-20 lg:min-h-[620px]">
           <Image
-            src={`${brochureBase}/第24页-188.PNG`}
+            src={`${brochureBase}/第24页-188.jpg`}
             alt="国际教育栏目横幅"
             fill
             priority

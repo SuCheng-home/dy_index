@@ -95,7 +95,7 @@ export default function LeadershipPage() {
                       src={
                         leader.gender === "male"
                           ? "/view/view1.jpg"
-                          : "/school_view/（提取图片）9.24省丹中画册-定稿/第24页-188.PNG"
+                          : "/school_view_opt/第24页-188.jpg"
                       }
                       alt={leader.name}
                       fill

@@ -19,71 +19,71 @@ type MemoryPhoto = {
 const photoHeight = 671
 const memoryFrameHeight = 142
 const memoryPhotoBase = "/optimized/home/memory"
-const memoryOriginalBase = "/school_view/（提取图片）9.24省丹中画册-定稿"
+const memoryOriginalBase = "/school_view_opt"
 const memoryPhotos: MemoryPhoto[] = [
   {
     src: `${memoryPhotoBase}/memory-01.jpg`,
-    original: `${memoryOriginalBase}/第15页-86.PNG`,
+    original: `${memoryOriginalBase}/第15页-86.jpg`,
     title: "1948年江苏省立丹阳中学高中第一届毕业纪念",
     width: 2178,
   },
   {
     src: `${memoryPhotoBase}/memory-02.jpg`,
-    original: `${memoryOriginalBase}/第15页-83.PNG`,
+    original: `${memoryOriginalBase}/第15页-83.jpg`,
     title: "1949年春省丹中参加文艺公演的部分同学",
     width: 1033,
   },
   {
     src: `${memoryPhotoBase}/memory-03.jpg`,
-    original: `${memoryOriginalBase}/第15页-87.PNG`,
+    original: `${memoryOriginalBase}/第15页-87.jpg`,
     title: "1955年考取北京高校的丹中校友在天安门前合影",
     width: 1132,
   },
   {
     src: `${memoryPhotoBase}/memory-04.jpg`,
-    original: `${memoryOriginalBase}/第16页-89.PNG`,
+    original: `${memoryOriginalBase}/第16页-89.jpg`,
     title: "1956年团省丹中总支高三乙分支全体团员合影",
     width: 1169,
   },
   {
     src: `${memoryPhotoBase}/memory-05.jpg`,
-    original: `${memoryOriginalBase}/第16页-91.PNG`,
+    original: `${memoryOriginalBase}/第16页-91.jpg`,
     title: "1958年共青团省丹中高三甲分支整团留念",
     width: 1100,
   },
   {
     src: `${memoryPhotoBase}/memory-06.jpg`,
-    original: `${memoryOriginalBase}/第16页-93.PNG`,
+    original: `${memoryOriginalBase}/第16页-93.jpg`,
     title: "1975年丹阳县第一中学附设中学-语文教师轮训班结业留影",
     width: 1152,
   },
   {
     src: `${memoryPhotoBase}/memory-07.jpg`,
-    original: `${memoryOriginalBase}/第17页-101.PNG`,
+    original: `${memoryOriginalBase}/第17页-101.jpg`,
     title: "2001年9月党总支换届选举大会",
     width: 1069,
   },
   {
     src: `${memoryPhotoBase}/memory-08.jpg`,
-    original: `${memoryOriginalBase}/第17页-104.PNG`,
+    original: `${memoryOriginalBase}/第17页-104.jpg`,
     title: "丹阳一中革命家长会",
     width: 565,
   },
   {
     src: `${memoryPhotoBase}/memory-09.jpg`,
-    original: `${memoryOriginalBase}/第17页-106.PNG`,
+    original: `${memoryOriginalBase}/第17页-106.jpg`,
     title: "海燕社合影",
     width: 1001,
   },
   {
     src: `${memoryPhotoBase}/memory-10.jpg`,
-    original: `${memoryOriginalBase}/第17页-108.PNG`,
+    original: `${memoryOriginalBase}/第17页-108.jpg`,
     title: "活报剧照片",
     width: 880,
   },
   {
     src: `${memoryPhotoBase}/memory-11.jpg`,
-    original: `${memoryOriginalBase}/第17页-113.PNG`,
+    original: `${memoryOriginalBase}/第17页-113.jpg`,
     title: "树立共产主义理想为革命勤奋学习",
     width: 1037,
   },
