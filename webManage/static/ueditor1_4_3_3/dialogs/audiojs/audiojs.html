@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <script type="text/javascript" src="../internal.js"></script>
+    <script src="https://cdnfile-10043692.cos.ap-shanghai.myqcloud.com/lib/cos-js-sdk-v5.min.js"></script>
+    <script type="text/javascript" src="https://cdnfile-10043692.file.myqcloud.com/vue_projects/libs/jQuery/jquery.min.js"></script>
+    <style type="text/css">
+        .file-preview {
+            display: block;
+            margin: 5px auto;
+            width: 70px;
+            height: 70px;
+            background-image: url(./images/file-icons.png);
+            background-image: url(./images/file-icons.gif) \9;
+            background-repeat: no-repeat;
+            background-position: -980px center;
+        }
+        .upload-image-container ul {
+            float: left;
+            min-height: 112px;
+            padding: 10px 0 0 20px;
+        }
+
+        .upload-image-container li {
+            display: inline-block;
+            margin-right: 10px;
+            width: 112px;
+            height: 112px;
+            position: relative;
+        }
+        .upload-image-item {
+            border: 1px solid #ccc;
+
+        }
+        .upload-error {
+            color: #FF9999;
+        }
+        .upload-image-container li.upload-image-item--img-container {
+            width: auto;
+        }
+
+        .upload-image-container li span {
+            display: block;
+            margin: 5px auto;
+            width: 70px;
+            height: 100px;
+            background-image: url(./images/file-icons.png);
+            background-image: url(./images/file-icons.gif) \9;
+            background-repeat: no-repeat;
+            background-position: -1050px center;
+        }
+
+        .upload-image-container img {
+            display: block;
+            margin: 5px;
+            height: 100px;
+        }
+
+        .upload-image-container li i {
+            background-position: center center;
+            background-size: cover;
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            right: 0;
+            top: 0;
+            background-image: url(http://cdnfile-10043692.file.myqcloud.com/admin/images/upload/close.png);
+            display: block;
+            float: right;
+            cursor: pointer;
+        }
+
+        .upload-image-container .message-file-upload {
+            margin-top: 42px;
+        }
+
+        .upload-image-button {
+            float: left;
+            border: 1px dashed #ccc;
+            background: url(http://wxtestpb-10048617.image.myqcloud.com/20180426143222_690.jpg?imageView2/q/100/h/800) no-repeat;
+            background-position: center center;
+            width: 112px;
+            height: 112px;
+            position: relative;
+        }
+
+        .upload-image-button input {
+            position: relative;
+            top: 0;
+            right: 0;
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            border: solid transparent;
+            opacity: .0;
+            filter: alpha(opacity=0);
+            cursor: pointer;
+        }
+        .upload-file-btn {
+            width: 120px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            background-color: #66b1ff;
+            display: block;
+            color: #fff;
+            border-radius: 4px;
+            float: left;
+            margin: 80px 0 0 10px;
+            cursor: pointer;
+
+        }
+        .warn {
+            color: #FF9999;
+        }
+
+        .warn-info {
+            padding: 10px 0 0 20px;
+        }
+        #uploadFile {
+            display: none;
+        }
+        .btn-container {
+            clear: both;
+            margin-top: 80px;
+            margin-left: 20px;
+        }
+        #picuploader {
+            font: 12px / 1.5 sans-serif, "宋体", "Arial Narrow", HELVETICA;
+            color: #646464;
+        }
+    </style>
+</head>
+<body>
+<div id="picuploader">
+    <div class="warn-info"><span class="warn">*</span>请上传mp3格式文件</div>
+    <div class="upload-image-container">
+        <ul class="image-container">
+            <li>
+                <label for="uploadFile" id="upload-btn" class="upload-file-btn">
+                    上传音频
+                </label>
+            </li>
+
+        </ul>
+    </div>
+    <div class="btn-container">
+        <div class="upload-error"></div>
+    </div>
+    <input type="file" id="uploadFile" class="file-input2" accept=".mp3" multiple />
+</div>
+
+<script type="text/javascript">
+    const basePath = window.location.href.indexOf('www.zhxiaoyuan.cn') !== -1 ? 'https://www.zhxiaoyuan.cn/wxcepClient1/' : 'https://www.weixiaojia.net/wxcepClient1/';
+
+    // 新版前端上传
+    function WebUploader(config) {
+        this.$progressContainer = config.$progressContainer && config.$progressContainer.length !== 0 ?
+            config.$progressContainer :
+            $('.install-file-content .process_wrap');
+        config = $.extend({}, {
+            successCallback: function(data) {
+                console.log(data);
+            },
+            errorCallback: function(data) {
+                console.log(data);
+            },
+            deleteCallback: function() {},
+            extList: [],
+            pathPrefix: 'fuwenben',
+            initUrl: basePath + '/common/getWxCosFileSign'
+        }, config);
+        this.successCallback = config.successCallback;
+        this.errorCallback = config.errorCallback;
+        this.deleteCallback = config.deleteCallback;
+        this.initUrl = config.initUrl;
+        this.cos = null;
+        this.bucket = '';
+        this.extList = config.extList;
+        this.files = [];
+        this.region = 'ap-shanghai';
+        this.pathPrefix = config.pathPrefix;
+    }
+
+    // 初始化
+    WebUploader.prototype.init = function() {
+        var _this = this;
+        $.ajax({
+            url: _this.initUrl,
+            type: 'GET',
+            dataType: 'json',
+            data: {sysBucket: 1},
+            success: function (data) {
+                if(data.data) {
+                    var pageData = JSON.parse(data.data);
+                    // console.log(pageData);
+                    _this.bucket = pageData.bucketName;
+                    _this.cos = new COS({
+                        // 必选参数
+                        getAuthorization: function (options, callback) {
+                            callback({
+                                TmpSecretId: pageData.credentials.tmpSecretId,
+                                TmpSecretKey: pageData.credentials.tmpSecretKey,
+                                XCosSecurityToken: pageData.credentials.sessionToken,
+                                ExpiredTime: pageData.expiredTime
+                            });
+                        }
+                    });
+                } else {
+                    showError(data.msg);
+                }
+
+            }
+        });
+    };
+
+    // 前端上传文件
+    WebUploader.prototype.uploadFile = function (file) {
+        var fileExt = file.name.replace(/.+\./, "").toLowerCase();   //正则表达式获取后缀
+        var year = new Date().getFullYear();
+        var timestamp = new Date().valueOf();
+        var _this = this;
+        var Key = _this.pathPrefix + '/' + year + '/' + timestamp + '/' + file.name;
+        if (_this.extList.length !==0 &&_this.extList.indexOf(fileExt) === -1) {
+            showError('请上传后缀名为[' + _this.extList.join(', ') + ']的文件');
+        } else if(_this.size > 2 * 1024 * 1024) {
+            showError('请上传小于2Mb的文件');
+        } else {
+            _this.cos.putObject({
+                Bucket: _this.bucket,
+                Region: _this.region,
+                Key: Key,
+                Body: file,
+                onTaskReady(taskId) {},
+                onProgress(progressData) {
+                    if(_this.$progressContainer) {
+                        _this.$progressContainer.text(progressData.percent * 100 + '%');
+                    }
+                }
+            }, function(err, data) {
+                if(err) {
+                    _this.$message.error(err.error)
+                } else {
+                    _this.cos.putObjectTagging({
+                        Bucket: this.bucket, /* 必须 */
+                        Region: this.region,     /* 存储桶所在地域，必须字段 */
+                        Key: Key, /* 存储在桶里的对象键（例如1.jpg，a/b/test.txt），必须字段 */
+                        Tags: [
+                            {"Key": "year", "Value": year},
+                            {"Key": "school", "Value": window.sessionStorage.getItem('schoolId')},
+                            {"Key": "module", "Value": 'fuwenben'},
+                            {"Key": "modulecode", "Value": '00000'}
+                        ],
+                        // VersionId: 'MTg0NDUwOTMyODM1MDg2MTA1xxx' /* 对象版本 ID，非必须 */
+                    }, (err, _1) => {
+                        var fileUrl = 'https://' + data.Location;
+                        if(/\.(jpe?g|png|bmp|gif)$/.test(fileUrl)) {
+                            fileUrl = fileUrl.replace(/\.cos\.ap-.+?\./, '\.picsh\.');
+                        }
+                        $('#uploadFile').val('');
+                        var fileObj = {
+                            fileUrl: fileUrl,
+                            fileName: file.name,
+                            id: ''
+                        };
+                        _this.successCallback(fileObj)
+                    });
+                }
+            });
+        }
+        return false;
+    };
+
+    WebUploader.prototype.deleteFile = function(path, callback) {
+        //console.log("s",path);
+        var _this = this;
+        path = path.replace(/\.picsh\./, '.cos.ap-shanghai.');
+        var Key = path.slice(path.indexOf('myqcloud.com') + 13);
+        this.cos.deleteObject({
+            Bucket: this.bucket,
+            Region: this.region,
+            Key: window.decodeURI(Key),
+        }, function(err, data) {
+            if(err) {
+                showError(err)
+            } else {
+                //_this.deleteCallback();
+                if(callback) {
+                    callback();
+                }
+            }
+        });
+    };
+    function closeimg(path,qq) {
+        var $this=$(qq);
+        function callbackB(){
+            var $fileItem=$this.closest("li");
+            $fileItem.remove();
+        }
+        uploader.deleteFile(path,callbackB);
+    }
+
+    function showError(error) {
+        $('.upload-error').html(error);
+    }
+
+    function handleDialogOk() {
+        var html='';
+        $('.file-preview').each(function(index,item){
+            var url = $(item).attr('data-url');
+            html += '<div>';
+            html += '<audio type="audio/ogg" controls="controls" src="' + url + '">';
+            html += '<source src="' + url + '" type="audio/mpeg"/>';
+            html += '</audio>';
+            html += '<p style="display: none;">音频</p>';
+            html += '</div>';
+
+        });
+        console.log(html);
+        editor.execCommand('insertHtml',html);
+        dialog.close();
+    }
+    dialog.onok = handleDialogOk;
+
+    var uploader = new WebUploader({
+        $progressContainer: '',
+        successCallback: function(data) {
+            console.log('data', data)
+            var accepUrl = data.fileUrl;
+            var html = '';
+            //图片
+            html += '<li class="upload-image-item upload-image-item--bg-container">';
+            html +=	' <i title="删除" onclick=closeimg("'+accepUrl+'",this)  class="upload-image-item__delete-btn"></i>' ;
+            html +=    '<span data-url="'+accepUrl+'" data-src="'+accepUrl+'" class="file-preview"></span>' ;
+            html +=	'</li>' ;
+            $(".image-container").prepend(html);
+            $("#uploadFile").attr("title", " ");
+        },
+        extList: ['mp3'],
+        pathPrefix: 'fuwenben'
+    });
+    uploader.init();
+    $('#uploadFile').off('change').on('change', function(e) {
+        var files = e.target.files;
+        for(let i = 0; i < files.length; i++) {
+            uploader.uploadFile(files[i]);
+        }
+    });
+</script>
+</body>
+</html>

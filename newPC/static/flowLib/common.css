@@ -1,0 +1,258 @@
+@charset "utf-8";
+/* CSS Document */
+*{font-family:"Microsoft YaHei";}
+html,body{height:100%;}
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,legend,button
+form,fieldset,input,textarea,p,blockquote,th,td {   
+　　padding: 0;   
+　　margin: 0;
+}
+body{background:#FFFFFF;font-family:"Microsoft YaHei","宋体";margin:0;padding:0;}
+/* 短引用的内容可取值：''或"" */
+q:before,q:after {content:”;}  
+
+/* 缩写，图片等无边框 */
+fieldset,img,abbr,acronym {border: 0 none;}
+abbr,acronym {font-variant: normal;}
+legend {color:#000;}
+
+/* 清除特殊标记的字体和字号 */
+address,caption,cite,code,dfn,em,strong,th,var {   
+　　font-weight: normal;   
+　　font-style: normal;   
+}
+
+/* 上下标 */
+sup {vertical-align: text-top;}
+sub {vertical-align: text-bottom;}
+
+/* 设置表格的边框被合并为一个单一的边框, 指定分隔边框模型中单元格边界之间的距离为0*/
+table {   
+　　border-collapse: collapse;   
+　　border-spacing: 0;   
+}   
+
+/* 表格标题及内容居左显示 */
+caption,th {text-align: left;}
+input,img,select {vertical-align:middle;}
+
+/* 清除列表样式 */
+ol,ul,li{list-style-type:none; padding: 0;}  
+
+/* 输入控件字体 */
+/*
+input,button,textarea,select,optgroup,option {
+    font-family:inherit;
+    font-size:inherit;
+    font-style:inherit;
+    font-weight:inherit;
+}*/
+
+/* 标题元素样式清除 */ 
+h1,h2,h3,h4,h5,h6 {   
+　　font-weight: normal;   
+　　font-size: 100%;   
+}   
+
+/* 链接样式，颜色可酌情修改 */
+del,ins,a {text-decoration:none;}
+a:focus{outline:none;}
+/* a:link {color:#285eab;}
+a:visited {color:#285eab;} */
+a:hover,a:active{color: black; text-decoration:underline;}
+
+/* 鼠标样式 */
+input[type="submit"] {cursor: pointer;}
+button {cursor: pointer;outline:none;}
+input::-moz-focus-inner { border: 0; padding: 0;}
+
+.clear {clear:both;}
+
+/*自定义分页样式*/
+.wxcep_foot_pages{ 
+    float: right;
+    line-height: 25px;
+    margin-right: 40px;
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    font-size:12px;
+  }
+.wxcep_foot_pages ul{ margin-right: 10px; display: block; float: left;padding-left: 0px;}
+.wxcep_foot_pages ul li{ display: inline;}
+.wxcep_foot_pages ul li a{  position: relative;  float: left;  padding: 4px 4px;  margin-left: -1px;  line-height: 1.42857143;  color: #337ab7;  text-decoration: none;  background-color: #fff;  border: 1px solid #ddd;font-size:12px; }
+.wxcep_foot_pages ul li a:hover{background-color: #EEEEEE;}
+.wxcep_foot_pages input{   width: 30px;
+  padding: 1px;
+  border: 1px solid #999;  line-height: normal;
+  vertical-align: inherit;
+  text-align: center;}
+.wxcep_foot_pages ul .disabled{  color: #777;  cursor: not-allowed;  background-color: #fff;  border-color: #ddd;}
+.wxcep_foot_pages span { display: block; float: left; margin-right: 10px; width: 100px; line-height: 25px;width: auto;  }
+ 
+
+
+ul, menu, dir {
+    display: block;
+    list-style-type: disc;
+    -webkit-margin-before: 0;
+    -webkit-margin-after: 0;
+    -webkit-margin-start: 0;
+    -webkit-margin-end: 0;
+    -webkit-padding-start: 0;
+}
+.modal-dialog {
+    width: 600px;
+     margin: 300px auto; 
+}
+
+   
+.address-source-item{
+    height: 25px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+    line-height: 25px;
+    display: inline-block;
+    background-color: #eee;
+    border-radius: 3px;
+    padding-right: 8px;
+}
+
+.address-source-item>img {
+    float: left;
+    width: 25px;
+    height: 25px;
+    margin-right: 3px;
+}
+
+
+.addressInput[type=checkbox]{
+        -webkit-appearance: none;
+        appearance: none;
+        width: 18px;
+        height: 18px; 
+        margin-top: 5px;
+        float: right;
+        margin-right: 10px;
+        cursor: pointer;
+        vertical-align: bottom;
+        background: #fff;
+        border: 1px solid #ccc;
+        -webkit-border-radius: 1px;
+        -moz-border-radius: 1px;
+        border-radius: 3px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        position: relative;
+        background-repeat: no-repeat;
+}
+
+.addressInput[type=checkbox]:active {
+        border-color: green;
+        background: #ebebeb;
+}       
+        
+.addressInput[type=checkbox]:hover {
+        border-color: #c6c6c6;
+        -webkit-box-shadow: inset 0 2px 2px rgba(0,0,0,0.1);
+        -moz-box-shadow: inset 0 2px 2px rgba(0,0,0,0.1);
+        box-shadow: inset 0 2px 2px rgba(0,0,0,0.1);
+}
+
+.addressInput[type=checkbox]:checked {
+        background: #fff;
+}
+
+.addressInput[type=checkbox]:checked::after {
+        content: url(https://res.wx.qq.com/mmocbiz/zh_CN/tmt/pc/dist/img/comm/checkbox_check_22de0796.png);
+        display: block;
+        position: absolute;
+        top: -1px;
+        right: 0px;
+        left: -1px
+}
+
+.addressInput[type=checkbox]:focus {
+        outline: none;
+        border-color: #ccc;
+}
+    
+table {
+    white-space: normal;
+    line-height: normal;
+    font-weight: normal;
+    font-size: 14px;
+    font-variant: normal;
+    font-style: normal;
+    color: -webkit-text;
+    text-align: start;
+}
+.table>tbody>tr>td{}
+.ztree li {
+   /*  white-space: initial!important; */
+}
+  /* 公共用于定义bootstrap table中checkbox的位置，但在table中需多加一个class table-bt*/
+.table-bt tbody input[type=checkbox]{}
+/*add new by hu*/
+.adress-bd-img{
+    background: url(https://cdnfile-10043692.file.myqcloud.com/mobile/images/address/jh.png) no-repeat;background-position:right center;
+    background-size: 25px 25px;
+    background-origin:content-box;
+    padding-right: 5px;
+    width:230px;
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    border-radius: 5px;
+    min-height: 36px;
+}
+
+/*5-25 new add by hu*/
+.form-control[readonly]{
+cursor: pointer !important;
+background-color: #fff !important;
+}
+/*用于隔离图片的间距，整改之后发现kindeditor中style样式无法获取，所以采用class的方式进行定义图片在详情情况下间距10px的问题*/
+ .kindeditor-img-pre{margin-top: 10px;}
+ 
+ /**
+ 红星点样式----<span class="must_red_ico">*</span>
+ **/
+.must_red_ico{
+	color: #F00;
+    margin-right: 5px;
+}
+
+/*用于解决弹出框显示过多信息问题*/
+.bootbox-body{
+	max-height: 300px;
+	overflow-y: auto;
+}
+/*此样式重写clockpicker时间选择器插件的弹出z-index为防止在遮罩层下面*/
+.popover{
+	z-index: 1050 !important;
+}
+.template-preview-dialog .modal-dialog {
+    margin-top: 200px;
+}
+.template-preview-dialog .bootbox-body {
+    max-height: 600px;
+}
+.template-preview-dialog #content-previewer img {
+    max-width: 100%;
+}
+.template-preview-dialog #content-previewer td, .template-preview-dialog #content-previewer th {
+    border: 1px solid #000;
+}
+.template-preview-dialog #content-previewer #content-previewer__inner {
+    overflow-x: hidden;
+}
+.template-preview-dialog #content-previewer #content-previewer__inner span,
+.template-preview-dialog #content-previewer #content-previewer__inner p {
+    word-break: break-all;
+}
+
+.table--even-and-odd tbody tr:nth-child(odd) > td, .table--even-and-odd tbody tr:nth-child(odd) > th {
+    /*background-color: rgb(230, 240, 255) !important*/
+}

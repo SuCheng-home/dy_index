@@ -1,0 +1,14 @@
+/*可以在这里添加你自己的css*/
+.edui-button.edui-for-135editor .edui-button-wrap .edui-button-body .edui-icon{
+    background-image: url("https://cdnfile-10043692.file.myqcloud.com/httpsresources/editor-135-icon.png") !important;
+    background-size: 85%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+img{
+    max-width: 50%;
+}
+.edui-upload-video{
+    background:url(https://cdnfile-10043692.file.myqcloud.com/admin/images/videologo.gif) no-repeat center center;
+    border:1px solid gray;
+}

@@ -1,0 +1,74 @@
+body{
+    font-size:12px;
+}
+ul, ol, p {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+@mixin reset-global {
+    ul, ol, p {
+        padding: 0;
+        margin: 0;
+        list-style-type: none;
+    }
+}
+@mixin clearfix {
+    &:after {
+        visibility: hidden;
+        display: block;
+        font-size: 0;
+        content: " ";
+        clear: both;
+        height: 0;
+    }
+}
+@mixin cover-bg {
+    background: no-repeat center center / cover;
+}
+@mixin middleIB {
+    display: inline-block;
+    vertical-align: middle;
+}
+@mixin full {
+    width: 100%;
+    height: 100%;
+}
+@mixin wh($width: auto, $height: auto, $is-border-box: false) {
+    width: $width;
+    height: $height;
+    @if($is-border-box) {
+        box-sizing: border-box;
+    }
+    @else {
+        box-sizing: content-box;
+    }
+}
+@mixin bwh($width: auto, $height: auto) {
+    background-size: #{$width} #{$height};
+}
+@mixin middleText($height) {
+    height: $height;
+    line-height: $height;
+}
+@mixin hideScrollbar {
+    &::-webkit-scrollbar{width:0; height:0;}
+}
+@mixin richtext {
+    img {
+        max-width: 100%;
+    }
+}
+@mixin scrollY($height) {
+    height: $height;
+    overflow-y: auto;
+}
+@mixin nowrap {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+$golbal-color: #B50900;
+$golbal-hover:#E60012;
+$column-bottom:#E69908;
+$column-color:#333;

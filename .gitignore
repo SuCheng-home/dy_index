@@ -14,3 +14,12 @@ next.user-config.*
 node_modules
 .next/
 .DS_Store
+
+# IDE / 工具目录
+.idea/
+.workbuddy/
+
+# 超大素材（超出 GitHub 单文件 100MB 限制或体积过大，留在本地）
+/public/school_view/
+/public/学生活动/
+/public/9.24省丹中画册-定稿.pdf

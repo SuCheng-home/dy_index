@@ -1,0 +1,79 @@
+@media screen and (max-height: 670px) {
+    #wxcep-address-dailog .modal-dialog {
+        max-height: 520px;
+        overflow: auto;
+    }
+}
+.modal-body{padding-bottom: 0 !important;}
+.search-space{width: 100%;height: 60px; border-bottom: 1px solid #E5E5E5;display: both;}
+.search-input{width: 520px;min-height: 35px;max-height: 60px; padding-left: 10px; border:1px solid #E5E5E5;border-radius: 5px;margin-left:auto;margin-right:auto;overflow-y: auto;}
+.wxcep-address-header{padding-left: 20px;}
+.wxcep-address-header>ul>li{list-style: none;float: left;width: auto;height: 40px;line-height: 40px;padding-left: 5px;padding-right: 5px; margin-right: 15px;text-align: center;color: #ADADAD;}
+.header-active{color:#000 !important;}
+.wxcep-address-header>ul>li{cursor: pointer;}
+.wxcep-address-header>ul>li:not(:first-child):hover{color:#4A9DE9;}
+.header-active{border-bottom: 3px solid #4A90E2;}
+.wxcep-address-header{border-bottom: 1px solid #E5E5E5;height: 42px;}
+.wxcep-address-content{width: 100%;height: 356px;}
+.wxcep-address-content-item{width: 100%;height: 100%;display: none;overflow-y: auto;}
+.content-active{display: block; !important; }
+
+/*鍦板潃绨垮ご閮ㄥ瓙閫夐」鏍峰紡*/
+.search-item{height: 25px; margin-top: 5px;margin-right: 5px; line-height: 25px;display:inline-block;background-color: #eee;border-radius: 3px;padding-right: 4px; }
+.search-item>img{float: left;width: 25px;height: 25px;margin-right: 3px;}
+.search-item-del{display: block;float: right; width: 13px;height: 13px;margin-top: 6px;margin-left: 4px; background:url(https://cdnfile-10043692.file.myqcloud.com/admin/images/close.png) left top no-repeat; cursor: pointer;}
+.search-item-del:hover{background-position: 0px -13px;}
+#wxcep-address-depart-tree{width:auto !important;height: 100% !important; overflow-y:auto; }
+#wxcep-address-user-tree{width:250px !important;height: 100% !important; border-right:1px solid #E0E0E0;overflow-y: auto;float: left; }
+#wxcep-address-user-userlist{width:300px;height: 90%;float: left;list-style: none;overflow-y:auto; }
+#wxcep-address-user-userlist>li>img{width: 25px;height: 25px;float: left;margin-top: 3px;}
+#wxcep-address-user-userlist>li{width: 100%;height: 30px;line-height: 35px;padding-left: 6px;float: left;}
+#wxcep-address-user-userlist>li:hover{background-color: #E5E5E5;cursor: pointer;}
+#wxcep-address-user-userlist span{height: 35px;float:left;line-height: 35px;padding-left: 10px;}
+#wxcep-address-user-userlist input{float:right;margin-top: 5px;}
+
+
+#wxcep-address-searchValue{height: 30px;width: 170px; border-width: 0;outline: none;}
+.search-result{width: 520px;min-height: 35px;max-height: 130px; padding-left: 10px; 
+	border:1px solid #E5E5E5;margin-left:auto;margin-right:auto;overflow-y: auto;background-color: white;opacity: 1;position: relative;left: 0;top: 0;z-index: 99999999;display: none;}
+.search-result ul{margin-top: 10px;}
+.search-result li{margin-top: 5px;  cursor: pointer;border-radius: 2px;overflow: hidden;} 
+.search-result img{width:23px;}
+.search-result-chosed{background-color: #E5E5E5; }
+
+
+/*NEW*/
+.wxcep-address-guide{    max-height: 40px;
+    font-size: 14px;
+    margin-top: 5px;
+    min-height: 30px;}
+.wxcep-address-guide>ul>li{list-style: none;display: inline;}
+.wxcep-address-list{height: 280px;overflow-y:auto; }
+.wxcep-address-list>ul>li{list-style: none;height: 40px;line-height: 40px;border-bottom: 1px solid #E5E5E5;}
+.wxcep-address-list>ul>li:nth-child(1){border-top: 1px solid #E5E5E5;}
+.wxcep-address-list>ul>li:hover{background-color: #ECF5FF;cursor: pointer;}
+.wxcep-address-list>ul>li>img{width: 24px;height: 24px;margin-left: 10px;}
+.wxcep-address-list>ul>li>a{color: black; margin-left: 10px; cursor: pointer;}
+.wxcep-address-list>ul>li>span{margin-left: 10px;}
+.wxcep-address-list>ul>li>input{float: right;}
+.addressInput[type=checkbox]{margin-top: 10px !important;}
+.wxcep-address-group-header{    max-height: 40px;
+    font-size: 14px;
+    margin-top: 5px;
+    min-height: 30px;
+    line-height: 30px;}
+.common-a-style{color: black;text-decoration:none;}
+
+.addressInputHidden{display: none;}
+.search-result input{border-width: 0px;width: 0px;}
+.search-result li span{margin-left: 10px;}
+
+#wxcep-address-user-checkAll{width:70px;display:block;float:right;line-height: 30px;margin-right: 17px;}
+.wxcep-address-user-checkAll{clear: both; border-top: 1px solid #E5E5E5;}
+
+label { font-weight: normal !important;margin-bottom: 0px; }
+.nochild4depart{color:#8E8E8E !important;} 
+.nochild4depart:hover{text-decoration: none;}
+.ignoreInput{
+	display: none;
+}

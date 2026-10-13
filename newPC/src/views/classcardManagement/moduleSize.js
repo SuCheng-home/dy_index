@@ -1,0 +1,69 @@
+export const sizeList = [{
+    label: '1*1',
+    value: 1
+}, {
+    label: '1*2',
+    value: 2
+}, {
+    label: '1*3',
+    value: 3
+}, {
+    label: '1*4',
+    value: 4
+}, {
+    label: '2*1',
+    value: 5,
+}, {
+    label: '2*2',
+    value: 6,
+}, {
+    label: '2*3',
+    value: 7,
+}, {
+    label: '2*4',
+    value: 8,
+}, {
+    label: '3*1',
+    value: 9,
+}, {
+    label: '3*2',
+    value: 10,
+}, {
+    label: '3*3',
+    value: 11,
+}, {
+    label: '3*4',
+    value: 12,
+}, {
+    label: '4*1',
+    value: 13,
+}, {
+    label: '4*2',
+    value: 14
+}, {
+    label: '4*3',
+    value: 15
+}, {
+    label: '1*4',
+    value: 16
+}, {
+    label: '2*4',
+    value: 17
+}, {
+    label: '3*4',
+    value: 18
+}, {
+    label: '4*4',
+    value: 19
+}, {
+    label: '6*2',
+    value: 20
+}, {
+    label: '1920*1080',
+    value: 100
+}];
+const allSizeList = [{
+    label: '全部',
+    value: 0
+}, ... sizeList];
+export default allSizeList

@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title></title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <script type="text/javascript" src="../internal.js"></script>
+  <script src="https://cdnfile-10043692.cos.ap-shanghai.myqcloud.com/lib/cos-js-sdk-v5.min.js"></script>
+  <script type="text/javascript" src="https://cdnfile-10043692.file.myqcloud.com/vue_projects/libs/jQuery/jquery.min.js"></script>
+  <style type="text/css">
+    .file-preview {
+      display: block;
+      margin: 5px auto;
+      width: 70px;
+      height: 70px;
+      background-image: url(./images/file-icons.png);
+      background-image: url(./images/file-icons.gif) \9;
+      background-repeat: no-repeat;
+      background-position: -980px center;
+    }
+    .upload-image-container ul {
+      float: left;
+      min-height: 112px;
+      padding: 10px 0 0 20px;
+    }
+
+    .upload-image-container li {
+      display: inline-block;
+      margin-right: 10px;
+      width: 112px;
+      height: 112px;
+      position: relative;
+    }
+    .upload-image-item {
+      border: 1px solid #ccc;
+
+    }
+    .upload-error {
+      color: #FF9999;
+    }
+    .upload-image-container li.upload-image-item--img-container {
+      width: auto;
+    }
+
+    .upload-image-container li span {
+      display: block;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-image: url(./images/file-icons.png);
+      background-image: url(./images/file-icons.gif) \9;
+      background-position: -1400px center;
+      margin-left: 5px;
+      margin-top: 5px;
+      margin-bottom: 5px;
+      width: 100px;
+      height: 100px;
+    }
+
+    .upload-image-container img {
+      display: block;
+      margin: 5px;
+      height: 100px;
+    }
+
+    .upload-image-container li i {
+      background-position: center center;
+      background-size: cover;
+      width: 20px;
+      height: 20px;
+      position: absolute;
+      right: 0;
+      top: 0;
+      background-image: url(http://cdnfile-10043692.file.myqcloud.com/admin/images/upload/close.png);
+      display: block;
+      float: right;
+      cursor: pointer;
+    }
+
+    .upload-image-container .message-file-upload {
+      margin-top: 42px;
+    }
+
+    .upload-image-button {
+      float: left;
+      border: 1px dashed #ccc;
+      background: url(http://wxtestpb-10048617.image.myqcloud.com/20180426143222_690.jpg?imageView2/q/100/h/800) no-repeat;
+      background-position: center center;
+      width: 112px;
+      height: 112px;
+      position: relative;
+    }
+
+    .upload-image-button input {
+      position: relative;
+      top: 0;
+      right: 0;
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      border: solid transparent;
+      opacity: .0;
+      filter: alpha(opacity=0);
+      cursor: pointer;
+    }
+    .upload-file-btn {
+      width: 112px;
+      height: 112px;
+      background: center center / contain no-repeat url(data:image/png;base64,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);
+      line-height: 112px;
+      text-align: center;
+      display: block;
+      color: #fff;
+      border-radius: 4px;
+      float: left;
+      margin-top: 5px;
+      cursor: pointer;
+
+    }
+    .warn {
+      color: #FF9999;
+    }
+
+    .warn-info {
+      padding: 10px 0 0 20px;
+    }
+    #uploadFile {
+      display: none;
+    }
+    .btn-container {
+      clear: both;
+      margin-top: 80px;
+      margin-left: 20px;
+    }
+    #picuploader {
+      font: 12px / 1.5 sans-serif, "宋体", "Arial Narrow", HELVETICA;
+      color: #646464;
+    }
+  </style>
+</head>
+<body>
+<div id="picuploader">
+  <div class="warn-info"><span class="warn">*</span>请上传mp4格式文件</div>
+  <div class="upload-image-container">
+    <ul class="image-container">
+      <li>
+        <label for="uploadFile" id="upload-btn" class="upload-file-btn">
+        </label>
+      </li>
+
+    </ul>
+  </div>
+  <div class="btn-container">
+    <div class="upload-error"></div>
+  </div>
+  <input type="file" id="uploadFile" class="file-input2" accept=".mp4" multiple />
+</div>
+
+<script type="text/javascript">
+  const basePath = window.location.href.indexOf('www.zhxiaoyuan.cn') !== -1 ? 'https://www.zhxiaoyuan.cn/wxcepClient1/' : 'https://www.weixiaojia.net/wxcepClient1/';
+
+  // 新版前端上传
+  function WebUploader(config) {
+    this.$progressContainer = config.$progressContainer && config.$progressContainer.length !== 0 ?
+      config.$progressContainer :
+      $('.install-file-content .process_wrap');
+    config = $.extend({}, {
+      successCallback: function(data) {
+        console.log(data);
+      },
+      errorCallback: function(data) {
+        console.log(data);
+      },
+      deleteCallback: function() {},
+      extList: [],
+      pathPrefix: 'fuwenben',
+      initUrl: basePath + '/common/getWxCosFileSign'
+    }, config);
+    this.successCallback = config.successCallback;
+    this.errorCallback = config.errorCallback;
+    this.deleteCallback = config.deleteCallback;
+    this.initUrl = config.initUrl;
+    this.cos = null;
+    this.bucket = '';
+    this.extList = config.extList;
+    this.files = [];
+    this.region = 'ap-shanghai';
+    this.pathPrefix = config.pathPrefix;
+  }
+
+  // 初始化
+  WebUploader.prototype.init = function() {
+    var _this = this;
+    $.ajax({
+      url: _this.initUrl,
+      type: 'GET',
+      dataType: 'json',
+      data: {sysBucket: 1},
+      success: function (data) {
+        if(data.data) {
+          var pageData = JSON.parse(data.data);
+          // console.log(pageData);
+          _this.bucket = pageData.bucketName;
+          _this.cos = new COS({
+            // 必选参数
+            getAuthorization: function (options, callback) {
+              callback({
+                TmpSecretId: pageData.credentials.tmpSecretId,
+                TmpSecretKey: pageData.credentials.tmpSecretKey,
+                XCosSecurityToken: pageData.credentials.sessionToken,
+                ExpiredTime: pageData.expiredTime
+              });
+            }
+          });
+        } else {
+          showError(data.msg);
+        }
+
+      }
+    });
+  };
+
+  // 前端上传文件
+  WebUploader.prototype.uploadFile = function (file) {
+    var fileExt = file.name.replace(/.+\./, "").toLowerCase();   //正则表达式获取后缀
+    var year = new Date().getFullYear();
+    var timestamp = new Date().valueOf();
+    var _this = this;
+    var Key = _this.pathPrefix + '/' + year + '/' + timestamp + '/' + file.name;
+    if (_this.extList.length !==0 &&_this.extList.indexOf(fileExt) === -1) {
+      showError('请上传后缀名为[' + _this.extList.join(', ') + ']的文件');
+    } else if(_this.size > 2 * 1024 * 1024) {
+      showError('请上传小于2Mb的文件');
+    } else {
+      _this.cos.putObject({
+        Bucket: _this.bucket,
+        Region: _this.region,
+        Key: Key,
+        Body: file,
+        onTaskReady(taskId) {},
+        onProgress(progressData) {
+          if(_this.$progressContainer) {
+            _this.$progressContainer.text(progressData.percent * 100 + '%');
+          }
+        }
+      }, function(err, data) {
+        if(err) {
+          _this.$message.error(err.error)
+        } else {
+          _this.cos.putObjectTagging({
+            Bucket: this.bucket, /* 必须 */
+            Region: this.region,     /* 存储桶所在地域，必须字段 */
+            Key: Key, /* 存储在桶里的对象键（例如1.jpg，a/b/test.txt），必须字段 */
+            Tags: [
+              {"Key": "year", "Value": year},
+              {"Key": "school", "Value": window.sessionStorage.getItem('schoolId')},
+              {"Key": "module", "Value": 'fuwenben'},
+              {"Key": "modulecode", "Value": '00000'}
+            ],
+            // VersionId: 'MTg0NDUwOTMyODM1MDg2MTA1xxx' /* 对象版本 ID，非必须 */
+          }, (err, _1) => {
+            var fileUrl = 'https://' + data.Location;
+            if(/\.(jpe?g|png|bmp|gif)$/.test(fileUrl)) {
+              fileUrl = fileUrl.replace(/\.cos\.ap-.+?\./, '\.picsh\.');
+            }
+            $('#uploadFile').val('');
+            var fileObj = {
+              fileUrl: fileUrl,
+              fileName: file.name,
+              id: ''
+            };
+            _this.successCallback(fileObj)
+            const prefixPath = window.location.href.indexOf('www.zhxiaoyuan.cn') !== -1 ? 'https://www.zhxiaoyuan.cn/wxcepClient1/' : 'https://api.weixiaojia.net/wxcepClient1/';
+            $.ajax({
+              headers: {
+                'content-type': 'application/json'
+              },
+              url: prefixPath + 'common/wxfileInfo/addWxfileInfo',
+              type: 'POST',
+              dataType: 'json',
+
+              data: JSON.stringify({
+                fileId: '',
+                fileSize: file.size,
+                fileUrl,
+                moduleCode: '00000',
+                moduleName: 'fuwenben',
+                schoolId: window.sessionStorage.getItem('schoolId')
+              }),
+              success: function () {
+              }
+            });
+          });
+        }
+      });
+    }
+    return false;
+  };
+
+  WebUploader.prototype.deleteFile = function(path, callback) {
+    //console.log("s",path);
+    var _this = this;
+    path = path.replace(/\.picsh\./, '.cos.ap-shanghai.');
+    var Key = path.slice(path.indexOf('myqcloud.com') + 13);
+    this.cos.deleteObject({
+      Bucket: this.bucket,
+      Region: this.region,
+      Key: window.decodeURI(Key),
+    }, function(err, data) {
+      if(err) {
+        showError(err)
+      } else {
+        //_this.deleteCallback();
+        if(callback) {
+          callback();
+        }
+      }
+    });
+  };
+  function closeimg(path,qq) {
+    var $this=$(qq);
+    function callbackB(){
+      var $fileItem=$this.closest("li");
+      $fileItem.remove();
+    }
+    uploader.deleteFile(path,callbackB);
+  }
+
+  function showError(error) {
+    $('.upload-error').html(error);
+  }
+
+  function handleDialogOk() {
+    var html='';
+    $('.file-preview').each(function(index,item){
+      var url = $(item).attr('data-src');
+      html += '<video class="edui-upload-video vjs-default-skin video-js" controls="" preload="none" width="420" height="280" src="' + url + '">';
+      html += '<source src="' + url + '" type="video/mp4"/>';
+      html += '</video>';
+
+    });
+    console.log(html);
+    editor.execCommand('insertHtml',html);
+    dialog.close();
+  }
+  dialog.onok = handleDialogOk;
+
+  var uploader = new WebUploader({
+    $progressContainer: '',
+    successCallback: function(data) {
+      var accepUrl = data.fileUrl;
+      var html = '';
+      //图片
+      html += '<li class="upload-image-item upload-image-item--bg-container">';
+      html +=	' <i title="删除" onclick=closeimg("'+accepUrl+'",this)  class="upload-image-item__delete-btn"></i>' ;
+      html +=    '<span data-src="'+accepUrl+'" class="file-preview"></span>' ;
+      html +=	'</li>' ;
+      $(".image-container").prepend(html);
+      $("#uploadFile").attr("title", " ");
+    },
+    extList: ['mp4'],
+    pathPrefix: 'fuwenben'
+  });
+  uploader.init();
+  $('#uploadFile').off('change').on('change', function(e) {
+    var files = e.target.files;
+    for(let i = 0; i < files.length; i++) {
+      uploader.uploadFile(files[i]);
+    }
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+ //覆盖一些element-ui样式
+.block-checkbox {
+  display: block;
+}
+
+.operation-container {
+  .cell {
+    padding: 10px !important;
+  }
+  .el-button {
+    &:nth-child(3) {
+      margin-top: 10px;
+      margin-left: 0px;
+    }
+    &:nth-child(4) {
+      margin-top: 10px;
+    }
+  }
+}
+
+.el-upload {
+  input[type="file"] {
+    display: none !important;
+  }
+}
+
+.el-upload__input {
+  display: none;
+}
+
+.cell {
+  .el-tag {
+    margin-right: 8px;
+  }
+}
+
+.small-padding {
+  .cell {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+}
+
+.status-col {
+  .cell {
+    padding: 0 10px;
+    text-align: center;
+    .el-tag {
+      margin-right: 0px;
+    }
+  }
+}
+
+//暂时性解决diolag 问题 https://github.com/ElemeFE/element/issues/2461
+.el-dialog {
+  transform: none;
+  left: 0;
+  position: relative;
+  margin: 10% auto;
+  top: 0px !important;
+}
+
+
+//文章页textarea修改样式
+.article-textarea {
+  textarea {
+    padding-right: 40px;
+    resize: none;
+    border: none;
+    border-radius: 0px;
+    border-bottom: 1px solid #bfcbd9;
+  }
+}
+
+//element ui upload
+.upload-container {
+  .el-upload {
+    width: 100%;
+    .el-upload-dragger {
+      width: 100%;
+      height: 200px;
+    }
+  }
+}
+
+// el-date-picker type="datetime" 和 el-time-picker 分钟秒 5的间隔（全局生效）
+// 非5倍数项高度置零隐藏，仅保留 0,5,10,15,20,25,30,35,40,45,50,55
+// 使用 height:0 替代 display:none，配合 JS 滚动修复确保选择器正常工作
+.el-time-panel .el-time-spinner > :not(:first-child) .el-time-spinner__item:not(:nth-child(5n+1)),
+.el-time-range-picker .el-time-spinner > :not(:first-child) .el-time-spinner__item:not(:nth-child(5n+1)) {
+  height: 0 !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  line-height: 0 !important;
+  min-height: 0 !important;
+  border: none !important;
+  box-sizing: border-box !important;
+}

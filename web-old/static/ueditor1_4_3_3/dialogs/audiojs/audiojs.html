@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <script type="text/javascript" src="../internal.js"></script>
+    <script type="text/javascript" src="https://cdnfile-10043692.cossh.myqcloud.com/admin/js/cos-js-sdk-v4.js"></script>
+    <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <style type="text/css">
+        *{margin:0;padding:0;color: #838383;}
+        table{font-size: 12px;margin: 10px;line-height: 30px}
+        .txt{width:300px;height:21px;line-height:21px;border:1px solid #d7d7d7;}
+        .upload-file-btn{
+			width:120px;
+			height:40px;
+			line-height:40px;
+			text-align:center;
+			background-color:#00A2D4;
+			display:block;
+			color:#fff;
+			border-radius:4px;
+			float:left;
+			margin:80px 0 0 10px;
+			cursor:pointer;
+
+		}
+		#uploadVedio{
+			display:none;
+		}
+		.vedio-box{
+			padding:10px;
+		}
+		.vedio-item{
+			width: 135px;
+			height: 135px;
+			float:left;
+			border:1px solid #dadada;
+			margin:10px 0 0 10px;
+			position: relative;
+		}
+		.file-preview {
+			display: block;
+			margin: 5px auto;
+			width: 70px;
+			height: 70px;
+			background-image: url(./images/file-icons.png);
+			background-image: url(./images/file-icons.gif) \9;
+			background-repeat: no-repeat;
+			background-position: -1050px center;
+		}
+		.vedio-item-des{
+			text-align:center;
+			border-top:1px solid #F0F0F0;
+			padding-top:4px;
+		}
+		.vedio-item-file-title{
+			width:135px;
+			padding:4px 0 0 4px;
+			display: block;
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			float: left;
+		}
+		.uplod-sucess{
+			border:4px solid #009966;
+		}
+		.uplod-erro{
+			border:4px solid #FF9999;
+		}
+		.img-box-item-close {
+		    width: 48px;
+		    height: 48px;
+		    display: block;
+		    background-size: cover;
+		    background-position: center center;
+		    background-image: url(http://cdn.weixiaojia.cn/mobile/images/wxcep_phone_close.png);
+			cursor: pointer;
+			position: absolute;
+			right: 0px;
+		}
+		.img-box-item-clear{
+			clear: both;
+		}
+		.warn{
+			color:#FF9999;
+		}
+		.warn-info{
+			padding:10px 0 0 20px;
+		}
+    </style>
+</head>
+<body>
+	<div>
+	<div class="warn-info"><span class="warn">*</span>请上传mp3格式文件</div>
+		<div class="vedio-box">
+			<!-- <div class="vedio-item uplod-sucess" data-url="">
+					<span class="img-box-item-close" ></span>
+						<div class="vedio-item-file-title">--</div>
+						<div class="vedio-item-cover file-preview "></div>
+						<div class="vedio-item-des">上传成功</div>
+			</div> -->
+
+		</div>
+		<div id="upload-show-box" class="vedio-item">
+				<div class="vedio-item-file-title">--</div>
+				<div class="img-box-item-clear" ></div>
+				<div class="vedio-item-cover file-preview "></div>
+				<div class="vedio-item-des">上传初始化...</div>
+			</div>
+		<label id="upload-btn" class="upload-file-btn" for="uploadVedio">点击选择文件<input  type="file"  id="uploadVedio" accept=".mp3"/></label>
+	</div>
+
+<script type="text/javascript">
+    var basePath  = window.location.href.indexOf('www.zhxiaoyuan.cn') !== -1 ? 'http://www.zhxiaoyuan.cn/wxcepClient1/' : 'https://www.weixiaojia.net/wxcepClient1/';
+    var cos=null;
+	var bucket='';
+	var appid='';
+	var region='';
+	var cosSign='';
+	var myFolder='';
+	var modelfolder='';
+	$().ready(function(){
+		uploadDefualtState();
+		$.ajax({
+            url: basePath + 'common/getWxCosFile',
+			type: "POST",
+			dataType: "json",
+			success:function(data){
+				bucket = data.data.cosBucket;
+				appid = data.data.cosAppid;
+				region = data.data.cosRegion;
+				cosSign = data.data.cosSign;
+				//TODO 以上几个值请确保填上再调用示例里的sdk方法
+				myFolder = '/'+data.data.myFolder;//需要操作的目录
+				modelfolder = '/'+data.data.modelfolder;//模块目录
+				//特别注意: JS-SDK使用之前请先到console.qcloud.com/cos 对相应的Bucket进行跨域设置
+				cos = new CosCloud({
+					appid: appid,// APPID 必填参数
+					bucket: bucket,//bucketName 必填参数
+					region: region,//地域信息 必填参数 华南地区填gz 华东填sh 华北填tj
+					getAppSign:function (callback) {//获取签名 必填参数
+						 callback(cosSign);
+					},
+					getAppSignOnce: function (callback) {//获取签名 必填参数
+						 callback(cosSign);
+					}
+				});
+			}
+
+		});
+	});
+	var successCallBack = function (result) {
+		uploadDefualtState();
+		var fileTitle=$('#upload-show-box .vedio-item-file-title').text();
+        var accepUrl=result.data.source_url;
+        var html='';
+        html+='<div class="vedio-item uplod-sucess" data-url="'+accepUrl+'">';
+        html+='<span class="img-box-item-close" onclick="del_upload_box(this)"></span>';
+        html+='<div class="vedio-item-file-title">'+fileTitle+'</div>';
+        html+='<div class="img-box-item-clear" ></div>';
+        html+='<div class="vedio-item-cover file-preview "></div>';
+        html+='<div class="vedio-item-des">上传成功</div>';
+        html+='</div>';
+        $('.vedio-box').append(html);
+    };
+
+    var errorCallBack = function (result) {
+        /* result = result || {};
+		console.log(result);
+        console.log(result.responseText || 'error'); */
+    };
+
+    var progressCallBack = function(curr,sha1){
+        var sha1CheckProgress = ((sha1 * 100).toFixed(2) || 100) + '%';
+        var converInfo='上传进度:'+sha1CheckProgress;
+        if(sha1==1){
+        	converInfo='转码中,请耐心等待...';
+        }
+		$('#upload-show-box .vedio-item-des').text(converInfo);
+    };
+	$('#uploadVedio').off('change').on('change',function(e){
+		var file = e.target.files[0];
+		var fileName = $(this).val();
+		var strFileName=fileName.replace(/^.+?\\([^\\]+?)(\.[^\.\\]*?)?$/gi,"$1");  //正则表达式获取文件名，不带后缀
+		var FileExt=fileName.replace(/.+\./,"");   //正则表达式获取后缀
+		if(strFileName.length>0){
+			$('#upload-show-box .vedio-item-file-title').text((strFileName));
+			uplodingState();
+			if(FileExt=='mp3'){
+		 		uploadFileCos(file,successCallBack,errorCallBack,progressCallBack);
+			 }else{
+			 uploadDefualtState();
+			 	parent.wxcepAlert('请上传mp3文件！');
+			}
+
+		}
+
+        return false;
+	});
+
+
+	function uploadFileCos(Cosfile,successCallBack,errorCallBack,progressCallBack){
+        	   var timestamp = (new Date()).valueOf();
+        	   var newFolder = '/'+timestamp+'/';//填你需要创建的文件夹，记得用斜杠包一下
+               cos.createFolder(function(result){
+					cos.uploadFile(successCallBack, errorCallBack, progressCallBack, bucket, myFolder +modelfolder+newFolder+Cosfile.name, Cosfile, 1);//insertOnly==0 表示允许覆盖文件 1表示不允许
+			   }, function(result){
+
+			   }, bucket, myFolder +modelfolder+newFolder);
+
+    }
+
+    function handleDialogOk() {
+		var html='';
+		$('.uplod-sucess').each(function(index,item){
+			var url=$(item).attr('data-url');
+			html+='<div>';
+			html+='<audio type="audio/ogg" controls="controls" src="'+url+'">';
+			html+='<source src="'+url+'" type="audio/mpeg"/>';
+			html+='</audio>';
+			html+='<p style="display: none;">音频</p>';
+            html+='</div>';
+
+        });
+		console.log(html);
+        editor.execCommand('insertHtml',html);
+        dialog.close();
+    }
+	function uploadDefualtState(){//上传初始化需处理的domo
+		$('#upload-show-box').hide();
+		$('#upload-btn').show();
+	}
+	function uplodingState(){//上传过程中需处理的domo
+		$('#upload-btn').hide();
+		$('#upload-show-box').show();
+	}
+	function del_upload_box(obj){
+		$(obj).parent().remove();
+	}
+    dialog.onok = handleDialogOk;
+
+</script>
+</body>
+</html>

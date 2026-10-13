@@ -1,0 +1,358 @@
+$fontsize_xl: 20px;
+$fontsize_large: 18px;
+$fontsize_medium: 16px;
+$fontsize_base: 14px;
+$fontsize_small: 13px;
+$fontsize_xs: 12px;
+
+$color_primary: #409EFF;
+$color_success: #67C23A;
+$color_warning: #E6A23C;
+$color_danger: #F56C6C;
+$color_info: #909399;
+
+$color_text_main: #303133;
+$color_text_base: #606266;
+$color_text_sub: #909399;
+$color_text_placeholder: #C0C4CC;
+
+$color_border1: #DCDFE6;
+$color_border2: #E4E7ED;
+$color_border3: #EBEEF5;
+$color_border4: #F2F6FC;
+@mixin reset {
+    ul, ol, p {
+        padding: 0;
+        margin: 0;
+        list-style-type: none;
+    }
+    body, h1, h2, h3, h4, h5, h6, ul, ol, p {
+        margin: 0;
+        padding: 0;
+        font-weight: normal;
+    }
+}
+
+@mixin reset-global {
+    ul, ol, p {
+        padding: 0;
+        margin: 0;
+        list-style-type: none;
+    }
+}
+
+@mixin clearfix {
+    &:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+}
+
+@mixin scrollBar {
+    &::-webkit-scrollbar-track-piece {
+        background: #d3dce6;
+    }
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+    &::-webkit-scrollbar-thumb {
+        background: #99a9bf;
+        border-radius: 20px;
+    }
+}
+
+@mixin relative {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+@mixin pct($pct) {
+    width: #{$pct};
+    position: relative;
+    margin: 0 auto;
+}
+
+@mixin triangle($width, $height, $color, $direction) {
+    $width: $width/2;
+    $color-border-style: $height solid $color;
+    $transparent-border-style: $width solid transparent;
+    height: 0;
+    width: 0;
+    @if $direction==up {
+        border-bottom: $color-border-style;
+        border-left: $transparent-border-style;
+        border-right: $transparent-border-style;
+    } @else if $direction==right {
+        border-left: $color-border-style;
+        border-top: $transparent-border-style;
+        border-bottom: $transparent-border-style;
+    } @else if $direction==down {
+        border-top: $color-border-style;
+        border-left: $transparent-border-style;
+        border-right: $transparent-border-style;
+    } @else if $direction==left {
+        border-right: $color-border-style;
+        border-top: $transparent-border-style;
+        border-bottom: $transparent-border-style;
+    }
+}
+
+// 圆角
+@mixin borderRadius($radius) {
+    -webkit-border-radius: $radius;
+    -moz-border-radius: $radius;
+    -ms-border-radius: $radius;
+    -o-border-radius: $radius;
+    border-radius: $radius;
+}
+
+//定位上下左右居中
+@mixin center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+//宽高
+@mixin wh($width, $height) {
+    width: $width;
+    height: $height;
+}
+
+//字体大小，颜色
+@mixin sc($size, $color) {
+    font-size: $size;
+    color: $color;
+}
+
+//flex 布局和 子元素 对其方式
+@mixin fj($type: space-between) {
+    display: flex;
+    justify-content: $type;
+}
+
+// 全局
+@mixin globalstyle() {
+    .page {
+        padding: 20px;
+
+        .form-container {
+            width: 80%;
+            padding-top: 20px;
+        }
+    }
+    ul, ol {
+        list-style-type: none;
+        padding: 0;
+    }
+}
+
+// 富文本
+@mixin richtext() {
+    img {
+        width: auto !important;
+        max-width: 100% !important;
+    }
+    td, th, video {
+        border: 1px solid #676A6C !important;
+    }
+    td, th {
+        padding: 5px;
+    }
+    table {
+        width: 100%;
+    }
+    ul, ol {
+        padding-left: 30px;
+    }
+}
+
+// 横向排布， 基于inline-block或float
+@mixin setInlineBlockMiddle($width: 20%, $margin-right: 0, $type:inline-block) {
+    $type: unquote($type);
+    @if $type == inline-block {
+        display: inline-block;
+        vertical-align: middle;
+    } @else if $type == float {
+        display: block;
+        float: left;
+    }
+    margin-right: $margin-right;
+    width: $width;
+}
+
+@mixin middleIB() {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+// 背景图片居中自适应
+@mixin backgroundCover($width: 100%, $height: 100%) {
+    background: no-repeat center center / cover;
+    width: $width;
+    height: $height;
+}
+
+@mixin cover-bg() {
+    background: no-repeat center center / cover;
+}
+
+// 行内元素基于行高的垂直居中
+@mixin lineCenter($height: 14px) {
+    font-size: $height;
+    line-height: $height;
+}
+
+// 定高滚动条容器
+@mixin scrollableContainer($height: 400px) {
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: $height;
+}
+
+// 内容字符串长度太长时，截断并给与省略号提示
+@mixin trimText($isFixedWidth: 0, $width: 100%) {
+    @if $isFixedWidth == 1 {
+        width: $width;
+    }
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+// 表格列定宽
+@mixin tableCols($colsWidthArr) {
+    table-layout: fixed;
+    td, th {
+        @include trimText();
+    }
+    @each $index, $colWidth in $colsWidthArr {
+        col:nth-child(#{$index}) {
+            width: #{$colWidth};
+        }
+    }
+}
+
+@mixin generateModuleIconStyles($moduleIconList) {
+    @each $moduleIcon in $moduleIconList {
+        .module-icon--#{$moduleIcon} {
+            @include cover-bg;
+            @include wh(16px, 16px);
+            background-image: url('../../assets/moduleIcon/#{$moduleIcon}.png');
+            display: inline-block;
+        }
+    }
+}
+
+@mixin formDetailPageStyles() {
+    .info-container {
+        font: 'Microsoft YaHei' / 14px;
+        width: 810px;
+        margin: 0 auto;
+
+        .title {
+            border-left: 4px solid $color_primary;
+            color: $color_text_main;
+            font-size: 18px;
+            padding-left: 12px;
+            height: 18px;
+            line-height: 18px;
+            margin-bottom: 25px;
+            margin-top: 25px;
+            margin-left: 100px;
+
+            &:first-of-type {
+                margin-top: 40px;
+            }
+        }
+
+        .row {
+            margin-top: 25px;
+
+            .label {
+                color: $color_text_sub;
+                min-width: 10em;
+                margin-right: 30px;
+                display: inline-block;
+                vertical-align: top;
+                text-align: right;
+            }
+
+            .value {
+                display: inline-block;
+                vertical-align: top;
+                color: $color_text_base;
+            }
+            .image--border {
+                border: 1px solid $color_border1;
+            }
+        }
+    }
+}
+
+@mixin articleDetailPageStyles() {
+    .article-container {
+        width: 900px;
+        margin: 25px auto 0 auto;
+        font-size: 14px;
+        color: $color_text_base;
+
+        .title {
+            text-align: center;
+            color: $color_text_main;
+            font-size: 18px;
+        }
+
+        .sub-title {
+            text-align: center;
+            font-size: 14px;
+            color: #b0b0b0;
+            margin: 12px 0 12px 0;
+
+        }
+        .section-title {
+            margin: 22px 0 14px 0;
+            border-left: 4px solid $color_primary;
+            color: $color_text_main;
+            font-size: 16px;
+            padding-left: 12px;
+            height: 16px;
+            line-height: 16px;
+        }
+        .content {
+            min-height: 400px;
+            @include richtext;
+        }
+        hr {
+            border-color: #EBF0FA;
+            border-top: 0;
+        }
+        .meta-info {
+            display: inline-block;
+            color: $color_text_base;
+            margin-top: 25px;
+            * {
+                display: inline-block;
+            }
+            .meta-info-item {
+                margin-right: 30px;
+            }
+            .is-active {
+                cursor: pointer;
+                color: $color_primary;
+            }
+        }
+        .pic-container {
+            @include clearfix;
+            .pic-item {
+                float: left;
+                @include wh(80px, 80px);
+                @include cover-bg;
+                margin-right: 10px;
+            }
+        }
+    }
+}

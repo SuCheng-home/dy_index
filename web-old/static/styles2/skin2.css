@@ -1,0 +1,174 @@
+/* $golbal-color: #006442;
+$golbal-hover:#4AAB26; */
+/*二维码*/
+.header-container .header .login-wrap .icon-hint{
+  background: url(https://cdnfile-10043692.file.myqcloud.com/web/images/login2.png) center center no-repeat;
+}
+.header-container .header .login-wrap .login-btn{
+  background-color: #819ed5;
+}
+.qrcode-outer-container{
+  background-color:#819ed5;
+}
+.qrcode-arrow{
+  border-bottom: 20px solid #819ed5;
+}
+/*main.vue*/
+.nav-container{
+  border-bottom:4px solid #f2c812;
+  background:url("https://cdnfile-10043692.file.myqcloud.com/web/images/template2/nav_bg2.png") repeat-x;
+}
+.menu-info .left-btn{
+  color:#4c689d;
+}
+.menu-info .right-btn{
+  color:#4c689d;
+}
+.nav-container .ulSubMenu{
+  background:#7c8fb5;
+}
+.nav-container .liSubMenu >a:hover{
+  background:#425a87;
+  color:#f2c812 !important;
+}
+.nav-container .menu a{
+  color:#fff;
+}
+.nav-container .menu .line-tag{
+  background:#819ed5;
+}
+.nav-container .menu >a:hover,
+.nav-container .menu >a.hover{
+  color:#fdce02;
+}
+.goTop .hoverA{
+  background:#3a5588 !important;
+}
+.goTop > div i{
+  color:#3a5588 !important;
+}
+/*index.vue*/ 
+.rollModuleBox .rollModule .tag{
+  color:#294374;
+}
+.rollModule .cont li:hover a{
+  color:#819ed5 !important;
+}
+.searchBox .search-input{
+  color:#4c689d;
+}
+.searchBox .search-input::-webkit-input-placeholder{
+  color:#4c689d;
+}
+.searchBox .search-icon i{
+  color:#4c689d;
+}
+/*首页左侧*/
+.leftMainBox .data-top{
+  background: #294374;
+  color:#fff;
+}
+.leftMainBox .data-bottom{
+  background: #eee;
+  color:#5b74a3;
+}
+.leftMainBox .rightNews:hover{
+  color:#819ed5 !important;
+}
+.leftBottomBox .title span{
+  color:#819ed5;
+}
+.leftBottomBox .content{
+  color:#94947d;
+}
+.rightMainBox .rightItemLi span{
+  color:#4c689d;
+}
+.global-top{
+  border-bottom:1px solid #4c689d;
+}
+.global-top .title{
+  color:#4c689d;
+  border-bottom:2px solid #4c689d;
+}
+.global-top .more:hover{
+  color:#819ed5;
+}
+.middleNewList .middleNewLi{
+  /* background:url(https://cdnfile-10043692.file.myqcloud.com/web/images/template2/left_tag2.png) 0 6px no-repeat; */
+}
+.middleNewLi:before{
+	position: absolute;
+	left:0;
+	top:6px;
+	content:'';
+	width:0;
+	height: 0;
+	border-top:9px solid #819ed5;
+	border-right:9px solid transparent;
+}
+.middleNewList .middleNewLi a:hover{
+  color:#819ed5 !important;
+}
+.global-top2 .title{
+  color:#4c689d;
+}
+.global-top2 .more:hover{
+  color:#819ed5;
+}
+.bottomLunbo-wrap .top{
+  background:#3a5588 ;
+}
+.footer-container{
+  background-color: #808080;
+  background:url(https://cdnfile-10043692.file.myqcloud.com/web/images/template2/footer2-bg.png) repeat-x;
+}
+/*column页面*/
+.column-container .sitemenu >.icon{
+  color:#294374;
+}
+.column-container .sideBar ul a:hover{
+  background:#425a87;
+}
+.column-container .sideBar ul a.hover{
+  background:#294374;
+}
+.column-container .main-container .el-breadcrumb__inner a:hover, .column-container .main-container .el-breadcrumb__inner.is-link:hover{
+  color:#819ed5;
+  cursor: pointer;
+}
+.main-container .el-pager li.active{
+  color:#4c689d;
+}
+.main-container .el-pager li:hover{
+  color:#819ed5;
+}
+.column-container .el-breadcrumb__inner a.hover{
+  color:#4c689d !important;
+}
+.column-container .el-breadcrumb__inner a:hover{
+  color:#819ed5 !important;
+}
+.main-container .sitemenu{
+  border-bottom: 4px solid #F1C205;
+}
+/*picList*/
+.piclist-wrap .photo-item >a:hover{
+  color:#819ed5 !important;
+}
+/*newList*/
+.newList .newList-ul .list-head{
+  background:#4c689d;
+  color: #4c689d;
+}
+.newList .newList-ul li a:hover{
+  color: #819ed5 !important;
+}
+/*detail.vue*/
+.detail-container .sitemenu  >.icon{
+  color:#294374 !important;
+}
+.detail-container .el-breadcrumb__inner a:hover, .detail-container .el-breadcrumb__inner.is-link:hover{
+  color:#819ed5 !important;
+  cursor: pointer;
+}

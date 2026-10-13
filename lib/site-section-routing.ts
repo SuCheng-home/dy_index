@@ -10,7 +10,7 @@ export type SectionRouteInfo = {
 }
 
 const SECTION_ALIASES: Record<string, string> = {
-  校长致辞: "学校简介",
+  // 校长致辞: "学校简介",
   校训校风: "校歌校训",
   课程体系: "课程改革",
   学科建设: "教研组建设",

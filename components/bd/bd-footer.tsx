@@ -8,7 +8,7 @@ const footerLinks = [
     title: '了解丹中',
     links: [
       { label: '学校简介', href: '/bd/学校简介' },
-      { label: '校长致辞', href: '/bd/校长致辞' },
+      // { label: '校长致辞', href: '/bd/校长致辞' },
       { label: '校训校风', href: '/bd/校歌校训' },
       { label: '组织机构', href: '/bd/组织架构' },
       { label: '校园风光', href: '/bd/校园风光' },

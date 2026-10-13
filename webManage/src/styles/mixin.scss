@@ -1,0 +1,189 @@
+@mixin clearfix {
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+
+@mixin scrollBar {
+  &::-webkit-scrollbar-track-piece {
+    background: #d3dce6;
+  }
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #99a9bf;
+    border-radius: 20px;
+  }
+}
+
+@mixin relative {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+@mixin pct($pct) {
+  width: #{$pct};
+  position: relative;
+  margin: 0 auto;
+}
+
+@mixin triangle($width, $height, $color, $direction) {
+  $width: $width/2;
+  $color-border-style: $height solid $color;
+  $transparent-border-style: $width solid transparent;
+  height: 0;
+  width: 0;
+  @if $direction==up {
+    border-bottom: $color-border-style;
+    border-left: $transparent-border-style;
+    border-right: $transparent-border-style;
+  }
+  @else if $direction==right {
+    border-left: $color-border-style;
+    border-top: $transparent-border-style;
+    border-bottom: $transparent-border-style;
+  }
+  @else if $direction==down {
+    border-top: $color-border-style;
+    border-left: $transparent-border-style;
+    border-right: $transparent-border-style;
+  }
+  @else if $direction==left {
+    border-right: $color-border-style;
+    border-top: $transparent-border-style;
+    border-bottom: $transparent-border-style;
+  }
+}
+// 圆角
+@mixin borderRadius($radius) {
+    -webkit-border-radius: $radius;
+    -moz-border-radius: $radius;
+    -ms-border-radius: $radius;
+    -o-border-radius: $radius;
+    border-radius: $radius;
+}
+//定位上下左右居中
+@mixin center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+//宽高
+@mixin wh($width, $height){
+    width: $width;
+    height: $height;
+}
+//字体大小，颜色
+@mixin sc($size, $color){
+    font-size: $size;
+    color: $color;
+}
+//flex 布局和 子元素 对其方式
+@mixin fj($type: space-between){
+    display: flex;
+    justify-content: $type;
+}
+
+// 全局
+@mixin globalstyle() {
+  .page {
+    padding: 20px;
+    .form-container {
+      width: 80%;
+      padding-top: 20px;
+    }
+  }
+  ul, ol {
+    list-style-type: none;
+    padding: 0;
+  }
+}
+
+// 富文本
+@mixin richtext() {
+  img {
+    width: auto !important;
+    max-width: 100% !important;
+  }
+  td, th, video{
+    border: 1px solid #676A6C !important;
+  }
+  td, th {
+    padding: 5px;
+  }
+  table {
+    width: 100%;
+  }
+  ul, ol {
+    padding-left: 30px;
+  }
+}
+
+// 横向排布， 基于inline-block或float
+@mixin setInlineBlockMiddle($width: 20%, $margin-right: 0, $type:inline-block) {
+  $type: unquote($type);
+  @if $type == inline-block {
+    display: inline-block;
+    vertical-align: middle;
+  }
+  @else if $type == float {
+    display: block;
+    float: left;
+  }
+  margin-right: $margin-right;
+  width: $width;
+}
+@mixin middleIB() {
+  display: inline-block;
+  vertical-align: middle;
+}
+// 背景图片居中自适应
+@mixin backgroundCover($width: 100%, $height: 100%) {
+  background: no-repeat center center / cover;
+  width: $width;
+  height: $height;
+}
+@mixin cover-bg() {
+  background: no-repeat center center / cover;
+}
+
+// 行内元素基于行高的垂直居中
+@mixin lineCenter($height: 14px) {
+  font-size: $height;
+  line-height: $height;
+}
+
+// 定高滚动条容器
+@mixin scrollableContainer($height: 400px) {
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: $height;
+}
+
+// 内容字符串长度太长时，截断并给与省略号提示
+@mixin trimText($isFixedWidth: 0, $width: 100%) {
+  @if $isFixedWidth == 1 {
+    width: $width;
+  }
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+// 表格列定宽
+@mixin tableCols($colsWidthArr) {
+  table-layout: fixed;
+  td, th {
+    @include trimText();
+  }
+  @each $index, $colWidth in $colsWidthArr {
+    col:nth-child(#{$index}) {
+      width: #{$colWidth};
+    }
+  }
+}

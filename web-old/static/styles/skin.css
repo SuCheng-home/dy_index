@@ -1,0 +1,113 @@
+/* $golbal-color: #B50900;
+$golbal-hover:#E60012; */
+/*main.vue*/
+/*二维码*/
+.header-container .header .login-wrap .icon-hint{
+  background: url(https://cdnfile-10043692.file.myqcloud.com/web/images/login_red.png) center center no-repeat;
+}
+.header-container .header .login-wrap .login-btn{
+  background-color: #C9241F;
+}
+.qrcode-outer-container{
+  background-color:#C9241F;
+}
+.qrcode-arrow{
+  border-bottom: 20px solid #C9241F;
+}
+.nav-container{
+  border-top:10px solid #B50900;
+  background:#e5e5e5;
+}
+.nav-container .addmaskhoverleft{
+  background: #e5e5e5;
+}
+.nav-container .addmaskhover{
+  background:#e5e5e5;
+}
+.menu-info .left-btn{
+  color:#B50900;
+}
+.menu-info .right-btn{
+  color:#B50900;
+}
+.nav-container .liSubMenu >a:hover{
+  background:#E60012;
+}
+.nav-container .menu >a:hover,
+.nav-container .menu >a.hover{
+  background:#E60012;
+}
+.goTop .hoverA{
+  background:#E60012 !important;
+}
+.goTop > div i{
+  color: #E60012 !important;
+}
+.footer-container{
+  background-color: #808080;
+}
+/*index.vue*/
+.index-container .column > .title > .line-decoration{
+  color: #E60012;
+}
+.index-container .column >.title{
+  border-bottom:4px solid #E60012;
+}
+.index-container .column >.title >a:hover{
+  color:#E60012;
+}
+.index-container .newList .list-head{
+  color:#E60012;
+}
+.index-container .link-container{
+  background:#B50900;
+}
+.index-container .link-wrap>a{
+  border: 1px solid #B50900;
+}
+.index-container .lunbo-container .el-carousel__indicator.is-active button{
+	background-color:#B50900;
+}
+.sTitle.active .line-decoration{
+    color: #E60012;
+}
+.main-container{
+  background-color: #E5E5E5;
+}
+.index-main-container{
+  background-color: #E5E5E5;
+}
+/*detail.vue*/
+.detail-container .sitemenu  >.icon{
+  color:#B50900;
+}
+.detail-container .el-breadcrumb__inner a:hover, .detail-container .el-breadcrumb__inner.is-link:hover{
+  color:#E60012 !important;
+  cursor: pointer;
+}
+/*column页面*/
+.column-container .sitemenu >.icon{
+  color:#B50900;
+}
+.column-container .sideBar ul a:hover,.sideBar ul a.hover{
+  background:#B50900;
+}
+
+.column-container .main-container .el-breadcrumb__inner a:hover, .column-container .main-container .el-breadcrumb__inner.is-link:hover{
+  color:#E60012;
+  cursor: pointer;
+}
+.main-container .el-pager li.active{
+  color:#B50900;
+}
+.main-container .el-pager li:hover{
+  color:#B50900;
+}
+/*picList*/
+.piclist-wrap .photo-item >a:hover{
+  color:#B50900;
+}
+/*newList*/
+.newList .newList-ul .list-head{
+  color: #B50900;
+}

@@ -1,0 +1,95 @@
+ul, ol {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  list-style: none;
+}
+
+img {
+  border-style: none;
+}
+
+.clearfix:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0
+}
+
+.clearfix {
+  zoom: 1;
+}
+
+/* 自定义滚动条 start */
+.custom—scrollbar {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.custom—scrollbar::-webkit-scrollbar {
+  width: 6px;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.custom—scrollbar::-webkit-scrollbar-thumb {
+  background-color: #999;
+}
+
+.custom—scrollbar::-webkit-scrollbar-track {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* 自定义滚动条 end */
+
+/* element-ui 自定义滚动条 */
+.el-table__body-wrapper {
+  overflow-x: hidden; /*会将横行滚动条去掉，但如果有固定列的需求，请在代码里放开*/
+  &::-webkit-scrollbar-track-piece {
+    background: #d3dce6;
+  }
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #99a9bf;
+    border-radius: 20px;
+  }
+}
+
+/* 卡片效果 */
+.card_wrap{
+  width: 95%;
+  margin: 15px 25px;
+  padding-bottom: 20px;
+  background: #fff;
+  box-shadow: 0 -3px 3px 0 #e5eaed;
+  overflow: hidden;
+  .card_title{
+    height: 18px;
+    line-height: 20px;
+    margin-top: 15px;
+    margin-bottom: 20px;
+    margin-left: 15px;
+    padding-left: 23px;
+    font-size: 15px;
+    background: url("https://cdnfile-10043692.file.myqcloud.com/admin/images/campus-data/histogram.png") left center no-repeat;
+    background-size: 19px;
+  }
+  .title_icon2{
+    background: url("https://cdnfile-10043692.file.myqcloud.com/admin/images/campus-data/data.png") left center no-repeat;
+    background-size: 19px;
+  }
+  .title_icon3{
+    background: url("https://cdnfile-10043692.file.myqcloud.com/admin/images/campus-data/line-chart.png") left center no-repeat;
+    background-size: 19px;
+  }
+  .title_icon4{
+    background: url("https://cdnfile-10043692.file.myqcloud.com/admin/images/campus-data/curve.png") left center no-repeat;
+    background-size: 19px;
+  }
+}

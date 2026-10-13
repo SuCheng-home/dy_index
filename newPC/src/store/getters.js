@@ -1,0 +1,25 @@
+const getters = {
+    token: state => state.user.token,
+    avatar: state => state.user.avatar,
+    name: state => state.user.name,
+    uid: state => state.user.uid,
+    email: state => state.user.email,
+    introduction: state => state.user.introduction,
+    auth_type: state => state.user.auth_type,
+    status: state => state.user.status,
+    roles: state => state.user.roles,
+    setting: state => state.user.setting,
+    userInfo: state => state.user.userInfo,
+    schoolInfo: state => state.user.schoolInfo,
+    permissions: state => state.user.permissions,
+    departs: state => state.user.departs,
+    orgFilterParams: state => state.org.orgFilterParams,
+    permission: state => state.user.permissions, // 权限数据
+    permissionNameMapping: state => state.user.permissionNameMapping,
+    isStandalone: state => state.app.pcType === 'standalone' && sessionStorage.getItem('standalone') == 1,
+    schoolYearList: state => state.user.schoolYearList,
+    selectedSchoolYear: state => state.user.selectedSchoolYear,
+    isSelectedYearCurrent: state => state.user.selectedSchoolYear == state.user.currentSchoolYear.year,
+    currentSchoolYear: state => state.user.currentSchoolYear.year,
+};
+export default getters

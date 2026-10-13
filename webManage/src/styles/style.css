@@ -1,0 +1,211 @@
+#app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
+}
+
+html{
+  background-color: #f1f1f1;
+}
+
+body{
+  margin: 0;
+  padding: 0;
+}
+
+ul, ol{
+  /* list-style-type: none; */
+  margin: 0;
+  padding: 0;
+}
+
+li{
+
+}
+
+.clearfix:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0
+}
+
+.clearfix {
+  zoom: 1;
+}
+
+/* 自定义滚动条 start */
+.custom—scrollbar {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #999;
+}
+
+::-webkit-scrollbar-track {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* 自定义滚动条 end */
+/*公用的头部返回保存*/
+.nemu-tools{
+  border-bottom: 1px solid #e7eaec;
+  padding-bottom: 20px;
+}
+.nemu-tools .el-button{
+  margin-left:15px;
+}
+.g-search-item{
+  height: 25px;
+  margin: 2px 5px 2px 4px;
+  line-height: 25px;
+  display: inline-block;
+  background-color: #eee;
+  border-radius: 3px;
+  padding-right: 4px;
+}
+.g-search-item:after{
+  content:'';
+  height:0;
+  display: block;
+  clear: both;
+  visibility: hidden;
+}
+.g-search-item>img{
+  display: block;
+  float: left;
+  width: 25px;
+  height: 25px;
+  margin-right: 3px;
+}
+/*栏目的副本本样式*/
+.columnedit-content{
+  width:100%;
+  box-sizing: border-box;
+}
+.columnedit-content {
+  font-size: 15px;
+  line-height: 26px;
+  color: rgb(103, 106, 108);
+  word-wrap: break-word;
+  word-break: break-all;
+  margin: 0px auto;
+  padding: 0px 30px;
+}
+
+.columnedit-content video{
+  max-width: 100%;
+}
+
+.columnedit-content img{
+  display:block;
+  max-width:100%;
+  width:auto;
+  height:auto;
+}
+  
+.columnedit-content ol,.columnedit-content ul{
+  padding-left: 30px;
+}
+.columnedit-content td, .columnedit-content th {
+    padding: 5px 10px;
+    border: 1px solid #DDD;
+}
+.columnedit-content p{
+  margin: 0 0 10px;
+}
+.el-form-item.is-success .el-input__inner, .el-form-item.is-success .el-input__inner:focus, .el-form-item.is-success .el-textarea__inner, .el-form-item.is-success .el-textarea__inner:focus{
+  border-color: #409EFF;
+}
+.link-type, .link-type:focus{
+  color: #337ab7;
+  cursor: pointer;
+  text-decoration: none;
+}
+.file-item-img-word {
+  background-image: url(https://cdnfile-10043692.file.myqcloud.com/admin/images/upload/word.png);
+}
+
+.file-item-img-ppt {
+  background-image: url(https://cdnfile-10043692.file.myqcloud.com/admin/images/upload/ppt.png);
+}
+
+.file-item-img-pdf {
+  background-image: url(https://cdnfile-10043692.file.myqcloud.com/admin/images/upload/pdf.png);
+}
+
+.file-item-img-excel {
+  background-image: url(https://cdnfile-10043692.file.myqcloud.com/admin/images/upload/excle.png);
+}
+.file-item-img-zip {
+  background-image: url(https://cdnfile-10043692.file.myqcloud.com/admin/images/upload/ZIP.png);
+}
+.file-item-img-txt {
+  background-image: url(https://cdnfile-10043692.file.myqcloud.com/admin/images/upload/txt.png);
+}
+.file-item-img {
+  height: 28px;
+  width: 28px;
+  display: block;
+  float: left;
+  background-position: center center;
+  background-size: cover;
+}
+
+.file-item {
+  height: 30px;
+  display: block;
+  margin-left: 4px;
+  margin-top: 4px;
+  margin-bottom:10px;
+}
+
+.file-item-des {
+  float:left;
+  padding-left: 4px;
+  line-height: 30px;
+  padding-right: 4px;
+}
+.g-top-title{
+  width:100%;
+  text-align: center;
+  line-height: 1.428571429;
+  color: #333;
+}
+.g-top-title h2{
+  margin-top: 10px;
+  font-size: 26px;
+  color: #333;
+  font-weight: normal;
+  margin-bottom:10px;
+}
+.g-top-title .h4{
+  margin-top: 10px;
+  color: #333;
+  font-weight: normal;
+  margin-bottom:10px;
+}
+.g-right-time{
+  width: 90%;
+  line-height: 36px;
+  margin: 0px auto 10px;
+  text-align: right;
+  color: #888;
+  font-size:14px;
+}
+.el-table td, .el-table th{
+  padding:8px 0 !important;
+}
+.address-box{
+  height:260px !important;
+}

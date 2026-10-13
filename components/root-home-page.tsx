@@ -6,7 +6,8 @@ import { NewCampusOverview } from "@/components/new-campus-overview"
 import { FeaturesSection } from "@/components/features-section"
 import { StatsSection } from "@/components/stats-section"
 import { CampusGallery } from "@/components/campus-gallery"
-import { PrincipalMessage } from "@/components/principal-message"
+// 校长致辞模块已暂时下线，如需恢复请取消注释
+// import { PrincipalMessage } from "@/components/principal-message"
 import { Footer } from "@/components/footer"
 import { getPublicSiteSnapshot } from "@/lib/public-site-data"
 
@@ -26,7 +27,8 @@ export async function RootHomePage() {
         <FeaturesSection config={config.features} />
         <StatsSection config={config.stats} />
         <CampusGallery config={config.gallery} />
-        <PrincipalMessage config={config.principal} />
+        {/* 校长致辞模块已暂时下线，如需恢复请取消注释 */}
+        {/* <PrincipalMessage config={config.principal} /> */}
       </main>
       <Footer config={config} />
     </div>

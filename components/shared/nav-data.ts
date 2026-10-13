@@ -19,7 +19,7 @@ export const mainNavItems: NavItem[] = [
     imageQh: '/qh/nav-campus.jpg',
     subMenus: [
       { label: '学校简介', children: ['办学理念', '校史沿革'] },
-      { label: '校长致辞' },
+      // { label: '校长致辞' },
       { label: '领导班子' },
       { label: '组织架构' },
       { label: '校园风光', children: ['校园全景', '建筑掠影'] },

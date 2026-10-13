@@ -1,0 +1,145 @@
+/* $golbal-color: #ac9470;
+$golbal-hover:#ac9470; */
+/*二维码*/
+.header-container .header .login-wrap .icon-hint{
+  background: url(https://cdnfile-10043692.file.myqcloud.com/web/images/login4.png) center center no-repeat;
+}
+.header-container .header .login-wrap .login-btn{
+  background-color: #661B18;
+}
+.qrcode-outer-container{
+  background-color:#661B18;
+}
+.qrcode-arrow{
+  border-bottom: 20px solid #661B18;
+}
+/*main.vue*/
+.nav-container{
+  border-top:10px solid #661B18;
+  background:#e5e5e5;
+}
+.nav-container .addmaskhoverleft{
+  background: #e5e5e5;
+}
+.nav-container .addmaskhover{
+  background:#e5e5e5;
+}
+.menu-info .left-btn{
+  color:#ac9470;
+}
+.menu-info .right-btn{
+  color:#ac9470;
+}
+.nav-container .liSubMenu >a:hover{
+  background:#d8c19f;
+}
+.nav-container .menu >a:hover{
+  background:#d8c19f;
+}
+.nav-container .menu >a.hover{
+  background:#ac9470;
+}
+.goTop .hoverA{
+  background:#661B18 !important;
+}
+.goTop > div i{
+  color: #661B18 !important;
+}
+/*index.vue*/
+.index-container .column > .title  .line-decoration{
+  content:'';
+  color: #ac9470;
+  
+  display: block;
+  top: 13px !important;
+  width: 20px !important;
+  height: 14px !important;
+  margin-right:6px !important;
+  background:url(https://cdnfile-10043692.file.myqcloud.com/web/images/yun_icon.png) no-repeat;
+}
+.index-container .column .sTitle > span{
+  padding: 11px 0 0 26px !important;
+}
+.index-container .column > .title>.add-title{
+  margin: 17px 0 0 26px !important;
+}
+.fa-window-restore:before{
+  content:'';
+  width: 20px !important;
+  height: 14px !important;
+  background:url(https://cdnfile-10043692.file.myqcloud.com/web/images/yun_icon.png) no-repeat;
+}
+.index-container .column >.title{
+  border-bottom:4px solid #661B18;
+}
+.index-container .column >.title >a:hover{
+  color:#661B18;
+}
+.index-container .newList .list-head{
+  color:#661B18;
+}
+.index-container .link-container{
+  background:#661B18;
+}
+.index-container .link-wrap>a{
+  border: 1px solid #ac9470;
+}
+.index-container .lunbo-container .el-carousel__indicator.is-active button{
+	background-color:#ac9470;
+}
+.sTitle.active .line-decoration{
+  color: #ac9470;
+}
+.main-container{
+  background-color: #E5E5E5;
+}
+.index-main-container{
+  background-color: none;
+}
+.footer-container{
+  background-color: #808080;
+}
+/*detail.vue*/
+.detail-container .sitemenu  >.icon{
+  color:#ac9470;
+}
+.detail-container .el-breadcrumb__inner a:hover{
+  color:#ac9470 !important;
+  cursor: pointer;
+}
+.detail-container .el-breadcrumb__inner.is-link:hover{
+  color:#d8c19f !important;
+  cursor: pointer;
+}
+/*column页面*/
+.column-container .sitemenu >.icon{
+  color:#ac9470;
+}
+.column-container .sideBar ul a:hover{
+  background:#d8c19f;
+}
+.sideBar ul a.hover{
+  background:#ac9470;
+}
+.column-container .main-container .el-breadcrumb__inner a:hover{
+  color:#ac9470;
+  cursor: pointer;
+}
+.column-container .main-container .el-breadcrumb__inner.is-link:hover{
+  color:#d8c19f;
+  cursor: pointer;
+}
+.main-container .el-pager li.active{
+  color:#ac9470;
+}
+.main-container .el-pager li:hover{
+  color:#d8c19f;
+}
+/*picList*/
+.piclist-wrap .photo-item >a:hover{
+  color:#d8c19f;
+}
+/*newList*/
+.newList .newList-ul .list-head{
+  color: #ac9470;
+}

@@ -1,0 +1,113 @@
+/* $golbal-color: #006442;
+$golbal-hover:#4AAB26; */
+/*二维码*/
+.header-container .header .login-wrap .icon-hint{
+  background: url(https://cdnfile-10043692.file.myqcloud.com/web/images/login_green.png) center center no-repeat;
+}
+.header-container .header .login-wrap .login-btn{
+  background-color: #128B64;
+}
+.qrcode-outer-container{
+  background-color:#128B64;
+}
+.qrcode-arrow{
+  border-bottom: 20px solid #128B64;
+}
+/*main.vue*/
+.nav-container{
+  border-top:10px solid #006442;
+  background:#e5e5e5;
+}
+.nav-container .addmaskhoverleft{
+  background: #e5e5e5;
+}
+.nav-container .addmaskhover{
+  background:#e5e5e5;
+}
+.menu-info .left-btn{
+  color:#006442;
+}
+.menu-info .right-btn{
+  color:#006442;
+}
+.nav-container .liSubMenu >a:hover{
+  background:#4AAB26;
+}
+.nav-container .menu >a:hover,
+.nav-container .menu >a.hover{
+  background:#4AAB26;
+}
+.goTop .hoverA{
+  background:#4AAB26 !important;
+}
+.goTop > div i{
+  color: #4AAB26 !important;
+}
+/*index.vue*/
+.index-container .column > .title > .line-decoration{
+  color: #4AAB26;
+}
+.index-container .column >.title{
+  border-bottom:4px solid #4AAB26;
+}
+.index-container .column >.title >a:hover{
+  color:#4AAB26;
+}
+.index-container .newList .list-head{
+  color:#4AAB26;
+}
+.index-container .link-container{
+  background:#006442;
+}
+.index-container .link-wrap>a{
+  border: 1px solid #006442;
+}
+.index-container .lunbo-container .el-carousel__indicator.is-active button{
+	background-color:#006442;
+}
+.sTitle.active .line-decoration{
+  color: #4AAB26;
+}
+.main-container{
+  background-color: #E5E5E5;
+}
+.index-main-container{
+  background-color: #E5E5E5;
+}
+.footer-container{
+  background-color: #808080;
+}
+/*detail.vue*/
+.detail-container .sitemenu  >.icon{
+  color:#006442;
+}
+.detail-container .el-breadcrumb__inner a:hover, .detail-container .el-breadcrumb__inner.is-link:hover{
+  color:#4AAB26 !important;
+  cursor: pointer;
+}
+/*column页面*/
+.column-container .sitemenu >.icon{
+  color:#006442;
+}
+.column-container .sideBar ul a:hover,.sideBar ul a.hover{
+  background:#006442;
+}
+
+.column-container .main-container .el-breadcrumb__inner a:hover, .column-container .main-container .el-breadcrumb__inner.is-link:hover{
+  color:#4AAB26;
+  cursor: pointer;
+}
+.main-container .el-pager li.active{
+  color:#006442;
+}
+.main-container .el-pager li:hover{
+  color:#006442;
+}
+/*picList*/
+.piclist-wrap .photo-item >a:hover{
+  color:#006442;
+}
+/*newList*/
+.newList .newList-ul .list-head{
+  color: #006442;
+}

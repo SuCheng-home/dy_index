@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <script type="text/javascript" src="../internal.js"></script>
+    <script type="text/javascript" src="https://cdnfile-10043692.file.myqcloud.com/httpsresources/uploaderh5.js"></script>
+    <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+            color: #838383;
+        }
+
+        table {
+            font-size: 12px;
+            margin: 10px;
+            line-height: 30px
+        }
+
+        .txt {
+            width: 300px;
+            height: 21px;
+            line-height: 21px;
+            border: 1px solid #d7d7d7;
+        }
+
+        .upload-file-btn {
+            width: 120px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            background-color: #00A2D4;
+            display: block;
+            color: #fff;
+            border-radius: 4px;
+            float: left;
+            margin: 80px 0 0 10px;
+            cursor: pointer;
+
+        }
+
+        #uploadVedio {
+            display: none;
+        }
+
+        .vedio-box {
+            padding: 10px;
+        }
+
+        .vedio-item {
+            width: 135px;
+            height: 135px;
+            float: left;
+            border: 1px solid #dadada;
+            margin: 10px 0 0 10px;
+            position: relative;
+        }
+
+        .file-preview {
+            display: block;
+            margin: 5px auto;
+            width: 70px;
+            height: 70px;
+            background-image: url(./images/file-icons.png);
+            background-image: url(./images/file-icons.gif) \9;
+            background-repeat: no-repeat;
+            background-position: -980px center;
+        }
+
+        .vedio-item-des {
+            text-align: center;
+            border-top: 1px solid #F0F0F0;
+            padding-top: 4px;
+        }
+
+        .vedio-item-file-title {
+            width: 135px;
+            padding: 4px 0 0 4px;
+            display: block;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            float: left;
+        }
+
+        .uplod-sucess {
+            border: 4px solid #009966;
+        }
+
+        .uplod-erro {
+            border: 4px solid #FF9999;
+        }
+
+        .img-box-item-close {
+            width: 48px;
+            height: 48px;
+            display: block;
+            background-size: cover;
+            background-position: center center;
+            background-image: url(http://cdn.weixiaojia.cn/mobile/images/wxcep_phone_close.png);
+            cursor: pointer;
+            position: absolute;
+            right: 0px;
+        }
+
+        .img-box-item-clear {
+            clear: both;
+        }
+
+        .warn {
+            color: #FF9999;
+        }
+
+        .warn-info {
+            padding: 10px 0 0 20px;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <div class="warn-info"><span class="warn">*</span>请上传mp4格式文件</div>
+    <div class="vedio-box">
+        <!-- <div class="vedio-item uplod-sucess" data-url="">
+                <span class="img-box-item-close" ></span>
+                    <div class="vedio-item-file-title">--</div>
+                    <div class="vedio-item-cover file-preview "></div>
+                    <div class="vedio-item-des">上传成功</div>
+        </div> -->
+
+    </div>
+    <div id="upload-show-box" class="vedio-item">
+        <div class="vedio-item-file-title">--</div>
+        <div class="img-box-item-clear"></div>
+        <div class="vedio-item-cover file-preview "></div>
+        <div class="vedio-item-des">上传初始化...</div>
+    </div>
+    <button id="upload-btn" class="upload-file-btn">点击选择文件</button>
+</div>
+
+<script type="text/javascript">
+
+    const basePath = window.location.href.indexOf('www.zhxiaoyuan.cn') !== -1 ? 'http://www.zhxiaoyuan.cn/wxcepClient1/' : 'https://www.weixiaojia.net/wxcepClient1/';
+    let secretId = '', secretKey = '';
+    let fileInfo = null;
+
+    function uploadDefualtState() {//上传初始化需处理的domo
+        $('#upload-show-box').hide();
+        $('#upload-btn').show();
+    }
+
+    function uplodingState() {//上传过程中需处理的domo
+        $('#upload-btn').hide();
+        $('#upload-show-box').show();
+    }
+
+    function del_upload_box(obj) {
+        $(obj).parent().remove();
+    }
+
+    function getParameterByName(name, url) {
+        if (!url)
+            url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"), results = regex
+            .exec(url);
+        if (!results)
+            return null;
+        if (!results[2])
+            return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
+    function getFileInfo(fileId) {
+        $.ajax({
+            url: basePath + 'common/getVodInfo',
+            type: "POST",
+            data: {
+                fileId
+            },
+            dataType: "json",
+            success: function (data) {
+                if(data.result) {
+                    const pageData = JSON.parse(data.data);
+                    let hash = {};
+
+                    hash.serverFileId = fileId;
+                    hash.url = pageData.basicInfo.sourceVideoUrl;
+                    hash.id = fileInfo.id;
+                    hash.fileInfo  = fileInfo;
+                    uploadDefualtState();
+                    var accepUrl=hash.url;
+                    var html='';
+                    console.log(fileId);
+                    html+='<div class="vedio-item uplod-sucess" data-url="'+accepUrl+'" data-id="' + fileId + '">';
+                    html+='<span class="img-box-item-close" onclick="del_upload_box(this)"></span>';
+                    html+='<div class="vedio-item-file-title">'+fileInfo.name+'</div>';
+                    html+='<div class="img-box-item-clear" ></div>';
+                    html+='<div class="vedio-item-cover file-preview "></div>';
+                    html+='<div class="vedio-item-des">上传成功</div>';
+                    html+='</div>';
+                    $('.vedio-box').append(html);
+                }
+            }
+
+        });
+    }
+
+    function accountDone(upBtnId, secretId, secretKey, isTranscode, isWatermark, transcodeNotifyUrl, classId) {
+        const $ = qcVideo.get('$'),
+            ErrorCode = qcVideo.get('ErrorCode'),
+            Log = qcVideo.get('Log'),
+            JSON = qcVideo.get('JSON'),
+            util = qcVideo.get('util'),
+            Code = qcVideo.get('Code'),
+            Version = qcVideo.get('Version');
+        // 您的secretKey
+        // var secret_key = $("#secretKey").val();
+        qcVideo.uploader
+            .init(
+                // 1: 上传基础条件
+                {
+                    web_upload_url : 'http://vod.qcloud.com/v2/index.php',
+                    secretId, // 云api secretId
+                    secretKey,
+                    upBtnId, // 上传按钮ID（任意页面元素ID）
+                    isTranscode : true,// 是否转码
+                    isWatermark : isWatermark,// 是否设置水印
+                    after_sha_start_upload : true,// sha计算完成后，开始上传
+                    // (默认关闭立即上传)
+                    sha1js_path : window.location.href.indexOf('test') === -1 ? '/calculator_worker_sha1.js' : '/calculator_worker_sha1.js' , // 计算sha1的位置
+                    disable_multi_selection : false, // 禁用多选 ，默认为false
+                    transcodeNotifyUrl : transcodeNotifyUrl,// (转码成功后的回调地址)isTranscode==true,时开启；
+                    classId,
+                    filters : {
+                        max_file_size : '8gb',
+                        mime_types : [],
+                        video_only : true
+                    },
+                    forceH5Worker : !!parseInt(getParameterByName('forceH5Worker')) || false
+                }
+                // 2: 回调
+                , {
+
+                    onFileUpdate : function(args) {
+                        uplodingState();
+                        const $hintContainer = $('.vedio-item-des');
+                        console.log(args);
+                        switch(args.code) {
+                            case Code.SHA_FAILED:
+                                $hintContainer.text('该浏览器无法计算SHA');
+                                break;
+                            case Code.READY_TO_SHA:
+                                fileInfo = {
+                                    filename: args.filename,
+                                    name: args.name,
+                                    size: args.size,
+                                    sizeText: args.size_text,
+                                    id: args.id
+                                };
+                                break;
+                            case Code.UPLOAD_SHA:
+                                $hintContainer.text('视频解析中...');
+                                break;
+                            case Code.UPLOAD_DONE:
+                                $hintContainer.text('视频解析完成');
+                                // 获取文件信息
+                                setTimeout(() => {
+                                    getFileInfo(args.serverFileId);
+                                }, 500);
+
+                                break;
+                            case Code.UPLOAD_PROGRESS:
+                                $hintContainer.text(`上传：${args.percent}%`);
+                                break;
+                        }
+                    },
+
+                    /**
+                     * 上传时错误文件过滤提示
+                     *
+                     * @param args
+                     *            {code:{-1: 文件类型异常,-2: 文件名异常} , message:
+                     *            错误原因 ， solution: 解决方法}
+                     */
+                    onFilterError : function(args) {
+                        const $hintContainer = $('.vedio-item-des');
+
+                        var msg = '错误信息:'
+                            + args.message
+                            + (args.solution ? (';solution==' + args.solution)
+                                : '');
+                        $hintContainer.text(msg);
+                    }
+
+                });
+    }
+
+    uploadDefualtState();
+
+    $.ajax({
+        url: basePath + 'common/getSecretKey',
+        type: "POST",
+        dataType: "json",
+        success: function (data) {
+            if(data.result) {
+                secretId = data.data.SecretId;
+                secretKey = data.data.SecretKey;
+                accountDone('upload-btn', secretId, secretKey, true, null, null, null);
+            }
+        }
+
+    });
+
+    function handleDialogOk() {
+        var html = '';
+        $('.uplod-sucess').each(function (index, item) {
+            var url = $(item).attr('data-url');
+            var id = $(item).attr('data-id');
+            html += '<video class="edui-upload-video vjs-default-skin video-js id-' + id + '" data-id="' + id + '" controls="" preload="none" width="420" height="280" src="' + url + '">';
+            html += '<source src="' + url + '" type="video/mp4"/>';
+            html += '</video>';
+            console.log(html);
+        });
+        editor.execCommand('insertHtml', html);
+        dialog.close();
+    }
+
+
+
+    dialog.onok = handleDialogOk;
+
+</script>
+</body>
+</html>
